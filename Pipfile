@@ -28,6 +28,7 @@ virtualenv = "==16.7.7"
 virtualenv-clone = "==0.5.3"
 webencodings = "==0.5.1"
 pipfile = "*"
+gunicorn = "*"
 
 [requires]
 python_version = "3.6"
