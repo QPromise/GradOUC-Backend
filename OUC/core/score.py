@@ -83,7 +83,7 @@ def main(username = '',password = ''):
         if len(planned_table) != 0:
             for i in range(len(planned_table.values)):
                 planned_course = {"name": "", "type": "", "credit": None,
-                                  "teacher": "", "score":None}
+                                  "teacher": "", "score":None,"selected":False,"disabled":True}
                 planned_course["name"] = planned_table[i:i + 1].values[0][2]
                 planned_course["type"] = planned_table[i:i + 1].values[0][3]
                 planned_course["credit"] = planned_table[i:i + 1].values[0][4]
@@ -92,8 +92,12 @@ def main(username = '',password = ''):
                 # 成绩出了
                 if re.search(r"(\d+)",process):
                     score = float(process.split()[2])
-                    scores.append(score)
-                    credits.append(planned_course["credit"])
+                    # 如果成绩大于70才计算Mean
+                    if score >= 70:
+                        scores.append(score)
+                        credits.append(planned_course["credit"])
+                        planned_course["selected"] = True
+                        planned_course["disabled"] = False
                 # 成绩没出
                 else:
                     # 选了的课
@@ -115,5 +119,5 @@ def main(username = '',password = ''):
             res['have_class'] = 1
         return res
 if __name__ == '__main__':
-    # print(main("21190211105","tel1314"))
-    print(main("21180231272","608401"))
+    print(main("21190211105","tel1314"))
+    # print(main("21180231272","608401"))
