@@ -110,4 +110,5 @@ def get_bookDetail(bookID):
         res["have_info"] = "0"
         return res
 if __name__ == '__main__':
+    search_book('01','的hi扫黄打撒','')
     get_bookDetail("0000146533")

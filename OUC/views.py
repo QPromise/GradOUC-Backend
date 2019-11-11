@@ -10,11 +10,17 @@ _*_coding:utf-8 _*_
 from django.shortcuts import render
 from django.http import HttpResponse as response
 from .core import login,schedule,course,score,library
+from .news import yanzhao,xueshu
 import json
 from .models import Config,News
 import time
-
-
+class MyEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, bytes):
+            return str(obj, encoding='utf-8');
+        return json.JSONEncoder.default(self, obj)
+def index(request):
+    return response('欢迎来到研在OUC')
 # 消息通知
 def get_news(request):
     news = News.objects.all()[0]
@@ -81,6 +87,8 @@ def search_book(request):
     # print(temp)
     res = json.dumps(temp)
     return response(res)
+
+#获取图书详细信息
 def get_bookDetail(request):
     bookID = request.POST.get('bookID')
     temp = library.get_bookDetail(bookID)
@@ -88,4 +96,32 @@ def get_bookDetail(request):
     res = {"have_info":temp["have_info"],"bookAvailableDetail":temp["bookAvailableDetail"]}
     res = json.dumps(temp)
     return response(res)
+
+#获取资讯
+def get_schoolNews(request):
+    type,page = request.POST.get('type'),request.POST.get('page')
+    # 1001代表研招网
+    if type == '1001':
+        temp = yanzhao.get_news(page)
+        res = {"pages_count":temp["pages_count"],"news":temp["total_news"]}
+        res = json.dumps(res)
+        return response(res)
+    # 1002代表海大学术论坛
+    elif type == '1002':
+        temp = xueshu.get_news(page)
+        res = {"pages_count": temp["pages_count"], "news": temp["total_news"]}
+        res = json.dumps(res)
+        return response(res)
+# 获取资讯详细内容
+def get_schoolNewsDetail(request):
+    type,id = request.POST.get('type'),request.POST.get('id')
+    if type == '1001':
+        temp = yanzhao.get_newsDeatil(id)
+        res = temp
+        return response(res)
+    elif type == '1002':
+            temp = xueshu.get_newsDeatil(id)
+            res = temp
+            return response(res)
+
 
