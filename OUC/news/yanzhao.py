@@ -76,19 +76,37 @@ def get_newsDeatil(id):
     content = str(news_soup.find("div",{"class":"wp_articlecontent"}))
     image_url = re.findall(r'<img[^>]*src="([^"]*)"', content)
     link_url = re.findall(r'<a[^>]*href="([^"]*)"', content)
+    pdf_url = re.findall(r'<div[^>]*pdfsrc="([^"]*)"', content)
+    print(pdf_url)
+    pdf_div = re.findall(r'<div[^>]*pdfsrc=.*"></div>', content)
     print(image_url)
     print(link_url)
+    print(pdf_div) # class="wp_pdf_player"
     # 如果页面中有图片链接 则替换为相对路径
-    if image_url != -1:
+    if image_url != []:
         for url in image_url:
             content = content.replace(url, 'http://yz.ouc.edu.cn' + url)
     else:
         pass
     # 如果页面中有地址链接 则替换为相对路径
-    if link_url != -1:
+    if link_url != []:
         for url in link_url:
             if url.find('http') == -1:
                 content = content.replace(url, 'http://yz.ouc.edu.cn' + url)
+            else:
+                pass
+    else:
+        pass
+    # pdf路径替换
+    if pdf_div != []:
+        for i,pdf in enumerate(pdf_div):
+            if pdf.find('http') == -1:
+                pdf_url = re.findall(r'<div[^>]*pdfsrc="([^"]*)"', pdf)
+                if pdf_url != []:
+                    content = content.replace(pdf, '<a href = "http://yz.ouc.edu.cn'+ pdf_url[0]+'">附件'+str(i+1)+'地址，点击复制去浏览器下载</a>')
+
+                else:
+                    pass
             else:
                 pass
     else:
@@ -104,6 +122,6 @@ def get_newsDeatil(id):
 
 if __name__ == '__main__':
     # get_news(2)
-    get_newsDeatil('/2019/0918/c5926a266287/page.htm')
+    get_newsDeatil('/2019/1110/c5926a275557/page.htm')
 
 

@@ -74,7 +74,7 @@ def get_newsDeatil(id):
     time = news_soup.find("span", {"class": "arti_update"}).text.strip()
     content = str(news_soup.find("div",{"class":"wp_articlecontent"}))
     image_url = re.findall(r'<img[^>]*src="([^"]*)"',content)
-    if  image_url!= -1:
+    if  image_url!= []:
         for url in image_url:
             if url.find('http') == -1:
                 content = content.replace(url,'http://www.ouc.edu.cn' + url)
