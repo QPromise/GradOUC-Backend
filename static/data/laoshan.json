@@ -1,0 +1,2098 @@
+{
+  "map":[
+  {
+    "name": "校门",
+    "scale": 16,
+    "data": [{
+      "name": "西门(正门)",
+      "address": "山东省青岛市崂山区松岭路238号",
+      "latitude": "36.165051",
+      "longitude": "120.495477",
+      "iconPath": "/images/map/door.png",
+      "width": "25",
+      "height": "30",
+      "callout": {
+        "content": "西门",
+        "color": "#FFFFFF",
+        "fontSize": "12",
+        "borderRadius": "5",
+        "bgColor": "#009cff",
+        "padding": "5",
+        "display": "BYCLICK",
+        "textAlign": "center"
+      },
+      "img": [
+        "door/ximen2.jpg"
+      ],
+      "description": "山东省青岛市崂山区松岭路238号，对面为地铁十一号线海洋大学站。"
+    }, {
+      "name": "南门",
+      "address": "山东省青岛市崂山区海大路",
+      "latitude": "36.158043",
+      "longitude": "120.493079",
+      "iconPath": "/images/map/door.png",
+      "width": "25",
+      "height": "30",
+      "callout": {
+        "content": "南门",
+        "color": "#FFFFFF",
+        "fontSize": "12",
+        "borderRadius": "5",
+        "bgColor": "#009cff",
+        "padding": "5",
+        "display": "BYCLICK",
+        "textAlign": "center"
+      },
+      "img": [
+        "door/nanmen1.jpg"
+      ],
+      "description": "山东省青岛市崂山区海大路，进门正对行远楼，出门通往海大南区宿舍"
+    },{
+      "name": "小南门",
+      "address": "山东省青岛市崂山区海大路",
+      "latitude": "36.156831",
+      "longitude": "120.495461",
+      "iconPath": "/images/map/door.png",
+      "width": "25",
+      "height": "30",
+      "callout": {
+        "content": "小南门",
+        "color": "#FFFFFF",
+        "fontSize": "12",
+        "borderRadius": "5",
+        "bgColor": "#009cff",
+        "padding": "5",
+        "display": "BYCLICK",
+        "textAlign": "center"
+      },
+      "img": [
+        "door/xiaonanmen1.jpg"
+      ],
+      "description": "山东省青岛市崂山区海大路"
+    },
+    {
+      "name": "东门",
+      "address": "山东省青岛市崂山区东苑路",
+      "latitude": "36.162218",
+      "longitude": "120.504211",
+      "iconPath": "/images/map/door.png",
+      "width": "25",
+      "height": "30",
+      "callout": {
+        "content": "东门",
+        "color": "#FFFFFF",
+        "fontSize": "12",
+        "borderRadius": "5",
+        "bgColor": "#009cff",
+        "padding": "5",
+        "display": "BYCLICK",
+        "textAlign": "center"
+      },
+      "img": [
+        "door/dongmen1.jpg"
+      ],
+      "description": "山东省青岛市崂山区东苑路，通往海大东区宿舍。"
+    }
+    , {
+      "name": "北门",
+      "address": "山东省青岛市崂山区九水东路602号",
+      "latitude": "36.166952",
+      "longitude": "120.503368",
+      "iconPath": "/images/map/door.png",
+      "width": "25",
+      "height": "30",
+      "callout": {
+        "content": "北门",
+        "color": "#FFFFFF",
+        "fontSize": "12",
+        "borderRadius": "5",
+        "bgColor": "#009cff",
+        "padding": "5",
+        "display": "BYCLICK",
+        "textAlign": "center"
+      },
+      "img": [
+        "door/beimen1.jpg"
+      ],
+      "description": "山东省青岛市崂山区九水东路602号,门对面有很多烧烤摊、理发店、宾馆等"
+    }]
+  },
+  {
+    "name": "教室",
+    "scale": 16,
+    "data": [
+      {
+        "name": "二区",
+        "address": "山东省青岛市崂山区梧桐大道",
+        "latitude": "36.163856",
+        "longitude": "120.497902",
+        "iconPath": "/images/map/teach.png",
+        "width": "25",
+        "height": "30",
+        "callout": {
+          "content": "二区",
+          "color": "#FFFFFF",
+          "fontSize": "12",
+          "borderRadius": "5",
+          "bgColor": "#009cff",
+          "padding": "5",
+          "display": "BYCLICK",
+          "textAlign": "center"
+        },
+        "img": [
+          "study/erqu1.jpg"
+        ],
+        "description": "山东省青岛市崂山区梧桐大道，开放时间：6:30—22:00"
+      },
+      {
+        "name": "三区",
+        "address": "山东省青岛市崂山区梧桐大道",
+        "latitude": "36.164007",
+        "longitude": "120.498637",
+        "iconPath": "/images/map/teach.png",
+        "width": "25",
+        "height": "30",
+        "callout": {
+          "content": "三区",
+          "color": "#FFFFFF",
+          "fontSize": "12",
+          "borderRadius": "5",
+          "bgColor": "#009cff",
+          "padding": "5",
+          "display": "BYCLICK",
+          "textAlign": "center"
+        },
+        "img": [
+          "study/sanqu2.jpg",
+          "study/sanqu1.jpg",
+          "study/sanqu3.jpg"
+        ],
+        "description": "山东省青岛市崂山区梧桐大道，开放时间：6:30—22:00"
+      },
+      {
+        "name": "四区",
+        "address": "山东省青岛市崂山区樱花大道",
+        "latitude": "36.163574",
+        "longitude": "120.499275",
+        "iconPath": "/images/map/teach.png",
+        "width": "25",
+        "height": "30",
+        "callout": {
+          "content": "四区",
+          "color": "#FFFFFF",
+          "fontSize": "12",
+          "borderRadius": "5",
+          "bgColor": "#009cff",
+          "padding": "5",
+          "display": "BYCLICK",
+          "textAlign": "center"
+        },
+        "img": [
+          "study/siqu1.jpg"
+        ],
+        "description": "山东省青岛市崂山区樱花大道，开放时间：6:30—22:00"
+      },
+      {
+        "name": "五区",
+        "address": "山东省青岛市崂山区梧桐大道",
+        "latitude": "36.163327",
+        "longitude": "120.497328",
+        "iconPath": "/images/map/teach.png",
+        "width": "25",
+        "height": "30",
+        "callout": {
+          "content": "五区",
+          "color": "#FFFFFF",
+          "fontSize": "12",
+          "borderRadius": "5",
+          "bgColor": "#009cff",
+          "padding": "5",
+          "display": "BYCLICK",
+          "textAlign": "center"
+        },
+        "img": [
+          "study/wuqu2.jpg"
+        ],
+        "description": "山东省青岛市崂山区梧桐大道，开放时间：6:30—22:00"
+      },
+      {
+        "name": "六区",
+        "address": "山东省青岛市崂山区樱花大道",
+        "latitude": "36.162816",
+        "longitude": "120.497575",
+        "iconPath": "/images/map/teach.png",
+        "width": "25",
+        "height": "30",
+        "callout": {
+          "content": "六区",
+          "color": "#FFFFFF",
+          "fontSize": "12",
+          "borderRadius": "5",
+          "bgColor": "#009cff",
+          "padding": "5",
+          "display": "BYCLICK",
+          "textAlign": "center"
+        },
+        "img": [
+          "study/wuqu1.jpg"
+        ],
+        "description": "山东省青岛市崂山区樱花大道，开放时间：6:30—22:00"
+      },
+      {
+        "name": "七区",
+        "address": "山东省青岛市崂山区樱花大道",
+        "latitude": "36.162292",
+        "longitude": "120.497789",
+        "iconPath": "/images/map/teach.png",
+        "width": "25",
+        "height": "30",
+        "callout": {
+          "content": "七区",
+          "color": "#FFFFFF",
+          "fontSize": "12",
+          "borderRadius": "5",
+          "bgColor": "#009cff",
+          "padding": "5",
+          "display": "BYCLICK",
+          "textAlign": "center"
+        },
+        "img": [
+          "study/wuqu1.jpg"
+        ],
+        "description": "山东省青岛市崂山区樱花大道，开放时间：6:30—22:00"
+      },
+      {
+        "name": "八区(树下空间)",
+        "address": "山东省青岛市崂山区樱花大道",
+        "latitude": "36.161811",
+        "longitude": "120.497870",
+        "iconPath": "/images/map/teach.png",
+        "width": "25",
+        "height": "30",
+        "callout": {
+          "content": "八区(树下空间)",
+          "color": "#FFFFFF",
+          "fontSize": "12",
+          "borderRadius": "5",
+          "bgColor": "#009cff",
+          "padding": "5",
+          "display": "BYCLICK",
+          "textAlign": "center"
+        },
+        "img": [
+          "study/baqu1.jpg",
+          "study/baqu2.jpg",
+          "study/baqu3.jpg",
+          "study/baqu4.jpg",
+          "study/baqu5.jpg",
+          "study/baqu6.jpg"
+        ],
+        "description": "<p>经过一个假期的装修，八区教学楼现在改成了一个充满文艺气息的地方。里面有咖啡厅，休闲、学习、做活动、约会的不二选择。</p>"
+      },
+      {
+        "name": "公共教学区",
+        "address": "山东省青岛市崂山区樱花大道",
+        "latitude": "36.163254",
+        "longitude": "120.498181",
+        "iconPath": "/images/map/teach.png",
+        "width": "25",
+        "height": "30",
+        "callout": {
+          "content": "公共教学区",
+          "color": "#FFFFFF",
+          "fontSize": "12",
+          "borderRadius": "5",
+          "bgColor": "#009cff",
+          "padding": "5",
+          "display": "BYCLICK",
+          "textAlign": "center"
+        },
+        "img": [
+          "study/gonggong1.jpg"
+        ],
+        "description": "山东省青岛市崂山区樱花大道"
+      }
+
+    ]
+  },
+  {
+    "name": "广场",
+    "scale": 16,
+    "data": [{
+      "name": "二五广场",
+      "latitude": "36.163821",
+      "longitude": "120.497183",
+      "iconPath": "/images/map/scene.png",
+      "width": "25",
+      "height": "30",
+      "callout": {
+        "content": "二五广场",
+        "color": "#FFFFFF",
+        "fontSize": "12",
+        "borderRadius": "5",
+        "bgColor": "#009cff",
+        "padding": "5",
+        "display": "BYCLICK",
+        "textAlign": "center"
+      },
+      "img": [
+        "square/erwu1.jpg",
+        "square/erwu2.jpg",
+        "square/erwu3.jpg"
+      ],
+      "description": ""
+    },
+      {
+        "name": "礼仪广场",
+        "latitude": "36.158875",
+        "longitude": "120.493723",
+        "iconPath": "/images/map/scene.png",
+        "width": "25",
+        "height": "30",
+        "callout": {
+          "content": "礼仪广场",
+          "color": "#FFFFFF",
+          "fontSize": "12",
+          "borderRadius": "5",
+          "bgColor": "#009cff",
+          "padding": "5",
+          "display": "BYCLICK",
+          "textAlign": "center"
+        },
+        "img": [
+          "square/liyi1.jpg"
+        ],
+        "description": ""
+      }
+    ]
+  },
+   {
+      "name": "宿舍",
+      "scale": 16,
+      "data": [{
+         "name": "北海苑",
+         "latitude": "36.164882",
+         "longitude": "120.500965",
+         "iconPath": "/images/map/apartment.png",
+         "width": "25",
+         "height": "30",
+         "callout": {
+            "content": "北海苑",
+            "color": "#FFFFFF",
+            "fontSize": "12",
+            "borderRadius": "5",
+            "bgColor": "#009cff",
+            "padding": "5",
+
+            "display": "BYCLICK",
+            "textAlign": "center"
+         },
+         "img": [
+            "dorm/beihaiyuan1.png",
+            "dorm/beihaiyuan2.png"
+         ],
+        "description": "<p>北海苑区共有楼宇15栋，包含本科生楼四栋，研究生楼11栋。住宿格局为本科生4或6人/间，硕士生2人/间，博士生1-2人/间。北海苑现主要以海洋地球科学学院、工程学院、信息科学与工程学院本硕生及国防生等学生群体为主。</p><br><p>办公地点：北海苑7号楼一楼</p><p>办公电话：0532-66782508</p><br><p>如果在住宿期间遇到与后勤方面相关的问题，或有相关意见和建议，拨打后勤服务一号通热线电话：66781000</p><br><p>宿舍用电实行定额指标管理，禁用大于200w的大功率电器，本科生、硕士研究生每人每月5度电，博士研究生每人每月6度电，每宿舍每月不低于14度电，超额部分按学校相关文件收费。</p>"
+      },
+      {
+         "name": "南海苑",
+         "latitude": "36.157446",
+         "longitude": "120.493938",
+         "iconPath": "/images/map/apartment.png",
+         "width": "25",
+         "height": "30",
+         "callout": {
+            "content": "南海苑",
+            "color": "#FFFFFF",
+            "fontSize": "12",
+            "borderRadius": "5",
+            "bgColor": "#009cff",
+            "padding": "5",
+
+            "display": "BYCLICK",
+            "textAlign": "center"
+         },
+         "img": [
+            "dorm/nanhaiyuan1.png",
+            "dorm/nanhaiyuan2.png"
+         ],
+        "description": "<p>南海苑共有楼宇10栋，包含本科生楼5栋，硕士生楼5栋。住宿格局为：本科生4-5人/间，硕士生3-4人/间。南海苑现主要以管理学院、经济学院、基础教学中心、环境科学与工程学院、文学与新闻传播学院、海洋与大气学院等本硕生群体为主。</p><br><p>办公地点：南海苑8号楼一楼</p><p>办公电话：0532-68724116</p><br><p>如果在住宿期间遇到与后勤方面相关的问题，或有相关意见和建议，拨打后勤服务一号通热线电话：66781000</p><br><p>宿舍用电实行定额指标管理，禁用大于200w的大功率电器，本科生、硕士研究生每人每月5度电，博士研究生每人每月6度电，每宿舍每月不低于14度电，超额部分按学校相关文件收费。</p>"
+
+      },
+      {
+         "name": "东海苑",
+         "latitude": "36.160590",
+         "longitude": "120.506276",
+         "iconPath": "/images/map/apartment.png",
+         "width": "25",
+         "height": "30",
+         "callout": {
+            "content": "东海苑",
+            "color": "#FFFFFF",
+            "fontSize": "12",
+            "borderRadius": "5",
+            "bgColor": "#009cff",
+            "padding": "5",
+
+            "display": "BYCLICK",
+            "textAlign": "center"
+         },
+         "img": [
+            "dorm/donghaiyuan1.png",
+            "dorm/donghaiyuan2.png",
+            "dorm/donghaiyuan3.png"
+         ],
+        "description": "<p>东海苑共有楼宇12栋，包含本科生楼7栋，研究生楼5栋。住宿格局为：本科生4人/间，研究生2人/间。东海苑现主要以海洋与大气学院、数学科学学院、材料科学与工程系、化学化工学院、外国语学院、文学与新闻传播学院、法学院、国际事务与公共管理学院本硕生等学生群体为主。</p><br><p>办公地点：东海苑4、6号楼连廊一楼 </p><p>工作人员电话：15166687372</p><br><p>如果在住宿期间遇到与后勤方面相关的问题，或有相关意见和建议，拨打后勤服务一号通热线电话：66781000 </p><br><p>宿舍用电实行定额指标管理，禁用大于200w的大功率电器，本科生、硕士研究生每人每月5度电，博士研究生每人每月6度电，每宿舍每月不低于14度电，超额部分按学校相关文件收费。</p>"
+
+      }
+      ]
+   },
+
+{
+      "name": "餐饮",
+      "scale": 16,
+      "data": [{
+         "name": "北海苑第一食堂",
+         "address": "",
+        "latitude": "36.164349",
+        "longitude": "120.501330",
+         "iconPath": "/images/map/eat.png",
+         "width": "25",
+         "height": "30",
+         "callout": {
+            "content": "北海苑第一食堂",
+            "color": "#FFFFFF",
+            "fontSize": "12",
+            "borderRadius": "5",
+            "bgColor": "#009cff",
+            "padding": "5",
+            "display": "BYCLICK",
+            "textAlign": "center"
+         },
+         "img": [
+            "eat/yican1.jpg"
+         ],
+         "description": "<p>北海苑敏行中路东侧第一食堂 开放时间：7:00-8:30、11:00-12:40、17:00-18:40</p>"
+      },
+      {
+         "name": "北海苑第二食堂(二楼风味)",
+         "address": "",
+        "latitude": "36.164813",
+        "longitude": "120.500289",
+         "iconPath": "/images/map/eat.png",
+         "width": "25",
+         "height": "30",
+         "callout": {
+            "content": "北海苑第二食堂(二楼风味)",
+            "color": "#FFFFFF",
+            "fontSize": "12",
+            "borderRadius": "5",
+            "bgColor": "#009cff",
+            "padding": "5",
+            "display": "BYCLICK",
+            "textAlign": "center"
+         },
+         "img": [
+            "eat/ercan1.png",
+            "eat/ercan2.png",
+            "eat/ercan3.png"
+         ],
+         "description": "<p>北海苑敏行中路西侧第二食堂 </p><p>一楼开放时间：7:00-8:30、11:00-12:40、17:00-18:40</p><p>二楼风味餐厅开放时间：6:30-21:30全天开放</p>"
+      },
+      {
+         "name": "北海苑清真餐厅",
+         "address": "",
+         "latitude": "36.164432",
+         "longitude": "120.500477",
+         "iconPath": "/images/map/eat.png",
+         "width": "25",
+         "height": "30",
+         "callout": {
+            "content": "北海苑清真餐厅",
+            "color": "#FFFFFF",
+            "fontSize": "12",
+            "borderRadius": "5",
+            "bgColor": "#009cff",
+            "padding": "5",
+            "display": "BYCLICK",
+            "textAlign": "center"
+         },
+         "img": [
+            "eat/beiquqingzhen1.jpg"
+         ],
+         "description": "<p>敏行中路篮球场对面 开放时间：7:00-8:30、11:00-12:40、17:00-19:00</p>"
+      },
+{
+         "name": "南海苑第三食堂",
+         "address": "",
+         "latitude": "36.157034",
+         "longitude": "120.493401",
+         "iconPath": "/images/map/eat.png",
+         "width": "25",
+         "height": "30",
+         "callout": {
+            "content": "南海苑第三食堂",
+            "color": "#FFFFFF",
+            "fontSize": "12",
+            "borderRadius": "5",
+            "bgColor": "#009cff",
+            "padding": "5",
+            "display": "BYCLICK",
+            "textAlign": "center"
+         },
+         "img": [
+            "eat/sancan1.png"
+         ],
+         "description": "<p>南海苑第三食堂 开放时间：7:00-8:30、11:00-12:40、17:00-18:40</p>"
+      },
+      {
+         "name": "南海苑第四食堂(特色风味)",
+         "address": "",
+         "latitude": "36.157194",
+         "longitude": "120.493830",
+         "iconPath": "/images/map/eat.png",
+         "width": "25",
+         "height": "30",
+         "callout": {
+            "content": "南海苑第四食堂(特色风味)",
+            "color": "#FFFFFF",
+            "fontSize": "12",
+            "borderRadius": "5",
+            "bgColor": "#009cff",
+            "padding": "5",
+            "display": "BYCLICK",
+            "textAlign": "center"
+         },
+         "img": [
+            "eat/sican2.jpg"
+         ],
+         "description": "<p>南海苑第四食堂 开放时间：6:30-13:30、15:30-19:30、19:30-22:00(夏季会有夜宵厅)</p>"
+      },
+
+      {
+         "name": "东海苑第五食堂",
+         "address": "",
+        "latitude": "36.161595",
+        "longitude": "120.506131",
+         "iconPath": "/images/map/eat.png",
+         "width": "25",
+         "height": "30",
+         "callout": {
+            "content": "东海苑第五食堂",
+            "color": "#FFFFFF",
+            "fontSize": "12",
+            "borderRadius": "5",
+            "bgColor": "#009cff",
+            "padding": "5",
+            "display": "BYCLICK",
+            "textAlign": "center"
+         },
+         "img": [
+            "eat/wucan1.jpg",
+           "eat/wucan1.png"
+         ],
+         "description": "<p>东海苑第五食堂 开放时间：7:00-8:30、11:00-12:40、17:00-18:40</p>"
+      },
+       {
+         "name": "东海苑清真餐厅",
+         "address": "",
+         "latitude": "36.161283",
+         "longitude": "120.506029",
+         "iconPath": "/images/map/eat.png",
+         "width": "25",
+         "height": "30",
+         "callout": {
+            "content": "东海苑清真餐厅",
+            "color": "#FFFFFF",
+            "fontSize": "12",
+            "borderRadius": "5",
+            "bgColor": "#009cff",
+            "padding": "5",
+            "display": "BYCLICK",
+            "textAlign": "center"
+         },
+         "img": [
+           "eat/dongquqingzhen1.jpg",
+            "eat/dongquqingzhen1.png"
+
+         ],
+         "description": "<p>东海苑清真餐厅  开放时间：7:00-8:30、11:00-12:40、17:00-19:00</p>"
+      },
+
+      {
+         "name": "北海苑海梦1924咖啡厅(休闲餐饮)",
+         "address": "",
+         "latitude": "36.164505",
+         "longitude": "120.500504",
+         "iconPath": "/images/map/eat.png",
+         "width": "25",
+         "height": "30",
+         "callout": {
+            "content": "北海苑海梦1924咖啡厅(休闲餐饮)",
+            "color": "#FFFFFF",
+            "fontSize": "12",
+            "borderRadius": "5",
+            "bgColor": "#009cff",
+            "padding": "5",
+            "display": "BYCLICK",
+            "textAlign": "center"
+         },
+         "img": [
+           "eat/haimeng2.jpg",
+            "eat/haimeng1.jpg"
+         ],
+         "description": "<p>北海苑敏行中路一侧教育超市二楼，全天开放，7:30-22:30</p><p>服务电话：66781924</p><p>主营业务：咖啡及饮品，经典咖啡、拿铁、思慕雪、鲜榨果汁等；简餐、松饼、吐司、三明治、沙拉等。</p><p>会员优惠：会员生日当天，持会员卡及个人身份证进店，可享受按照会员卡对应充值金额的生日礼包。</p>"
+      },
+      {
+         "name": "北海苑海韵2006烘焙坊(休闲餐饮)",
+         "address": "",
+        "latitude": "36.164206",
+        "longitude": "120.500917",
+         "iconPath": "/images/map/eat.png",
+         "width": "25",
+         "height": "30",
+         "callout": {
+            "content": "北海苑海韵2006烘焙坊(休闲餐饮)",
+            "color": "#FFFFFF",
+            "fontSize": "12",
+            "borderRadius": "5",
+            "bgColor": "#009cff",
+            "padding": "5",
+            "display": "BYCLICK",
+            "textAlign": "center"
+         },
+         "img": [
+           "eat/haiyun2.jpg",
+            "eat/haiyun1.jpg"
+         ],
+         "description": "<p>北海苑敏行中路东侧第一食堂南，全天开放，6:00-22:00</p><p>订餐电话：13954253357</p><p>主营业务：各式面包、高点；咖啡、果汁等冷热饮；简餐、生日蛋糕定做。</p>"
+      },
+      {
+         "name": "北海苑海岚餐厅(休闲餐饮)",
+         "address": "",
+         "latitude": "36.164081",
+         "longitude": "120.501266",
+         "iconPath": "/images/map/eat.png",
+         "width": "25",
+         "height": "30",
+         "callout": {
+            "content": "北海苑海岚餐厅(休闲餐饮)",
+            "color": "#FFFFFF",
+            "fontSize": "12",
+            "borderRadius": "5",
+            "bgColor": "#009cff",
+            "padding": "5",
+            "display": "BYCLICK",
+            "textAlign": "center"
+         },
+         "img": [
+            "eat/hailan1.jpg"
+         ],
+         "description": "<p>北海苑敏行中路东侧第一食堂三楼，开放时间：11:00-14:00、17:00-20:30</p><p>订餐电话：66781998</p><p>主营业务：可提供大约160人左右同时就餐，精细小炒，物美价廉。还有汉堡、烤肉饭、饮品、小火锅等特色风味。</p>"
+      },
+      {
+         "name": "北海苑潮音餐厅(休闲餐饮)",
+         "address": "",
+         "latitude": "36.164639",
+         "longitude": "120.500048",
+         "iconPath": "/images/map/eat.png",
+         "width": "25",
+         "height": "30",
+         "callout": {
+            "content": "北海苑潮音餐厅(休闲餐饮)",
+            "color": "#FFFFFF",
+            "fontSize": "12",
+            "borderRadius": "5",
+            "bgColor": "#009cff",
+            "padding": "5",
+            "display": "BYCLICK",
+            "textAlign": "center"
+         },
+         "img": [
+            "eat/chaoyin1.jpg"
+         ],
+         "description": "<p>北海苑敏行中路西侧第二食堂三楼，开放时间：11:00-14:00、17:00-22:00</p><p>订餐电话：66781686/66781689</p><p>主营业务：点餐、零餐、聚会。拥有包厢12个，最大包厢可以容纳26人，配有独立卫生间，舒适休息区，电动转盘，是多人同学聚会的最佳选择；小包间可以容纳6人，可以给您一个独立私密的空间；还有4个房间为可隔断四连间，可以容纳60人同时聚餐。零点大厅餐位220个，可同时容纳约222位的宴会聚餐。</p>"
+      }
+
+      ]
+   },
+   {
+      "name": "学院",
+      "scale": 16,
+      "data": [{
+         "name": "信息科学与工程学院南楼",
+        "latitude": "36.159888",
+        "longitude": "120.497596",
+         "iconPath": "/images/map/teach.png",
+         "width": "25",
+         "height": "30",
+         "callout": {
+           "content": "信息科学与工程学院南楼",
+            "color": "#FFFFFF",
+            "fontSize": "12",
+            "borderRadius": "5",
+            "bgColor": "#009cff",
+            "padding": "5",
+            "display": "BYCLICK",
+            "textAlign": "center"
+         },
+         "img": [
+           "department/xinxinanlou.jpg"
+         ],
+         "description": ""
+      },
+        {
+          "name": "信息科学与工程学院北楼",
+          "latitude": "36.160911",
+          "longitude": "120.497972",
+          "iconPath": "/images/map/teach.png",
+          "width": "25",
+          "height": "30",
+          "callout": {
+            "content": "信息科学与工程学院北楼",
+            "color": "#FFFFFF",
+            "fontSize": "12",
+            "borderRadius": "5",
+            "bgColor": "#009cff",
+            "padding": "5",
+            "display": "BYCLICK",
+            "textAlign": "center"
+          },
+          "img": [
+            "department/xinxibeilou.jpg"
+          ],
+          "description": ""
+        },
+        {
+          "name": "工程学院",
+          "latitude": "36.162262",
+          "longitude": "120.494378",
+          "iconPath": "/images/map/teach.png",
+          "width": "25",
+          "height": "30",
+          "callout": {
+            "content": "工程学院",
+            "color": "#FFFFFF",
+            "fontSize": "12",
+            "borderRadius": "5",
+            "bgColor": "#009cff",
+            "padding": "5",
+            "display": "BYCLICK",
+            "textAlign": "center"
+          },
+          "img": [
+            "department/gongcheng.jpg"
+          ],
+          "description": ""
+        },
+        {
+          "name": "海洋与大气学院",
+          "latitude": "36.161681",
+          "longitude": "120.495853",
+          "iconPath": "/images/map/teach.png",
+          "width": "25",
+          "height": "30",
+          "callout": {
+            "content": "海洋与大气学院",
+            "color": "#FFFFFF",
+            "fontSize": "12",
+            "borderRadius": "5",
+            "bgColor": "#009cff",
+            "padding": "5",
+            "display": "BYCLICK",
+            "textAlign": "center"
+          },
+          "img": [
+            "department/haiyang.jpg"
+          ],
+          "description": ""
+        },
+        {
+          "name": "化学化工学院",
+          "latitude": "36.161339",
+          "longitude": "120.494517",
+          "iconPath": "/images/map/teach.png",
+          "width": "25",
+          "height": "30",
+          "callout": {
+            "content": "化学化工学院",
+            "color": "#FFFFFF",
+            "fontSize": "12",
+            "borderRadius": "5",
+            "bgColor": "#009cff",
+            "padding": "5",
+            "display": "BYCLICK",
+            "textAlign": "center"
+          },
+          "img": [
+            "department/huaxue.jpg"
+          ],
+          "description": ""
+        },
+        {
+          "name": "环境科学与工程学院",
+          "latitude": "36.160781",
+          "longitude": "120.495772",
+          "iconPath": "/images/map/teach.png",
+          "width": "25",
+          "height": "30",
+          "callout": {
+            "content": "环境科学与工程学院",
+            "color": "#FFFFFF",
+            "fontSize": "12",
+            "borderRadius": "5",
+            "bgColor": "#009cff",
+            "padding": "5",
+            "display": "BYCLICK",
+            "textAlign": "center"
+          },
+          "img": [
+            "department/huanke.jpg"
+          ],
+          "description": ""
+        },
+        {
+          "name": "海洋地球科学学院",
+          "latitude": "36.160395",
+          "longitude": "120.495649",
+          "iconPath": "/images/map/teach.png",
+          "width": "25",
+          "height": "30",
+          "callout": {
+            "content": "海洋地球科学学院",
+            "color": "#FFFFFF",
+            "fontSize": "12",
+            "borderRadius": "5",
+            "bgColor": "#009cff",
+            "padding": "5",
+            "display": "BYCLICK",
+            "textAlign": "center"
+          },
+          "img": [
+            "department/dizhi.jpg"
+          ],
+          "description": ""
+        },
+        {
+          "name": "数学科学学院与基础教学中心",
+          "latitude": "36.156341",
+          "longitude": "120.497639",
+          "iconPath": "/images/map/teach.png",
+          "width": "25",
+          "height": "30",
+          "callout": {
+            "content": "数学科学学院与基础教学中心",
+            "color": "#FFFFFF",
+            "fontSize": "12",
+            "borderRadius": "5",
+            "bgColor": "#009cff",
+            "padding": "5",
+            "display": "BYCLICK",
+            "textAlign": "center"
+          },
+          "img": [
+            "department/shuxue.jpg"
+          ],
+          "description": ""
+        },
+        {
+          "name": "文新与新闻传播学院",
+          "latitude": "36.155665",
+          "longitude": "120.498728",
+          "iconPath": "/images/map/teach.png",
+          "width": "25",
+          "height": "30",
+          "callout": {
+            "content": "文新与新闻传播学院",
+            "color": "#FFFFFF",
+            "fontSize": "12",
+            "borderRadius": "5",
+            "bgColor": "#009cff",
+            "padding": "5",
+            "display": "BYCLICK",
+            "textAlign": "center"
+          },
+          "img": [
+            "department/wenxin.jpg"
+          ],
+          "description": ""
+        },
+        {
+          "name": "马克思主义学院",
+          "latitude": "36.155752",
+          "longitude": "120.498707",
+          "iconPath": "/images/map/teach.png",
+          "width": "25",
+          "height": "30",
+          "callout": {
+            "content": "马克思主义学院",
+            "color": "#FFFFFF",
+            "fontSize": "12",
+            "borderRadius": "5",
+            "bgColor": "#009cff",
+            "padding": "5",
+            "display": "BYCLICK",
+            "textAlign": "center"
+          },
+          "img": [
+            "department/wenxin.jpg"
+          ],
+          "description": ""
+        },
+        {
+          "name": "外国语学院",
+          "latitude": "36.156077",
+          "longitude": "120.499039",
+          "iconPath": "/images/map/teach.png",
+          "width": "25",
+          "height": "30",
+          "callout": {
+            "content": "外国语学院",
+            "color": "#FFFFFF",
+            "fontSize": "12",
+            "borderRadius": "5",
+            "bgColor": "#009cff",
+            "padding": "5",
+            "display": "BYCLICK",
+            "textAlign": "center"
+          },
+          "img": [
+            "department/waiyu.jpg"
+          ],
+          "description": ""
+        },
+        {
+          "name": "经济学院",
+          "latitude": "36.156423",
+          "longitude": "120.499104",
+          "iconPath": "/images/map/teach.png",
+          "width": "25",
+          "height": "30",
+          "callout": {
+            "content": "经济学院",
+            "color": "#FFFFFF",
+            "fontSize": "12",
+            "borderRadius": "5",
+            "bgColor": "#009cff",
+            "padding": "5",
+            "display": "BYCLICK",
+            "textAlign": "center"
+          },
+          "img": [
+            "department/jingji.jpg"
+          ],
+          "description": ""
+        },
+        {
+          "name": "管理学院",
+          "latitude": "36.156917",
+          "longitude": "120.499168",
+          "iconPath": "/images/map/teach.png",
+          "width": "25",
+          "height": "30",
+          "callout": {
+            "content": "管理学院",
+            "color": "#FFFFFF",
+            "fontSize": "12",
+            "borderRadius": "5",
+            "bgColor": "#009cff",
+            "padding": "5",
+            "display": "BYCLICK",
+            "textAlign": "center"
+          },
+          "img": [
+            "department/guanli.jpg"
+          ],
+          "description": ""
+        },
+        {
+          "name": "法政学院",
+          "latitude": "36.157329",
+          "longitude": "120.499302",
+          "iconPath": "/images/map/teach.png",
+          "width": "25",
+          "height": "30",
+          "callout": {
+            "content": "法政学院",
+            "color": "#FFFFFF",
+            "fontSize": "12",
+            "borderRadius": "5",
+            "bgColor": "#009cff",
+            "padding": "5",
+            "display": "BYCLICK",
+            "textAlign": "center"
+          },
+          "img": [
+            "department/fazheng.jpg"
+          ],
+          "description": ""
+        },
+        {
+          "name": "国际事务与公共管理学院",
+          "latitude": "36.157662",
+          "longitude": "120.499066",
+          "iconPath": "/images/map/teach.png",
+          "width": "25",
+          "height": "30",
+          "callout": {
+            "content": "国际事务与公共管理学院",
+            "color": "#FFFFFF",
+            "fontSize": "12",
+            "borderRadius": "5",
+            "bgColor": "#009cff",
+            "padding": "5",
+            "display": "BYCLICK",
+            "textAlign": "center"
+          },
+          "img": [
+            "department/guoguan.jpg"
+          ],
+          "description": ""
+        },
+
+        {
+          "name": "国际教育学院",
+          "latitude": "36.166744",
+          "longitude": "120.502902",
+          "iconPath": "/images/map/teach.png",
+          "width": "25",
+          "height": "30",
+          "callout": {
+            "content": "",
+            "color": "#FFFFFF",
+            "fontSize": "12",
+            "borderRadius": "5",
+            "bgColor": "#009cff",
+            "padding": "5",
+            "display": "BYCLICK",
+            "textAlign": "center"
+          },
+          "img": [
+            "department/guojijiaoyu.jpg"
+          ],
+          "description": ""
+        }
+
+      ]
+   },
+  {
+    "name": "快递",
+    "scale": 16,
+    "data": [{
+      "name": "北海苑菜鸟驿站",
+      "latitude": "36.164462",
+      "longitude": "120.501598",
+      "iconPath": "/images/map/bulid.png",
+      "width": "25",
+      "height": "30",
+      "callout": {
+        "content": "北海苑菜鸟驿站",
+        "color": "#FFFFFF",
+        "fontSize": "12",
+        "borderRadius": "5",
+        "bgColor": "#009cff",
+        "padding": "5",
+        "display": "BYCLICK",
+        "textAlign": "center"
+      },
+      "img": [
+        "package/beiqucainiao.jpg"
+      ],
+      "description": ""
+    },
+      {
+        "name": "北海苑京东顺丰快递(无站点)",
+        "latitude": "36.164579",
+        "longitude": "120.501775",
+        "iconPath": "/images/map/bulid.png",
+        "width": "25",
+        "height": "30",
+        "callout": {
+          "content": "北海苑京东顺丰(无站点)",
+          "color": "#FFFFFF",
+          "fontSize": "12",
+          "borderRadius": "5",
+          "bgColor": "#009cff",
+          "padding": "5",
+          "display": "BYCLICK",
+          "textAlign": "center"
+        },
+        "img": [
+          ""
+        ],
+        "description": "没有站点，在北海苑学生公寓5与一食堂之间的北苑路上，会有人员开车来送，以短信时间为准去拿。"
+      },
+      {
+        "name": "南海苑菜鸟驿站",
+        "latitude": "36.157008",
+        "longitude": "120.494190",
+        "iconPath": "/images/map/bulid.png",
+        "width": "25",
+        "height": "30",
+        "callout": {
+          "content": "南海苑菜鸟驿站",
+          "color": "#FFFFFF",
+          "fontSize": "12",
+          "borderRadius": "5",
+          "bgColor": "#009cff",
+          "padding": "5",
+          "display": "BYCLICK",
+          "textAlign": "center"
+        },
+        "img": [
+          "package/nanqucainiao.jpg"
+        ],
+        "description": ""
+      },
+      {
+        "name": "南海苑妈妈驿站",
+        "latitude": "36.155185",
+        "longitude": "120.491052",
+        "iconPath": "/images/map/bulid.png",
+        "width": "25",
+        "height": "30",
+        "callout": {
+          "content": "南海苑妈妈驿站",
+          "color": "#FFFFFF",
+          "fontSize": "12",
+          "borderRadius": "5",
+          "bgColor": "#009cff",
+          "padding": "5",
+          "display": "BYCLICK",
+          "textAlign": "center"
+        },
+        "img": [
+          "package/nanqumama.png"
+        ],
+        "description": ""
+      },
+      {
+        "name": "南海苑顺丰速运",
+        "latitude": "36.156480",
+        "longitude": "120.495381",
+        "iconPath": "/images/map/bulid.png",
+        "width": "25",
+        "height": "30",
+        "callout": {
+          "content": "南海苑顺丰速运",
+          "color": "#FFFFFF",
+          "fontSize": "12",
+          "borderRadius": "5",
+          "bgColor": "#009cff",
+          "padding": "5",
+          "display": "BYCLICK",
+          "textAlign": "center"
+        },
+        "img": [
+          "package/nanqushunfeng.jpg"
+        ],
+        "description": "位置:南门往东走200米"
+      },
+      {
+        "name": "南海苑京东快递(无站点)",
+        "latitude": "36.157441",
+        "longitude": "120.493986",
+        "iconPath": "/images/map/bulid.png",
+        "width": "25",
+        "height": "30",
+        "callout": {
+          "content": "南海苑京东快递(无站点)",
+          "color": "#FFFFFF",
+          "fontSize": "12",
+          "borderRadius": "5",
+          "bgColor": "#009cff",
+          "padding": "5",
+          "display": "BYCLICK",
+          "textAlign": "center"
+        },
+        "img": [
+          "package/nanqujingdong.jpg"
+        ],
+        "description": "没有站点，在南苑路与海大路的交叉处，会有人员开车来送，以短信时间为准去拿。"
+      },
+      {
+        "name": "东海苑菜鸟驿站",
+        "latitude": "36.159689",
+        "longitude": "120.508271",
+        "iconPath": "/images/map/bulid.png",
+        "width": "25",
+        "height": "30",
+        "callout": {
+          "content": "东海苑菜鸟驿站",
+          "color": "#FFFFFF",
+          "fontSize": "12",
+          "borderRadius": "5",
+          "bgColor": "#009cff",
+          "padding": "5",
+          "display": "BYCLICK",
+          "textAlign": "center"
+        },
+        "img": [
+          "package/dongqucainiao1.jpg"
+        ],
+        "description": "位于东海苑二号楼楼下"
+      },
+      {
+        "name": "东海苑京东派",
+        "latitude": "36.160062",
+        "longitude": "120.508137",
+        "iconPath": "/images/map/bulid.png",
+        "width": "25",
+        "height": "30",
+        "callout": {
+          "content": "东海苑京东派",
+          "color": "#FFFFFF",
+          "fontSize": "12",
+          "borderRadius": "5",
+          "bgColor": "#009cff",
+          "padding": "5",
+          "display": "BYCLICK",
+          "textAlign": "center"
+        },
+        "img": [
+          "package/dongqujingdong1.jpg"
+        ],
+        "description": "位于东海苑四号楼楼下"
+      },
+      {
+        "name": "东海苑e修科技",
+        "latitude": "36.160062",
+        "longitude": "120.508164",
+        "iconPath": "/images/map/bulid.png",
+        "width": "25",
+        "height": "30",
+        "callout": {
+          "content": "东海苑e修科技",
+          "color": "#FFFFFF",
+          "fontSize": "12",
+          "borderRadius": "5",
+          "bgColor": "#009cff",
+          "padding": "5",
+          "display": "BYCLICK",
+          "textAlign": "center"
+        },
+        "img": [
+          "package/dongquexiu1.jpg"
+        ],
+        "description": "位于东海苑四号楼楼下"
+      },
+      {
+        "name": "东海苑其它快递(第五食堂旁边)",
+        "latitude": "36.161383",
+        "longitude": "120.506244",
+        "iconPath": "/images/map/bulid.png",
+        "width": "25",
+        "height": "30",
+        "callout": {
+          "content": "东海苑其它快递(第五食堂旁边)",
+          "color": "#FFFFFF",
+          "fontSize": "12",
+          "borderRadius": "5",
+          "bgColor": "#009cff",
+          "padding": "5",
+          "display": "BYCLICK",
+          "textAlign": "center"
+        },
+        "img": [
+          ""
+        ],
+        "description": ""
+      },
+      {
+        "name": "东海苑其它快递(惠馨特超市内)",
+        "latitude": "36.162663",
+        "longitude": "120.505858",
+        "iconPath": "/images/map/bulid.png",
+        "width": "25",
+        "height": "30",
+        "callout": {
+          "content": "东海苑其它快递(惠馨特超市内)",
+          "color": "#FFFFFF",
+          "fontSize": "12",
+          "borderRadius": "5",
+          "bgColor": "#009cff",
+          "padding": "5",
+          "display": "BYCLICK",
+          "textAlign": "center"
+        },
+        "img": [
+          ""
+        ],
+        "description": ""
+      }
+    ]
+  },
+  {
+    "name":"图书馆",
+    "scale":16,
+    "data":[
+      {
+        "name": "图书馆",
+        "address": "山东省青岛市崂山区樱花大道",
+        "latitude": "36.158199",
+        "longitude": "120.496400",
+        "iconPath": "/images/map/library.png",
+        "width": "25",
+        "height": "30",
+        "callout": {
+          "content": "图书馆",
+          "color": "#FFFFFF",
+          "fontSize": "12",
+          "borderRadius": "5",
+          "bgColor": "#009cff",
+          "padding": "5",
+          "display": "BYCLICK",
+          "textAlign": "center"
+        },
+        "img": [
+          "study/tushuguan2.jpg",
+          "study/tushuguan3.jpg",
+          "study/tushuguan4.jpg",
+          "study/tushuguan5.jpg"
+        ],
+        "description": "<p>周一至周日：7:00-22:00 开放空间：  图书馆一楼大厅</p> <p>总服务台：8：00-21：30 A区二楼大厅</p><br> <p>【以下非特殊说明均为周一至周日：8:00-22:00】</p><p></p><p>报纸阅览区、海大文库、咖啡吧：A区一楼(A102)</p> <p>文化展厅（周一至周五8：00-17：00）：A区一楼(A105)</p> <p>中文社科图书阅览一区（A-E、G）类：A区二楼(A208)</p> <p>中文社科图书阅览二区（I）类：A区二楼(A202)</p> <p>中文社科图书阅览三区（FH）类：A区三楼(A305)</p> <p>中文自科图书阅览区：A区三楼(A302)</p> <p>中外文工具书阅览区：A区三楼(A314)</p> <p>外文图书阅览区：A区三楼(A304)</p> <p>王蒙文学馆：A区三楼(A303)</p> <p>中外文现刊阅览区：A区四楼(A401)</p> <p>海洋文库(周一至周五8：00-21：00)：A区四楼(A405)</p> <p>信息共享空间：A区五楼(A501)</p><p>多媒体教室：A区五楼(A502)</p><p>中文社科图书阅览四区（JK）类：A区五楼（A503）</p><p>历史文献阅览区 （周一至周五8：30-11：00，13：30-15：30,请先致电66782655）： A区六楼(A601-A604)</p><br><p>注： 1. 节假日按规定执行。 2. 寒暑假另行通知。</p>"
+      }
+    ]
+  },
+
+  {
+    "name": "生活医疗",
+    "scale": 16,
+    "data": [{
+      "name": "校医院",
+      "latitude": "36.166865",
+      "longitude": "120.502746",
+      "iconPath": "/images/map/bulid.png",
+      "width": "25",
+      "height": "30",
+      "callout": {
+        "content": "校医院",
+        "color": "#FFFFFF",
+        "fontSize": "12",
+        "borderRadius": "5",
+        "bgColor": "#009cff",
+        "padding": "5",
+        "display": "BYCLICK",
+        "textAlign": "center"
+      },
+      "img": [
+        "hospital/hospital1.jpg"
+      ],
+      "description": "全天24小时服务，正常开诊时间:8:00-16:30;16:30以后为夜班急诊，急诊电话66782120。"
+    },
+      {
+        "name": "大学生活动中心",
+        "latitude": "36.165324",
+        "longitude": "120.498390",
+        "iconPath": "/images/map/bulid.png",
+        "width": "25",
+        "height": "30",
+        "callout": {
+          "content": "大学生活动中心",
+          "color": "#FFFFFF",
+          "fontSize": "12",
+          "borderRadius": "5",
+          "bgColor": "#009cff",
+          "padding": "5",
+          "display": "BYCLICK",
+          "textAlign": "center"
+        },
+        "img": [
+          "life/dahuo1.jpg"
+        ],
+        "description": ""
+      },
+    {
+      "name": "南海苑教育超市",
+      "latitude": "36.156935",
+      "longitude": "120.493589",
+      "iconPath": "/images/map/bulid.png",
+      "width": "25",
+      "height": "30",
+      "callout": {
+        "content": "南海苑教育超市",
+        "color": "#FFFFFF",
+        "fontSize": "12",
+        "borderRadius": "5",
+        "bgColor": "#009cff",
+        "padding": "5",
+        "display": "BYCLICK",
+        "textAlign": "center"
+      },
+      "img": [
+        "life/nanquchaoshi1.jpg",
+        "life/nanquchaoshi2.jpg"
+      ],
+      "description": "<p>开放时间:7:00-22:00</p>"
+    },
+    {
+      "name": "南海苑浴室",
+      "latitude": "36.156562",
+      "longitude": "120.494506",
+      "iconPath": "/images/map/bulid.png",
+      "width": "25",
+      "height": "30",
+      "callout": {
+        "content": "南海苑浴室",
+        "color": "#FFFFFF",
+        "fontSize": "12",
+        "borderRadius": "5",
+        "bgColor": "#009cff",
+        "padding": "5",
+        "display": "BYCLICK",
+        "textAlign": "center"
+      },
+      "img": [
+        "life/nanquyushi1.jpg",
+        "life/yushi1.jpg"
+      ],
+      "description": "<p>位置：南海苑学生宿舍二号楼负一层</p><p>开放时间:12:00-22:00,21:45停止进入。</p>"
+    },
+    {
+      "name": "南海苑水房",
+      "latitude": "36.156627",
+      "longitude": "120.494705",
+      "iconPath": "/images/map/bulid.png",
+      "width": "25",
+      "height": "30",
+      "callout": {
+        "content": "南海苑水房",
+        "color": "#FFFFFF",
+        "fontSize": "12",
+        "borderRadius": "5",
+        "bgColor": "#009cff",
+        "padding": "5",
+        "display": "BYCLICK",
+        "textAlign": "center"
+      },
+      "img": [
+        "life/nanqushuifang1.jpg"
+      ],
+      "description": "<p>位置：南海苑学生宿舍二号楼东</p><p>开放时间:7:00-22:00，22:00之后有小机器可以用，不过水挺小的。</p>"
+    },
+    {
+      "name": "北海苑教育超市",
+      "latitude": "36.164518",
+      "longitude": "120.500477",
+      "iconPath": "/images/map/bulid.png",
+      "width": "25",
+      "height": "30",
+      "callout": {
+        "content": "北海苑教育超市",
+        "color": "#FFFFFF",
+        "fontSize": "12",
+        "borderRadius": "5",
+        "bgColor": "#009cff",
+        "padding": "5",
+        "display": "BYCLICK",
+        "textAlign": "center"
+      },
+      "img": [
+        "life/beiquchaoshi1.jpg"
+
+      ],
+      "description": "<p>开放时间:7:00-22:00</p>"
+    },
+      {
+        "name": "北海苑浴室",
+        "latitude": "36.164024",
+        "longitude": "120.501620",
+        "iconPath": "/images/map/bulid.png",
+        "width": "25",
+        "height": "30",
+        "callout": {
+          "content": "北海苑浴室",
+          "color": "#FFFFFF",
+          "fontSize": "12",
+          "borderRadius": "5",
+          "bgColor": "#009cff",
+          "padding": "5",
+          "display": "BYCLICK",
+          "textAlign": "center"
+        },
+        "img": [
+          "life/beiquyushi1.jpg",
+          "life/yushi1.jpg"
+        ],
+        "description": "<p>位置：网球场西侧</p><p>开放时间:12:00-22:00,21:45停止进入。</p>"
+      },
+      {
+        "name": "北海苑水房",
+        "latitude": "36.165571",
+        "longitude": "120.502145",
+        "iconPath": "/images/map/bulid.png",
+        "width": "25",
+        "height": "30",
+        "callout": {
+          "content": "北海苑水房",
+          "color": "#FFFFFF",
+          "fontSize": "12",
+          "borderRadius": "5",
+          "bgColor": "#009cff",
+          "padding": "5",
+          "display": "BYCLICK",
+          "textAlign": "center"
+        },
+        "img": [
+          ""
+        ],
+        "description": "<p>位置：北海苑学生宿舍六号楼东</p><p>开放时间:7:00-22:00，22:00之后有小机器可以用，不过水挺小的。</p>"
+      },
+    {
+      "name": "东海苑教育超市",
+      "latitude": "36.161040",
+      "longitude": "120.506169",
+      "iconPath": "/images/map/bulid.png",
+      "width": "25",
+      "height": "30",
+      "callout": {
+        "content": "东海苑教育超市",
+        "color": "#FFFFFF",
+        "fontSize": "12",
+        "borderRadius": "5",
+        "bgColor": "#009cff",
+        "padding": "5",
+        "display": "BYCLICK",
+        "textAlign": "center"
+      },
+      "img": [
+        "life/dongquchaoshi1.jpg"
+      ],
+      "description": "<p>开放时间:7:00-22:00</p>"
+    },
+      {
+        "name": "东海苑浴室",
+        "latitude": "36.160768",
+        "longitude": "120.506571",
+        "iconPath": "/images/map/bulid.png",
+        "width": "25",
+        "height": "30",
+        "callout": {
+          "content": "东海苑浴室",
+          "color": "#FFFFFF",
+          "fontSize": "12",
+          "borderRadius": "5",
+          "bgColor": "#009cff",
+          "padding": "5",
+          "display": "BYCLICK",
+          "textAlign": "center"
+        },
+        "img": [
+          "life/dongquyushi1.jpg",
+          "life/yushi1.jpg"
+        ],
+        "description": "<p>位置：东海苑学生宿舍七号楼一层</p><p>开放时间:12:00-22:00,21:45停止进入。</p>"
+      },
+      {
+        "name": "东海苑水房",
+        "latitude": "36.160763",
+        "longitude": "120.506635",
+        "iconPath": "/images/map/bulid.png",
+        "width": "25",
+        "height": "30",
+        "callout": {
+          "content": "东海苑水房",
+          "color": "#FFFFFF",
+          "fontSize": "12",
+          "borderRadius": "5",
+          "bgColor": "#009cff",
+          "padding": "5",
+          "display": "BYCLICK",
+          "textAlign": "center"
+        },
+        "img": [
+          ""
+        ],
+        "description": "<p>位置：东海苑学生宿舍七号楼一层</p><p>开放时间:7:00-22:00，22:00之后有小机器可以用，不过水挺小的。</p>"
+      }
+
+    ]
+  },
+   {
+      "name": "行政办公",
+      "scale": 16,
+      "data": [{
+         "name": "行远楼",
+         "latitude": "36.159810",
+         "longitude": "120.494442",
+         "iconPath": "/images/map/official.png",
+         "width": "25",
+         "height": "30",
+         "callout": {
+            "content": "行远楼",
+            "color": "#FFFFFF",
+            "fontSize": "12",
+            "borderRadius": "5",
+            "bgColor": "#009cff",
+            "padding": "5",
+            "display": "BYCLICK",
+            "textAlign": "center"
+         },
+         "img": [
+            "office/xingyuan1.jpg"
+         ],
+         "description": "山东省青岛市崂山区海棠路"
+      },
+          {
+         "name": "行知楼",
+         "latitude": "36.159377",
+         "longitude": "120.493155",
+         "iconPath": "/images/map/official.png",
+         "width": "25",
+         "height": "30",
+         "callout": {
+            "content": "行知楼",
+            "color": "#FFFFFF",
+            "fontSize": "12",
+            "borderRadius": "5",
+            "bgColor": "#009cff",
+            "padding": "5",
+            "display": "BYCLICK",
+            "textAlign": "center"
+         },
+         "img": [
+            "office/xingzhi1.jpg"
+         ],
+         "description": "山东省青岛市崂山区海棠路"
+      },
+          {
+         "name": "海洋科技中心(五角大楼)",
+            "latitude": "36.163730",
+            "longitude": "120.496341",
+         "iconPath": "/images/map/official.png",
+         "width": "25",
+         "height": "30",
+         "callout": {
+            "content": "海洋科技中心(五角大楼)",
+            "color": "#FFFFFF",
+            "fontSize": "12",
+            "borderRadius": "5",
+            "bgColor": "#009cff",
+            "padding": "5",
+            "display": "BYCLICK",
+            "textAlign": "center"
+         },
+         "img": [
+            "office/kejizhongxin.jpg",
+            "office/kejizhongxin1.jpg",
+           "office/kejizhongxin2.jpg",
+           "office/kejizhongxin3.jpg"
+         ],
+         "description": "山东省青岛市崂山区海棠路"
+      }
+      ]
+   },
+
+   {
+      "name": "交通出行",
+      "scale": 16,
+      "data": [{
+         "name": "校车乘车点1",
+        "latitude":  "36.158528",
+        "longitude":  "120.494887",
+         "iconPath": "/images/map/bus.png",
+         "width": "25",
+         "height": "30",
+         "callout": {
+            "content": "校车乘车点1",
+            "color": "#FFFFFF",
+            "fontSize": "12",
+            "borderRadius": "5",
+            "bgColor": "#009cff",
+            "padding": "5",
+            "display": "BYCLICK",
+            "textAlign": "center"
+         },
+         "img": [
+            "bus/xiaoche1.jpg"
+         ],
+         "description": "具体乘车时间以校车时刻表为准"
+      },
+        {
+          "name": "校车乘车点2",
+          "latitude": "36.161300",
+          "longitude": "120.496963",
+          "iconPath": "/images/map/bus.png",
+          "width": "25",
+          "height": "30",
+          "callout": {
+            "content": "校车乘车点2",
+            "color": "#FFFFFF",
+            "fontSize": "12",
+            "borderRadius": "5",
+            "bgColor": "#009cff",
+            "padding": "5",
+            "display": "BYCLICK",
+            "textAlign": "center"
+          },
+          "img": [
+            "bus/xiaoche2.jpg"
+          ],
+          "description": "具体乘车时间以校车时刻表为准"
+        },
+        {
+          "name": "校车乘车点3",
+          "latitude": "36.162418",
+          "longitude": "120.496781",
+          "iconPath": "/images/map/bus.png",
+          "width": "25",
+          "height": "30",
+          "callout": {
+            "content": "校车乘车点3",
+            "color": "#FFFFFF",
+            "fontSize": "12",
+            "borderRadius": "5",
+            "bgColor": "#009cff",
+            "padding": "5",
+            "display": "BYCLICK",
+            "textAlign": "center"
+          },
+          "img": [
+            "bus/xiaoche3.jpg"
+          ],
+          "description": "具体乘车时间以校车时刻表为准"
+        },
+        {
+          "name": "地铁11号线",
+          "latitude": "36.165241",
+          "longitude": "120.494919",
+          "iconPath": "/images/map/bus.png",
+          "width": "25",
+          "height": "30",
+          "callout": {
+            "content": "地铁11号线",
+            "color": "#FFFFFF",
+            "fontSize": "12",
+            "borderRadius": "5",
+            "bgColor": "#009cff",
+            "padding": "5",
+            "display": "BYCLICK",
+            "textAlign": "center"
+          },
+          "img": [
+            "bus/ditie1.jpg",
+            "bus/ditie2.jpg",
+            "bus/ditie3.jpg"
+          ],
+          "description": "<p>鳌山湾方向</p><p>首班车:6:30 - 末班车:22:00</p>"
+        },
+        {
+          "name": "海大崂山校区(公交站1)",
+          "latitude": "36.165804",
+          "longitude": "120.496368",
+          "iconPath": "/images/map/bus.png",
+          "width": "25",
+          "height": "30",
+          "callout": {
+            "content": "海大崂山校区(公交站1)",
+            "color": "#FFFFFF",
+            "fontSize": "12",
+            "borderRadius": "5",
+            "bgColor": "#009cff",
+            "padding": "5",
+            "display": "BYCLICK",
+            "textAlign": "center"
+          },
+          "img": [
+            ""
+          ],
+          "description": "110/381/382/383/384/385/386/387/388/617/619/628/641路车"
+        },
+        {
+          "name": "海大崂山校区(公交站2)",
+          "latitude": "36.164531",
+          "longitude": "120.494925",
+          "iconPath": "/images/map/bus.png",
+          "width": "25",
+          "height": "30",
+          "callout": {
+            "content": "海大崂山校区(公交站2)",
+            "color": "#FFFFFF",
+            "fontSize": "12",
+            "borderRadius": "5",
+            "bgColor": "#009cff",
+            "padding": "5",
+            "display": "BYCLICK",
+            "textAlign": "center"
+          },
+          "img": [
+            ""
+          ],
+          "description": "125路车-台东方向"
+        },
+        {
+          "name": "海大崂山校区(公交站3)",
+          "latitude": "36.165848",
+          "longitude": "120.496089",
+          "iconPath": "/images/map/bus.png",
+          "width": "25",
+          "height": "30",
+          "callout": {
+            "content": "海大崂山校区(公交站3)",
+            "color": "#FFFFFF",
+            "fontSize": "12",
+            "borderRadius": "5",
+            "bgColor": "#009cff",
+            "padding": "5",
+            "display": "BYCLICK",
+            "textAlign": "center"
+          },
+          "img": [
+            ""
+          ],
+          "description": "110/125/381/382/383/384/385/386/387/388/617/619/628/641/4路车"
+        }
+      ]
+   },
+   {
+      "name": "运动健身",
+      "scale": 16,
+      "data": [
+        {
+          "name": "体育馆",
+          "latitude": "36.164977",
+          "longitude": "120.497441",
+          "iconPath": "/images/map/sports.png",
+          "width": "25",
+          "height": "30",
+          "callout": {
+            "content": "体育馆",
+            "color": "#FFFFFF",
+            "fontSize": "12",
+            "borderRadius": "5",
+            "bgColor": "#009cff",
+            "padding": "5",
+            "display": "BYCLICK",
+            "textAlign": "center"
+          },
+          "img": [
+            "sports/tiyuguan1.jpg",
+            "sports/tiyuguan2.jpg"
+          ],
+          "description": "学校重要典礼的专用场馆，如学生毕业典礼，开学典礼，毕业晚会，新年音乐会等。"
+        },
+        {
+          "name": "综合体育馆",
+          "latitude": "36.164800",
+          "longitude": "120.497435",
+          "iconPath": "/images/map/sports.png",
+          "width": "25",
+          "height": "30",
+          "callout": {
+            "content": "综合体育馆",
+            "color": "#FFFFFF",
+            "fontSize": "12",
+            "borderRadius": "5",
+            "bgColor": "#009cff",
+            "padding": "5",
+            "display": "BYCLICK",
+            "textAlign": "center"
+          },
+          "img": [
+            ""
+          ],
+          "description": "<p>综合体育馆--羽毛球馆、台球馆、乒乓球馆</p><br><p>开放时间:夏季（5月1日-10月31日）:12:00-20:00、周六、周日:9:00-20:00;</p><p>冬季（11月1日-次年4月30日）:12:00-19:00、周六、周日:9:00-19:00;</p><p>收费标准:每个场地(桌台)10元/小时</p><p>服务电话:66782703</p>"
+        },
+        {
+          "name": "游泳馆",
+          "latitude": "36.165047",
+          "longitude": "120.498605",
+          "iconPath": "/images/map/sports.png",
+          "width": "25",
+          "height": "30",
+          "callout": {
+            "content": "游泳馆",
+            "color": "#FFFFFF",
+            "fontSize": "12",
+            "borderRadius": "5",
+            "bgColor": "#009cff",
+            "padding": "5",
+            "display": "BYCLICK",
+            "textAlign": "center"
+          },
+          "img": [
+            "sports/youyongguan2.jpg"
+          ],
+          "description": "<p>开放时间:夏季（5月1日-10月31日）:12:00-20:00、周六、周日:9:00-20:00;</p><p>冬季（11月1日-次年4月30日）:12:00-19:00、周六、周日:9:00-19:00;</p><p>收费标准:每个场地(桌台)10元/小时</p><p>服务电话:66782709</p><p>收费标准：在校学生90元/10小时，240元/30小时;本校教职工135元/10小时，360元/30小时;其他人员270元/10小时，720元/30小时</p>"
+        },
+        {
+         "name": "主体育场",
+        "latitude": "36.163284",
+        "longitude": "120.503497",
+         "iconPath": "/images/map/sports.png",
+         "width": "25",
+         "height": "30",
+         "callout": {
+            "content": "主体育场",
+            "color": "#FFFFFF",
+            "fontSize": "12",
+            "borderRadius": "5",
+            "bgColor": "#009cff",
+            "padding": "5",
+            "display": "BYCLICK",
+            "textAlign": "center"
+         },
+         "img": [
+            "sports/tiyuchang1.jpg",
+            "sports/tiyuchang2.jpg"
+         ],
+         "description": ""
+      }, {
+         "name": "运动训练场",
+          "latitude": "36.166203",
+          "longitude": "120.499088",
+         "iconPath": "/images/map/sports.png",
+         "width": "25",
+         "height": "30",
+         "callout": {
+           "content": "运动训练场",
+            "color": "#FFFFFF",
+            "fontSize": "12",
+            "borderRadius": "5",
+            "bgColor": "#009cff",
+            "padding": "5",
+            "display": "BYCLICK",
+            "textAlign": "center"
+         },
+         "img": [
+            "sports/xunlianchang1.jpg"
+         ],
+         "description": ""
+      },
+        {
+          "name": "北区篮球场",
+          "latitude": "36.164250",
+          "longitude": "120.500123",
+          "iconPath": "/images/map/sports.png",
+          "width": "25",
+          "height": "30",
+          "callout": {
+            "content": "北区篮球场",
+            "color": "#FFFFFF",
+            "fontSize": "12",
+            "borderRadius": "5",
+            "bgColor": "#009cff",
+            "padding": "5",
+            "display": "BYCLICK",
+            "textAlign": "center"
+          },
+          "img": [
+            "sports/beiqulanqiu1.jpg",
+            "sports/beiqulanqiu2.jpg",
+            "sports/beiqulanqiu3.jpg"
+          ],
+          "description": "北区有三个篮球场地"
+        },
+        {
+          "name": "北区羽毛球场",
+          "latitude": "36.163717",
+          "longitude": "120.501072",
+          "iconPath": "/images/map/sports.png",
+          "width": "25",
+          "height": "30",
+          "callout": {
+            "content": "北区羽毛球场",
+            "color": "#FFFFFF",
+            "fontSize": "12",
+            "borderRadius": "5",
+            "bgColor": "#009cff",
+            "padding": "5",
+            "display": "BYCLICK",
+            "textAlign": "center"
+          },
+          "img": [
+            "sports/beiquyumaoqiu1.jpg"
+          ],
+          "description": ""
+        },
+        {
+          "name": "北区网球场",
+          "latitude": "36.163743",
+          "longitude": "120.502403",
+          "iconPath": "/images/map/sports.png",
+          "width": "25",
+          "height": "30",
+          "callout": {
+            "content": "北区网球场",
+            "color": "#FFFFFF",
+            "fontSize": "12",
+            "borderRadius": "5",
+            "bgColor": "#009cff",
+            "padding": "5",
+            "display": "BYCLICK",
+            "textAlign": "center"
+          },
+          "img": [
+            "sports/beiquwangqiu1.jpg"
+          ],
+          "description": ""
+        },
+        {
+          "name": "南区篮球场",
+          "latitude": "36.157697",
+          "longitude": "120.494775",
+          "iconPath": "/images/map/sports.png",
+          "width": "25",
+          "height": "30",
+          "callout": {
+            "content": "南区篮球场",
+            "color": "#FFFFFF",
+            "fontSize": "12",
+            "borderRadius": "5",
+            "bgColor": "#009cff",
+            "padding": "5",
+            "display": "BYCLICK",
+            "textAlign": "center"
+          },
+          "img": [
+            "sports/nanqulanqiu1.jpg"
+          ],
+          "description": ""
+        },
+      {
+          "name": "南海苑健身房",
+          "latitude": "36.156592",
+          "longitude": "120.495145",
+          "iconPath": "/images/map/sports.png",
+          "width": "25",
+          "height": "30",
+          "callout": {
+            "content": "南海苑健身房",
+            "color": "#FFFFFF",
+            "fontSize": "12",
+            "borderRadius": "5",
+            "bgColor": "#009cff",
+            "padding": "5",
+            "display": "BYCLICK",
+            "textAlign": "center"
+          },
+          "img": [
+            "sports/nanqujianshen1.jpg"
+          ],
+          "description": ""
+        }
+        , {
+          "name": "东海苑后海健身房",
+          "latitude": "36.161946",
+          "longitude": "120.507354",
+          "iconPath": "/images/map/sports.png",
+          "width": "25",
+          "height": "30",
+          "callout": {
+            "content": "东海苑后海健身房",
+            "color": "#FFFFFF",
+            "fontSize": "12",
+            "borderRadius": "5",
+            "bgColor": "#009cff",
+            "padding": "5",
+            "display": "BYCLICK",
+            "textAlign": "center"
+          },
+          "img": [
+            "sports/dongqujianshen1.jpg"
+          ],
+          "description": ""
+        }
+      ]
+   }
+]
+}
