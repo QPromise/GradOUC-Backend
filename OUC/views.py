@@ -20,7 +20,7 @@ class MyEncoder(json.JSONEncoder):
             return str(obj, encoding='utf-8');
         return json.JSONEncoder.default(self, obj)
 def index(request):
-    return response('欢迎来到研在OUC')
+    return response('欢迎使用微信小程序【研在OUC】')
 # 消息通知
 def get_news(request):
     news = News.objects.all()[0]
@@ -106,7 +106,7 @@ def get_schoolNews(request):
         res = {"pages_count":temp["pages_count"],"news":temp["total_news"]}
         res = json.dumps(res)
         return response(res)
-    # 1002代表海大学术论坛
+    # 1002代表
     elif type == '1002':
         temp = xueshu.get_news(page)
         res = {"pages_count": temp["pages_count"], "news": temp["total_news"]}
