@@ -12,7 +12,7 @@
       "width": "25",
       "height": "30",
       "callout": {
-        "content": "西门",
+        "content": "西门(正门)",
         "color": "#FFFFFF",
         "fontSize": "12",
         "borderRadius": "5",
@@ -68,7 +68,7 @@
       "img": [
         "door/xiaonanmen1.jpg"
       ],
-      "description": "山东省青岛市崂山区海大路"
+      "description": "如果在南海苑住的话，从这里去图书馆以及小南门附近的院楼还是挺方便的鸭~"
     },
     {
       "name": "东门",
@@ -316,17 +316,67 @@
     ]
   },
   {
-    "name": "广场",
+    "name": "美景",
     "scale": 16,
-    "data": [{
-      "name": "二五广场",
+    "data": [
+      {
+      "name": "樱花大道",
+      "latitude": "36.163496",
+      "longitude": "120.500160",
+      "iconPath": "/images/map/scene.png",
+      "width": "25",
+      "height": "30",
+      "callout": {
+        "content": "樱花大道",
+        "color": "#FFFFFF",
+        "fontSize": "12",
+        "borderRadius": "5",
+        "bgColor": "#009cff",
+        "padding": "5",
+        "display": "BYCLICK",
+        "textAlign": "center"
+      },
+      "img": [
+        "square/yinghuadadao1.jpg",
+        "square/yinghuadadao2.jpg",
+        "square/yinghuadadao3.jpg",
+        "square/yinghuadadao4.jpg"
+      ],
+      "description": "<p>这的樱花大道那可是和武汉大学的樱花一样全国闻名的。每到四月前后整个海大可谓是“芳草鲜美，落“樱”缤纷”啊。慕名而来的游客纷纷来到学校赏樱，拍照。</p><p>粉的、白的、单瓣的、多瓣的，海洋大学的樱花闻名已经不止方圆百里，哈哈哈哈，露出骄傲的围（微）笑，晴空万里、樱花夹道，特别是当风吹起的时候，花瓣飞舞，下起樱雨，绝对秒杀任何精良制作的动漫，画面唯美，随便一拍都是壁纸。每到樱花季，各地不远万里为赏樱的游人如织，樱花大道上处处都有拍写真、婚纱照的小哥哥小姐姐，花美人美，简直太养眼，在这样的校园里学习，不得不说，太！开！心！！！晚上还可以带上你的小姐姐（小哥哥）漫步樱花大道哦~超级浪漫~~~</p>"
+    },
+      {
+         "name": "海洋科技中心",
+            "latitude": "36.163730",
+            "longitude": "120.496341",
+         "iconPath": "/images/map/scene.png",
+         "width": "25",
+         "height": "30",
+         "callout": {
+            "content": "海洋科技中心",
+            "color": "#FFFFFF",
+            "fontSize": "12",
+            "borderRadius": "5",
+            "bgColor": "#009cff",
+            "padding": "5",
+            "display": "BYCLICK",
+            "textAlign": "center"
+         },
+         "img": [
+            "square/kejizhongxin.jpg",
+            "square/kejizhongxin1.jpg",
+           "square/kejizhongxin2.jpg",
+           "square/kejizhongxin3.jpg"
+         ],
+         "description": "<p>海大的标志性建筑之一，远远就可以望到，是不是很酷呢？于2015年建成，2016年竣工验收。</p><p>海洋科技中心大楼是学校结合特色显著世界一流大学长远发展目标，以海洋科学与技术学科发展需求为出发点，规划建设的集科研、教学、会议于一体的综合标志性建筑。大楼建成后将运用创新、流动、开放的管理模式，整合校内优势科研团队，汇聚国际海洋顶尖科学家，争取成为国际海洋科学与技术创新思维的集聚地。</p>"
+      },{
+      "name": "二五广场和凯旋门",
       "latitude": "36.163821",
       "longitude": "120.497183",
       "iconPath": "/images/map/scene.png",
       "width": "25",
       "height": "30",
       "callout": {
-        "content": "二五广场",
+        "content": "二五广场和凯旋门",
         "color": "#FFFFFF",
         "fontSize": "12",
         "borderRadius": "5",
@@ -338,19 +388,21 @@
       "img": [
         "square/erwu1.jpg",
         "square/erwu2.jpg",
-        "square/erwu3.jpg"
+        "square/erwu3.jpg",
+        "square/erwu4.jpg"
       ],
-      "description": ""
+      "description": "<p>从海大正门一进来，第一眼不就是这里了嘛。无论是刚到学校的小伙伴，还是来学校参观的家长们，从校门拍照以后，第二个地点必是二五广场了吧。</p><p>本科、研究生报道，凯旋门上一定早早就挂好了欢迎幅啦，嘿嘿嘿~毕竟，有朋自远方来，不亦乐乎。当毕业的时候，这里也会是拍毕业照的好地方~</p>"
     },
       {
-        "name": "礼仪广场",
-        "latitude": "36.158875",
-        "longitude": "120.493723",
+        "name": "图书馆",
+        "address": "山东省青岛市崂山区樱花大道",
+        "latitude": "36.158199",
+        "longitude": "120.496400",
         "iconPath": "/images/map/scene.png",
         "width": "25",
         "height": "30",
         "callout": {
-          "content": "礼仪广场",
+          "content": "图书馆",
           "color": "#FFFFFF",
           "fontSize": "12",
           "borderRadius": "5",
@@ -360,10 +412,108 @@
           "textAlign": "center"
         },
         "img": [
-          "square/liyi1.jpg"
+          "study/tushuguan2.jpg",
+          "study/tushuguan3.jpg",
+          "study/tushuguan4.jpg",
+          "study/tushuguan5.jpg"
         ],
-        "description": ""
+        "description": "<p>图书馆不是最高的建筑，也不是面积最大的建筑。但是图书馆在我看来最庄严最宏伟的建筑，很酷也很帅。馆藏纸质图书报刊文献约250万册、中外文电子书刊500余万册、数据库303个图书馆一贯秉承“一切为了读者”的服务理念，致力于为读者提供温馨、便捷的服务。图书馆的发展目标是：到建校百年时，成为馆藏丰富、特色鲜明、开放文明的现代化图书馆。</p>"
+      },
+      {
+        "name": "树下空间",
+        "address": "山东省青岛市崂山区樱花大道",
+        "latitude": "36.161811",
+        "longitude": "120.497870",
+        "iconPath": "/images/map/scene.png",
+        "width": "25",
+        "height": "30",
+        "callout": {
+          "content": "树下空间",
+          "color": "#FFFFFF",
+          "fontSize": "12",
+          "borderRadius": "5",
+          "bgColor": "#009cff",
+          "padding": "5",
+          "display": "BYCLICK",
+          "textAlign": "center"
+        },
+        "img": [
+          "study/baqu1.jpg",
+          "study/baqu2.jpg",
+          "study/baqu3.jpg",
+          "study/baqu4.jpg",
+          "study/baqu5.jpg",
+          "study/baqu6.jpg"
+        ],
+        "description": "<p>经过一个假期的装修，八区教学楼现在改成了一个充满文艺气息的地方。里面有咖啡厅，休闲、学习、做活动、约会的不二选择。</p>"
+      },
+      {
+        "name": "九球广场",
+        "latitude": "36.163254",
+        "longitude": "120.498181",
+        "iconPath": "/images/map/scene.png",
+        "width": "25",
+        "height": "30",
+        "callout": {
+          "content": "九球广场",
+          "color": "#FFFFFF",
+          "fontSize": "12",
+          "borderRadius": "5",
+          "bgColor": "#009cff",
+          "padding": "5",
+          "display": "BYCLICK",
+          "textAlign": "center"
+        },
+        "img": [
+          "study/gonggong1.jpg"
+        ],
+        "description": "九球广场正如其名，有九个圆圆的石球。除了石球那就是围绕着广场的长廊和它上面的紫藤萝了。当樱花的光辉随着天气变热悄悄褪去的时候，紫藤萝便在九球广场怒放了。有很多同学在长廊里闻着花香，看着紫色的紫藤萝瀑布舒服至极啊。"
+      },
+      {
+        "name": "映月湖",
+        "latitude": "36.158494",
+        "longitude": "120.495783",
+        "iconPath": "/images/map/scene.png",
+        "width": "25",
+        "height": "30",
+        "callout": {
+          "content": "映月湖",
+          "color": "#FFFFFF",
+          "fontSize": "12",
+          "borderRadius": "5",
+          "bgColor": "#009cff",
+          "padding": "5",
+          "display": "BYCLICK",
+          "textAlign": "center"
+        },
+        "img": [
+          "square/yingyuehu1.jpg"
+        ],
+        "description": "碧柳垂阴，在湖边亭下闲坐一会，是不是很棒呢~"
+      },
+      {
+        "name": "五子顶",
+        "latitude": "36.160373",
+        "longitude": "120.499367",
+        "iconPath": "/images/map/scene.png",
+        "width": "25",
+        "height": "30",
+        "callout": {
+          "content": "五子顶",
+          "color": "#FFFFFF",
+          "fontSize": "12",
+          "borderRadius": "5",
+          "bgColor": "#009cff",
+          "padding": "5",
+          "display": "BYCLICK",
+          "textAlign": "center"
+        },
+        "img": [
+          "square/wuziding1.jpg"
+        ],
+        "description": "<p>没错，海洋大学不仅是有湖的学校，还是有山的学校哦~八关山读月，五子顶揽风”，想知道是什么感觉吗？闲暇时间可以约上好友，爬爬山，看看景。</p>"
       }
+
     ]
   },
    {
@@ -474,7 +624,7 @@
          "description": "<p>北海苑敏行中路东侧第一食堂 开放时间：7:00-8:30、11:00-12:40、17:00-18:40</p>"
       },
       {
-         "name": "北海苑第二食堂(二楼风味)",
+         "name": "北海苑第二食堂",
          "address": "",
         "latitude": "36.164813",
         "longitude": "120.500289",
@@ -545,7 +695,7 @@
          "description": "<p>南海苑第三食堂 开放时间：7:00-8:30、11:00-12:40、17:00-18:40</p>"
       },
       {
-         "name": "南海苑第四食堂(特色风味)",
+         "name": "南海苑第四食堂",
          "address": "",
          "latitude": "36.157194",
          "longitude": "120.493830",
@@ -619,7 +769,7 @@
       },
 
       {
-         "name": "北海苑海梦1924咖啡厅(休闲餐饮)",
+         "name": "北海苑海梦1924咖啡厅",
          "address": "",
          "latitude": "36.164505",
          "longitude": "120.500504",
@@ -643,7 +793,7 @@
          "description": "<p>北海苑敏行中路一侧教育超市二楼，全天开放，7:30-22:30</p><p>服务电话：66781924</p><p>主营业务：咖啡及饮品，经典咖啡、拿铁、思慕雪、鲜榨果汁等；简餐、松饼、吐司、三明治、沙拉等。</p><p>会员优惠：会员生日当天，持会员卡及个人身份证进店，可享受按照会员卡对应充值金额的生日礼包。</p>"
       },
       {
-         "name": "北海苑海韵2006烘焙坊(休闲餐饮)",
+         "name": "北海苑海韵2006烘焙坊",
          "address": "",
         "latitude": "36.164206",
         "longitude": "120.500917",
@@ -667,7 +817,7 @@
          "description": "<p>北海苑敏行中路东侧第一食堂南，全天开放，6:00-22:00</p><p>订餐电话：13954253357</p><p>主营业务：各式面包、高点；咖啡、果汁等冷热饮；简餐、生日蛋糕定做。</p>"
       },
       {
-         "name": "北海苑海岚餐厅(休闲餐饮)",
+         "name": "北海苑海岚餐厅",
          "address": "",
          "latitude": "36.164081",
          "longitude": "120.501266",
@@ -690,7 +840,7 @@
          "description": "<p>北海苑敏行中路东侧第一食堂三楼，开放时间：11:00-14:00、17:00-20:30</p><p>订餐电话：66781998</p><p>主营业务：可提供大约160人左右同时就餐，精细小炒，物美价廉。还有汉堡、烤肉饭、饮品、小火锅等特色风味。</p>"
       },
       {
-         "name": "北海苑潮音餐厅(休闲餐饮)",
+         "name": "北海苑潮音餐厅",
          "address": "",
          "latitude": "36.164639",
          "longitude": "120.500048",
@@ -1600,250 +1750,14 @@
           "textAlign": "center"
         },
         "img": [
-          ""
+          "life/dongquyushi1.jpg"
         ],
         "description": "<p>位置：东海苑学生宿舍七号楼一层</p><p>开放时间:7:00-22:00，22:00之后有小机器可以用，不过水挺小的。</p>"
       }
 
     ]
   },
-   {
-      "name": "行政办公",
-      "scale": 16,
-      "data": [{
-         "name": "行远楼",
-         "latitude": "36.159810",
-         "longitude": "120.494442",
-         "iconPath": "/images/map/official.png",
-         "width": "25",
-         "height": "30",
-         "callout": {
-            "content": "行远楼",
-            "color": "#FFFFFF",
-            "fontSize": "12",
-            "borderRadius": "5",
-            "bgColor": "#009cff",
-            "padding": "5",
-            "display": "BYCLICK",
-            "textAlign": "center"
-         },
-         "img": [
-            "office/xingyuan1.jpg"
-         ],
-         "description": "山东省青岛市崂山区海棠路"
-      },
-          {
-         "name": "行知楼",
-         "latitude": "36.159377",
-         "longitude": "120.493155",
-         "iconPath": "/images/map/official.png",
-         "width": "25",
-         "height": "30",
-         "callout": {
-            "content": "行知楼",
-            "color": "#FFFFFF",
-            "fontSize": "12",
-            "borderRadius": "5",
-            "bgColor": "#009cff",
-            "padding": "5",
-            "display": "BYCLICK",
-            "textAlign": "center"
-         },
-         "img": [
-            "office/xingzhi1.jpg"
-         ],
-         "description": "山东省青岛市崂山区海棠路"
-      },
-          {
-         "name": "海洋科技中心(五角大楼)",
-            "latitude": "36.163730",
-            "longitude": "120.496341",
-         "iconPath": "/images/map/official.png",
-         "width": "25",
-         "height": "30",
-         "callout": {
-            "content": "海洋科技中心(五角大楼)",
-            "color": "#FFFFFF",
-            "fontSize": "12",
-            "borderRadius": "5",
-            "bgColor": "#009cff",
-            "padding": "5",
-            "display": "BYCLICK",
-            "textAlign": "center"
-         },
-         "img": [
-            "office/kejizhongxin.jpg",
-            "office/kejizhongxin1.jpg",
-           "office/kejizhongxin2.jpg",
-           "office/kejizhongxin3.jpg"
-         ],
-         "description": "山东省青岛市崂山区海棠路"
-      }
-      ]
-   },
-
-   {
-      "name": "交通出行",
-      "scale": 16,
-      "data": [{
-         "name": "校车乘车点1",
-        "latitude":  "36.158528",
-        "longitude":  "120.494887",
-         "iconPath": "/images/map/bus.png",
-         "width": "25",
-         "height": "30",
-         "callout": {
-            "content": "校车乘车点1",
-            "color": "#FFFFFF",
-            "fontSize": "12",
-            "borderRadius": "5",
-            "bgColor": "#009cff",
-            "padding": "5",
-            "display": "BYCLICK",
-            "textAlign": "center"
-         },
-         "img": [
-            "bus/xiaoche1.jpg"
-         ],
-         "description": "具体乘车时间以校车时刻表为准"
-      },
-        {
-          "name": "校车乘车点2",
-          "latitude": "36.161300",
-          "longitude": "120.496963",
-          "iconPath": "/images/map/bus.png",
-          "width": "25",
-          "height": "30",
-          "callout": {
-            "content": "校车乘车点2",
-            "color": "#FFFFFF",
-            "fontSize": "12",
-            "borderRadius": "5",
-            "bgColor": "#009cff",
-            "padding": "5",
-            "display": "BYCLICK",
-            "textAlign": "center"
-          },
-          "img": [
-            "bus/xiaoche2.jpg"
-          ],
-          "description": "具体乘车时间以校车时刻表为准"
-        },
-        {
-          "name": "校车乘车点3",
-          "latitude": "36.162418",
-          "longitude": "120.496781",
-          "iconPath": "/images/map/bus.png",
-          "width": "25",
-          "height": "30",
-          "callout": {
-            "content": "校车乘车点3",
-            "color": "#FFFFFF",
-            "fontSize": "12",
-            "borderRadius": "5",
-            "bgColor": "#009cff",
-            "padding": "5",
-            "display": "BYCLICK",
-            "textAlign": "center"
-          },
-          "img": [
-            "bus/xiaoche3.jpg"
-          ],
-          "description": "具体乘车时间以校车时刻表为准"
-        },
-        {
-          "name": "地铁11号线",
-          "latitude": "36.165241",
-          "longitude": "120.494919",
-          "iconPath": "/images/map/bus.png",
-          "width": "25",
-          "height": "30",
-          "callout": {
-            "content": "地铁11号线",
-            "color": "#FFFFFF",
-            "fontSize": "12",
-            "borderRadius": "5",
-            "bgColor": "#009cff",
-            "padding": "5",
-            "display": "BYCLICK",
-            "textAlign": "center"
-          },
-          "img": [
-            "bus/ditie1.jpg",
-            "bus/ditie2.jpg",
-            "bus/ditie3.jpg"
-          ],
-          "description": "<p>鳌山湾方向</p><p>首班车:6:30 - 末班车:22:00</p>"
-        },
-        {
-          "name": "海大崂山校区(公交站1)",
-          "latitude": "36.165804",
-          "longitude": "120.496368",
-          "iconPath": "/images/map/bus.png",
-          "width": "25",
-          "height": "30",
-          "callout": {
-            "content": "海大崂山校区(公交站1)",
-            "color": "#FFFFFF",
-            "fontSize": "12",
-            "borderRadius": "5",
-            "bgColor": "#009cff",
-            "padding": "5",
-            "display": "BYCLICK",
-            "textAlign": "center"
-          },
-          "img": [
-            ""
-          ],
-          "description": "110/381/382/383/384/385/386/387/388/617/619/628/641路车"
-        },
-        {
-          "name": "海大崂山校区(公交站2)",
-          "latitude": "36.164531",
-          "longitude": "120.494925",
-          "iconPath": "/images/map/bus.png",
-          "width": "25",
-          "height": "30",
-          "callout": {
-            "content": "海大崂山校区(公交站2)",
-            "color": "#FFFFFF",
-            "fontSize": "12",
-            "borderRadius": "5",
-            "bgColor": "#009cff",
-            "padding": "5",
-            "display": "BYCLICK",
-            "textAlign": "center"
-          },
-          "img": [
-            ""
-          ],
-          "description": "125路车-台东方向"
-        },
-        {
-          "name": "海大崂山校区(公交站3)",
-          "latitude": "36.165848",
-          "longitude": "120.496089",
-          "iconPath": "/images/map/bus.png",
-          "width": "25",
-          "height": "30",
-          "callout": {
-            "content": "海大崂山校区(公交站3)",
-            "color": "#FFFFFF",
-            "fontSize": "12",
-            "borderRadius": "5",
-            "bgColor": "#009cff",
-            "padding": "5",
-            "display": "BYCLICK",
-            "textAlign": "center"
-          },
-          "img": [
-            ""
-          ],
-          "description": "110/125/381/382/383/384/385/386/387/388/617/619/628/641/4路车"
-        }
-      ]
-   },
-   {
+    {
       "name": "运动健身",
       "scale": 16,
       "data": [
@@ -1871,14 +1785,14 @@
           "description": "学校重要典礼的专用场馆，如学生毕业典礼，开学典礼，毕业晚会，新年音乐会等。"
         },
         {
-          "name": "综合体育馆",
+          "name": "篮球馆",
           "latitude": "36.164800",
           "longitude": "120.497435",
           "iconPath": "/images/map/sports.png",
           "width": "25",
           "height": "30",
           "callout": {
-            "content": "综合体育馆",
+            "content": "篮球馆",
             "color": "#FFFFFF",
             "fontSize": "12",
             "borderRadius": "5",
@@ -1888,9 +1802,75 @@
             "textAlign": "center"
           },
           "img": [
-            ""
+            "sports/lanqiu1.jpg"
           ],
-          "description": "<p>综合体育馆--羽毛球馆、台球馆、乒乓球馆</p><br><p>开放时间:夏季（5月1日-10月31日）:12:00-20:00、周六、周日:9:00-20:00;</p><p>冬季（11月1日-次年4月30日）:12:00-19:00、周六、周日:9:00-19:00;</p><p>收费标准:每个场地(桌台)10元/小时</p><p>服务电话:66782703</p>"
+          "description": "<p>开放时间:夏季（5月1日-10月31日）:12:00-20:00、周六、周日:9:00-20:00;</p><p>冬季（11月1日-次年4月30日）:12:00-19:00、周六、周日:9:00-19:00;</p><p>收费标准:每个场地(桌台)10元/小时</p><p>场地地址：崂山校区综合比赛馆</p><p>联系人：丁老师</p><p>联系电话：66782703</p><p>预约网址：http://hqcggl.ouc.edu.cn/</p><p>篮球训练馆，位于体育馆主馆负一层西北侧，面积814.56㎡，内有标准篮球场地一块，可进行篮球、排球、乒乓球、羽毛球等专业比赛，现为我校男女篮、女排队伍专用训练馆。</p>"
+        },
+        {
+          "name": "羽毛球馆",
+          "latitude": "36.164800",
+          "longitude": "120.497435",
+          "iconPath": "/images/map/sports.png",
+          "width": "25",
+          "height": "30",
+          "callout": {
+            "content": "羽毛球馆",
+            "color": "#FFFFFF",
+            "fontSize": "12",
+            "borderRadius": "5",
+            "bgColor": "#009cff",
+            "padding": "5",
+            "display": "BYCLICK",
+            "textAlign": "center"
+          },
+          "img": [
+            "sports/yumaoqiu1.jpg"
+          ],
+          "description": "<p>开放时间:夏季（5月1日-10月31日）:12:00-20:00、周六、周日:9:00-20:00;</p><p>冬季（11月1日-次年4月30日）:12:00-19:00、周六、周日:9:00-19:00;</p><p>收费标准:每个场地(桌台)10元/小时</p><p>场地地址：崂山校区综合比赛馆</p><p>联系人：丁老师</p><p>联系电话：66782703</p><p>预约网址：http://hqcggl.ouc.edu.cn/</p><p>羽毛球馆位于综合馆负二层，场馆面积932.36㎡，内有7块标准羽毛球比赛场地，地面铺设国外进口LG牌PVC运动地垫，配有ABS比赛级羽毛球网架，可供进行体育课教学、运动队训练、课余健身等活动。</p>"
+        },
+           {
+          "name": "乒乓球馆",
+          "latitude": "36.164800",
+          "longitude": "120.497435",
+          "iconPath": "/images/map/sports.png",
+          "width": "25",
+          "height": "30",
+          "callout": {
+            "content": "乒乓球馆",
+            "color": "#FFFFFF",
+            "fontSize": "12",
+            "borderRadius": "5",
+            "bgColor": "#009cff",
+            "padding": "5",
+            "display": "BYCLICK",
+            "textAlign": "center"
+          },
+          "img": [
+            "sports/pingpangqiu1.jpg"
+          ],
+          "description": "<p>开放时间:夏季（5月1日-10月31日）:12:00-20:00、周六、周日:9:00-20:00;</p><p>冬季（11月1日-次年4月30日）:12:00-19:00、周六、周日:9:00-19:00;</p><p>收费标准:每个场地(桌台)10元/小时</p><p>场地地址：崂山校区综合比赛馆</p><p>联系人：丁老师</p><p>联系电话：66782703</p><p>预约网址：http://hqcggl.ouc.edu.cn/</p><p>乒乓球馆位于综合馆负一层，馆内面积约339.12㎡，球桌6张，地面铺设国外进口LG牌PVC运动地垫，可供校内师生进行乒乓球休闲健身活动。</p>"
+        },
+           {
+          "name": "台球馆",
+          "latitude": "36.164800",
+          "longitude": "120.497435",
+          "iconPath": "/images/map/sports.png",
+          "width": "25",
+          "height": "30",
+          "callout": {
+            "content": "台球馆",
+            "color": "#FFFFFF",
+            "fontSize": "12",
+            "borderRadius": "5",
+            "bgColor": "#009cff",
+            "padding": "5",
+            "display": "BYCLICK",
+            "textAlign": "center"
+          },
+          "img": [
+            "sports/taiqiu1.jpg"
+          ],
+          "description": "<p>开放时间:夏季（5月1日-10月31日）:12:00-20:00、周六、周日:9:00-20:00;</p><p>冬季（11月1日-次年4月30日）:12:00-19:00、周六、周日:9:00-19:00;</p><p>收费标准:每个场地(桌台)10元/小时</p><p>场地地址：崂山校区综合比赛馆</p><p>联系人：丁老师</p><p>联系电话：66782703</p><p>预约网址：http://hqcggl.ouc.edu.cn/</p><p>台球馆位于综合馆负一层，馆内面积约171.52㎡，内有斯诺克球桌1张，美式落袋球桌6张，地面铺设国外进口LG牌PVC运动地垫，可供校内师生进行台球休闲健身活动。</p>"
         },
         {
           "name": "游泳馆",
@@ -2093,6 +2073,220 @@
           "description": ""
         }
       ]
+   },
+   {
+      "name": "行政办公",
+      "scale": 16,
+      "data": [{
+         "name": "行远楼",
+         "latitude": "36.159810",
+         "longitude": "120.494442",
+         "iconPath": "/images/map/official.png",
+         "width": "25",
+         "height": "30",
+         "callout": {
+            "content": "行远楼",
+            "color": "#FFFFFF",
+            "fontSize": "12",
+            "borderRadius": "5",
+            "bgColor": "#009cff",
+            "padding": "5",
+            "display": "BYCLICK",
+            "textAlign": "center"
+         },
+         "img": [
+            "office/xingyuan1.jpg",
+           "office/xingyuan2.jpg",
+           "office/xingyuan3.jpg"
+         ],
+         "description": "学校好多机构都在这里，研招办也是哦，还有你可能会跑很多次的财务处~"
+      },
+          {
+         "name": "行知楼",
+         "latitude": "36.159377",
+         "longitude": "120.493155",
+         "iconPath": "/images/map/official.png",
+         "width": "25",
+         "height": "30",
+         "callout": {
+            "content": "行知楼",
+            "color": "#FFFFFF",
+            "fontSize": "12",
+            "borderRadius": "5",
+            "bgColor": "#009cff",
+            "padding": "5",
+            "display": "BYCLICK",
+            "textAlign": "center"
+         },
+         "img": [
+            "office/xingzhi1.jpg"
+         ],
+         "description": "举办校园宣讲、学术报告等"
+      }
+      ]
+   },
+
+   {
+      "name": "交通出行",
+      "scale": 16,
+      "data": [{
+         "name": "校车乘车点1",
+        "latitude":  "36.158528",
+        "longitude":  "120.494887",
+         "iconPath": "/images/map/bus.png",
+         "width": "25",
+         "height": "30",
+         "callout": {
+            "content": "校车乘车点1",
+            "color": "#FFFFFF",
+            "fontSize": "12",
+            "borderRadius": "5",
+            "bgColor": "#009cff",
+            "padding": "5",
+            "display": "BYCLICK",
+            "textAlign": "center"
+         },
+         "img": [
+            "bus/xiaoche1.jpg"
+         ],
+         "description": "具体乘车时间以校车时刻表为准"
+      },
+        {
+          "name": "校车乘车点2",
+          "latitude": "36.161300",
+          "longitude": "120.496963",
+          "iconPath": "/images/map/bus.png",
+          "width": "25",
+          "height": "30",
+          "callout": {
+            "content": "校车乘车点2",
+            "color": "#FFFFFF",
+            "fontSize": "12",
+            "borderRadius": "5",
+            "bgColor": "#009cff",
+            "padding": "5",
+            "display": "BYCLICK",
+            "textAlign": "center"
+          },
+          "img": [
+            "bus/xiaoche2.jpg"
+          ],
+          "description": "具体乘车时间以校车时刻表为准"
+        },
+        {
+          "name": "校车乘车点3",
+          "latitude": "36.162418",
+          "longitude": "120.496781",
+          "iconPath": "/images/map/bus.png",
+          "width": "25",
+          "height": "30",
+          "callout": {
+            "content": "校车乘车点3",
+            "color": "#FFFFFF",
+            "fontSize": "12",
+            "borderRadius": "5",
+            "bgColor": "#009cff",
+            "padding": "5",
+            "display": "BYCLICK",
+            "textAlign": "center"
+          },
+          "img": [
+            "bus/xiaoche3.jpg"
+          ],
+          "description": "具体乘车时间以校车时刻表为准"
+        },
+        {
+          "name": "地铁11号线",
+          "latitude": "36.165241",
+          "longitude": "120.494919",
+          "iconPath": "/images/map/bus.png",
+          "width": "25",
+          "height": "30",
+          "callout": {
+            "content": "地铁11号线",
+            "color": "#FFFFFF",
+            "fontSize": "12",
+            "borderRadius": "5",
+            "bgColor": "#009cff",
+            "padding": "5",
+            "display": "BYCLICK",
+            "textAlign": "center"
+          },
+          "img": [
+            "bus/ditie1.jpg",
+            "bus/ditie2.jpg",
+            "bus/ditie3.jpg"
+          ],
+          "description": "<p>鳌山湾方向</p><p>首班车:6:30 - 末班车:22:00</p>"
+        },
+        {
+          "name": "海大崂山校区(公交站1)",
+          "latitude": "36.165804",
+          "longitude": "120.496368",
+          "iconPath": "/images/map/bus.png",
+          "width": "25",
+          "height": "30",
+          "callout": {
+            "content": "海大崂山校区(公交站1)",
+            "color": "#FFFFFF",
+            "fontSize": "12",
+            "borderRadius": "5",
+            "bgColor": "#009cff",
+            "padding": "5",
+            "display": "BYCLICK",
+            "textAlign": "center"
+          },
+          "img": [
+            ""
+          ],
+          "description": "110/381/382/383/384/385/386/387/388/617/619/628/641路车"
+        },
+        {
+          "name": "海大崂山校区(公交站2)",
+          "latitude": "36.164531",
+          "longitude": "120.494925",
+          "iconPath": "/images/map/bus.png",
+          "width": "25",
+          "height": "30",
+          "callout": {
+            "content": "海大崂山校区(公交站2)",
+            "color": "#FFFFFF",
+            "fontSize": "12",
+            "borderRadius": "5",
+            "bgColor": "#009cff",
+            "padding": "5",
+            "display": "BYCLICK",
+            "textAlign": "center"
+          },
+          "img": [
+            ""
+          ],
+          "description": "125路车-台东方向"
+        },
+        {
+          "name": "海大崂山校区(公交站3)",
+          "latitude": "36.165848",
+          "longitude": "120.496089",
+          "iconPath": "/images/map/bus.png",
+          "width": "25",
+          "height": "30",
+          "callout": {
+            "content": "海大崂山校区(公交站3)",
+            "color": "#FFFFFF",
+            "fontSize": "12",
+            "borderRadius": "5",
+            "bgColor": "#009cff",
+            "padding": "5",
+            "display": "BYCLICK",
+            "textAlign": "center"
+          },
+          "img": [
+            ""
+          ],
+          "description": "110/125/381/382/383/384/385/386/387/388/617/619/628/641/4路车"
+        }
+      ]
    }
+
 ]
 }
