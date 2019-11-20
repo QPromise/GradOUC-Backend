@@ -10,9 +10,9 @@ _*_coding:utf-8 _*_
 from django.shortcuts import render
 from django.http import HttpResponse as response
 from .core import login,schedule,course,score,library
-from .news import yanzhao,xueshu
+from .news import yanzhao,xueshu,houqin
 import json
-from .models import Config,News
+from .models import Config,News,Swiper
 import time
 class MyEncoder(json.JSONEncoder):
     def default(self, obj):
@@ -41,6 +41,21 @@ def get_config(request):
     res = json.dumps(res)
     return response(res)
 
+# 获取推送
+def get_swiper(request):
+    swipers = Swiper.objects.all()
+    print(swipers)
+    res= []
+    for swiper in swipers:
+        temp = {"url":"","image":""}
+        temp["url"] = swiper.url
+        temp["image"] = 'http://127.0.0.1:8000' + swiper.get_img_url()
+        print(swiper.url)
+        print(swiper.get_img_url())
+        res.append(temp)
+    res = json.dumps(res)
+    print(res)
+    return response(res)
 # 绑定学号密码
 def do_login(request):
     sno,passwd = request.POST.get('sno'),request.POST.get('passwd')
@@ -106,9 +121,15 @@ def get_schoolNews(request):
         res = {"pages_count":temp["pages_count"],"news":temp["total_news"]}
         res = json.dumps(res)
         return response(res)
-    # 1002代表
+    # 1002代表学术资讯
     elif type == '1002':
         temp = xueshu.get_news(page)
+        res = {"pages_count": temp["pages_count"], "news": temp["total_news"]}
+        res = json.dumps(res)
+        return response(res)
+    # 1003 代表后勤公告
+    elif type == '1003':
+        temp = houqin.get_news(page)
         res = {"pages_count": temp["pages_count"], "news": temp["total_news"]}
         res = json.dumps(res)
         return response(res)
@@ -121,6 +142,10 @@ def get_schoolNewsDetail(request):
         return response(res)
     elif type == '1002':
             temp = xueshu.get_newsDeatil(id)
+            res = temp
+            return response(res)
+    elif type == '1003':
+            temp = houqin.get_newsDeatil(id)
             res = temp
             return response(res)
 

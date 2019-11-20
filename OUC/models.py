@@ -19,4 +19,9 @@ class News(models.Model):
         return self.news
     class Meta():
         ordering=('-date',)
-
+class Swiper(models.Model):
+    url = models.CharField(max_length=500)
+    image = models.ImageField(upload_to=str('./OUC/static/upload_image/{time}'.format(time=str(datetime.date.today().strftime("%Y%m%d")))))
+    def get_img_url(self):
+        s=str(self.image.url)
+        return s[3:]
