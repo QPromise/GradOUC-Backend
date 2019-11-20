@@ -49,7 +49,7 @@ def get_swiper(request):
     for swiper in swipers:
         temp = {"url":"","image":""}
         temp["url"] = swiper.url
-        temp["image"] = 'http://127.0.0.1:8000' + swiper.get_img_url()
+        temp["image"] = swiper.get_img_url()
         print(swiper.url)
         print(swiper.get_img_url())
         res.append(temp)

@@ -24,4 +24,4 @@ class Swiper(models.Model):
     image = models.ImageField(upload_to=str('./OUC/static/upload_image/{time}'.format(time=str(datetime.date.today().strftime("%Y%m%d")))))
     def get_img_url(self):
         s=str(self.image.url)
-        return s[3:]
+        return s[4:]
