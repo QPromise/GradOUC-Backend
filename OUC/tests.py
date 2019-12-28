@@ -12,15 +12,14 @@ if "a" in test.keys():
 else:
     print(123)
 
-# 构造一个将来的时间
-future = datetime.strptime('2019-12-22 00:00:00', '%Y-%m-%d %H:%M:%S')
-# 当前时间
-now = datetime.now()
-print(now)
-# 求时间差
-delta = future - now
-print(delta)
-hour = delta.seconds / 60 / 60
-minute = (delta.seconds - hour * 60 * 60) / 60
-seconds = delta.seconds - hour * 60 * 60 - minute * 60
-print_now = now.strftime('%Y-%m-%d %H:%M:%S')
+
+
+import  requests
+from bs4 import BeautifulSoup
+url='https://support.microsoft.com/zh-cn/help/4519972'
+response = requests.get(url)
+print(response.text)
+soup = BeautifulSoup(response.text, 'lxml')
+# print(soup)
+res = soup.find("div", {"class": "content-article"})
+print('res = ',res)
