@@ -103,7 +103,6 @@ def main(username = '',password = ''):
                     # 选了的课
                     if process.find("未选") == -1:
                         score = "未出"
-                    # 没选的课
                     else:
                         score = "未选"
                 planned_course["score"] = score
