@@ -119,6 +119,7 @@ def main(username = '',password = ''):
                 res['have_class'] = 1
         except:
             print('error')
+            res['have_class'] = 2
             return res
         return res
 if __name__ == '__main__':
