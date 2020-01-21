@@ -53,52 +53,57 @@ def main(username = '',password = ''):
     post_form = session.post(url=login_url, headers=headers, data=values)
 
     # 获取登录后主页面
-    home_page = session.get(url=home_url, headers=headers)
-    home_soup = BeautifulSoup(home_page.text, 'lxml')
-    res = {"message": "", "courses": "","have_class":0}
-    if home_soup.findAll(name="div", attrs={"class": "panel_password"}):
-        print('登录失败!')
-        res["message"] = "fault"
-        return res
-    else:
-        print('登录成功!')
-        self_info = pd.read_html(home_page.text)[0]
-        print(pd.DataFrame(self_info))
-        name = pd.DataFrame(self_info)[1][0]
-        res["message"] = "success"
-        course_page = session.get(course_url, headers=headers)
-        """
-        计划内的课程
-        """
-        try:
-            planned_table = pd.read_html(course_page.text)[0]
-            planned_table = pd.DataFrame(planned_table)
-            planned_table = planned_table.fillna("")
-            print(len(planned_table))
-            print(planned_table[1:2].values)
-            planned_courses = []
-            if len(planned_table) != 0:
-                for i in range(len(planned_table.values)):
-                    planned_course = {"select": "", "id": "", "name": "", "type": "", "credit": None, "xn": "", "xq": "",
-                                      "teacher": "", "process": ""}
-                    planned_course["select"] = planned_table[i:i + 1].values[0][0]
-                    planned_course["id"] = planned_table[i:i + 1].values[0][1]
-                    planned_course["name"] = planned_table[i:i + 1].values[0][2]
-                    planned_course["type"] = planned_table[i:i + 1].values[0][3]
-                    planned_course["credit"] = planned_table[i:i + 1].values[0][4]
-                    planned_course["xn"] = planned_table[i:i + 1].values[0][5]
-                    planned_course["xq"] = planned_table[i:i + 1].values[0][6]
-                    planned_course["teacher"] = planned_table[i:i + 1].values[0][7]
-                    planned_course["process"] = planned_table[i:i + 1].values[0][8]
-                    planned_courses.append(planned_course)
-                # print(planned_courses)
-                print(len(planned_courses))
-                res['courses'] = planned_courses
-                res['have_class'] = 1
-        except:
-            print('error')
-            res['have_class'] = 2
+    try:
+        home_page = session.get(url=home_url, headers=headers)
+        home_soup = BeautifulSoup(home_page.text, 'lxml')
+        res = {"message": "", "courses": "","have_class":0}
+        if home_soup.findAll(name="div", attrs={"class": "panel_password"}):
+            print('登录失败!')
+            res["message"] = "fault"
             return res
-        return res
+        else:
+            print('登录成功!')
+            try:
+                self_info = pd.read_html(home_page.text)[0]
+                print(pd.DataFrame(self_info))
+                name = pd.DataFrame(self_info)[1][0]
+                res["message"] = "success"
+                course_page = session.get(course_url, headers=headers)
+                """
+                计划内的课程
+                """
+
+                planned_table = pd.read_html(course_page.text)[0]
+                planned_table = pd.DataFrame(planned_table)
+                planned_table = planned_table.fillna("")
+                # print(len(planned_table))
+                # print(planned_table[1:2].values)
+                planned_courses = []
+                if len(planned_table) != 0:
+                    for i in range(len(planned_table.values)):
+                        planned_course = {"select": "", "id": "", "name": "", "type": "", "credit": None, "xn": "", "xq": "",
+                                          "teacher": "", "process": ""}
+                        planned_course["select"] = planned_table[i:i + 1].values[0][0]
+                        planned_course["id"] = planned_table[i:i + 1].values[0][1]
+                        planned_course["name"] = planned_table[i:i + 1].values[0][2]
+                        planned_course["type"] = planned_table[i:i + 1].values[0][3]
+                        planned_course["credit"] = planned_table[i:i + 1].values[0][4]
+                        planned_course["xn"] = planned_table[i:i + 1].values[0][5]
+                        planned_course["xq"] = planned_table[i:i + 1].values[0][6]
+                        planned_course["teacher"] = planned_table[i:i + 1].values[0][7]
+                        planned_course["process"] = planned_table[i:i + 1].values[0][8]
+                        planned_courses.append(planned_course)
+                    # print(planned_courses)
+                    # print(len(planned_courses))
+                    res['courses'] = planned_courses
+                    res['have_class'] =\
+                        1
+            except:
+                print('error')
+                res['have_class'] = 2
+                return res
+            return res
+    except:
+        return {"message": "", "courses": "", "have_class": 2}
 if __name__ == '__main__':
     print(main("21190211105","tel1314"))
