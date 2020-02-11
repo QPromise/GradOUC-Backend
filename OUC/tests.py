@@ -13,13 +13,16 @@ else:
     print(123)
 
 
-
-import  requests
-from bs4 import BeautifulSoup
-url='https://support.microsoft.com/zh-cn/help/4519972'
-response = requests.get(url)
-print(response.text)
-soup = BeautifulSoup(response.text, 'lxml')
-# print(soup)
-res = soup.find("div", {"class": "content-article"})
-print('res = ',res)
+print(eval(input('input m = ')+'**2'))
+#
+#
+#
+# import  requests
+# from bs4 import BeautifulSoup
+# url='https://support.microsoft.com/zh-cn/help/4519972'
+# response = requests.get(url)
+# print(response.text)
+# soup = BeautifulSoup(response.text, 'lxml')
+# # print(soup)
+# res = soup.find("div", {"class": "content-article"})
+# print('res = ',res)

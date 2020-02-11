@@ -20,7 +20,8 @@ class MyEncoder(json.JSONEncoder):
             return str(obj, encoding='utf-8');
         return json.JSONEncoder.default(self, obj)
 def index(request):
-    return response('欢迎使用微信小程序【研在OUC】')
+    return render(request,"profile.html")
+    # return response('欢迎使用微信小程序【研在OUC】')
 # 消息通知
 def get_news(request):
     news = News.objects.all()[0]
