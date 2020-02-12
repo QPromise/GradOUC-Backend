@@ -52,7 +52,7 @@ def main(kkyx = '-1',kcmc = '',jsxm = '蒋永国',pageId= 1):
     # 填写post信息
     values = {
         "username": '2002063',
-        "password": base64encode('chiang1974'),
+        "password": base64encode(''),
         "lt": lt,
         "_eventId": eventId
     }
@@ -123,5 +123,5 @@ def main(kkyx = '-1',kcmc = '',jsxm = '蒋永国',pageId= 1):
         return res
 
 if __name__ == '__main__':
-    # print(main("21190211105", "tel1314"))
+    # print(main("21190211105", ""))
     print(main())

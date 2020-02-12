@@ -12,8 +12,12 @@ if "a" in test.keys():
 else:
     print(123)
 
-
-print(eval(input('input m = ')+'**2'))
+try:
+    num = input(">>请输入数字")
+    print("输入的数字为：{}".format(int(num)))
+except ValueError:
+    print(ValueError,"输入的不是数字")
+# print(eval(input('input m = ')+'**2'))
 #
 #
 #
