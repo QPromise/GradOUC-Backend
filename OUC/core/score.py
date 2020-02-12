@@ -51,11 +51,10 @@ def main(username = '',password = ''):
         "_eventId": eventId
     }
 
-    # 提交登录表单
-    post_form = session.post(url=login_url, headers=headers, data=values)
-
-    # 获取登录后主页面
     try:
+        # 提交登录表单
+        post_form = session.post(url=login_url, headers=headers, data=values)
+        # 获取登录后主页面
         home_page = session.get(url=home_url, headers=headers)
         home_soup = BeautifulSoup(home_page.text, 'lxml')
         res = {"message": "", "courses": "","mean":"","have_class":0}
@@ -119,13 +118,14 @@ def main(username = '',password = ''):
                         print("当前没有可计算的课程")
                     res['courses'] = planned_courses
                     res['have_class'] = 1
-            except:
-                print('error')
+            except Exception as e:
+                print(e)
                 res['have_class'] = 2
                 return res
             return res
-    except:
-        return {"message": "", "courses": "","mean":"","have_class":2}
+    except Exception as e:
+        print(e)
+        return {"message": "fault", "courses": "","mean":"","have_class":2}
 if __name__ == '__main__':
-    print(main("21190211105","tel1314"))
-    # print(main("21180231272","608401"))
+    print(main("21190211105",""))
+    # print(main("21180231272",""))

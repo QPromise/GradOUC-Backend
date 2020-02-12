@@ -49,11 +49,10 @@ def main(username = '',password = ''):
         "_eventId": eventId
     }
 
-    # 提交登录表单
-    post_form = session.post(url=login_url, headers=headers, data=values)
-
-    # 获取登录后主页面
     try:
+        # 提交登录表单
+        post_form = session.post(url=login_url, headers=headers, data=values)
+        # 获取登录后主页面
         home_page = session.get(url=home_url, headers=headers)
         home_soup = BeautifulSoup(home_page.text, 'lxml')
         res = {"message": "", "courses": "","have_class":0}
@@ -72,7 +71,6 @@ def main(username = '',password = ''):
                 """
                 计划内的课程
                 """
-
                 planned_table = pd.read_html(course_page.text)[0]
                 planned_table = pd.DataFrame(planned_table)
                 planned_table = planned_table.fillna("")
@@ -96,14 +94,14 @@ def main(username = '',password = ''):
                     # print(planned_courses)
                     # print(len(planned_courses))
                     res['courses'] = planned_courses
-                    res['have_class'] =\
-                        1
-            except:
-                print('error')
+                    res['have_class'] =1
+            except Exception as e:
+                print(e)
                 res['have_class'] = 2
                 return res
             return res
-    except:
-        return {"message": "", "courses": "", "have_class": 2}
+    except Exception as e:
+        print(e)
+        return {"message": "fault", "courses": "", "have_class": 2}
 if __name__ == '__main__':
     print(main("21190211105","tel1314"))

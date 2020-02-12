@@ -50,61 +50,64 @@ def main(username = '',password = '',zc = '',xj = '',xn = ''):
         "_eventId": eventId
     }
 
-    # 提交登录表单
-    post_form = session.post(url=login_url, headers=headers, data=values)
-
-    # 获取登录后主页面
-    home_page = session.get(url=home_url, headers=headers)
-    home_soup = BeautifulSoup(home_page.text, 'lxml')
     res = {"message": "", "schedule": ""}
-    param = "?zc="+str(zc)+"&xj="+str(xj)+"&xn="+str(xn)
-    if home_soup.findAll(name="div", attrs={"class": "panel_password"}):
-        print('登录失败!')
+    try:
+        # 提交登录表单
+        post_form = session.post(url=login_url, headers=headers, data=values)
+        # 获取登录后主页面
+        home_page = session.get(url=home_url, headers=headers)
+        home_soup = BeautifulSoup(home_page.text, 'lxml')
+        param = "?zc="+str(zc)+"&xj="+str(xj)+"&xn="+str(xn)
+        if home_soup.findAll(name="div", attrs={"class": "panel_password"}):
+            print('登录失败!')
+            res["message"] = "fault"
+            return res
+        else:
+            print('登录成功!')
+            self_info = pd.read_html(home_page.text)[0]
+            print(pd.DataFrame(self_info))
+            name = pd.DataFrame(self_info)[1][0]
+            res["message"] = "success"
+            schedule_page = session.get(url=schedule_url + param, headers=headers)
+            """
+            我的课程表
+            """
+            decided_table = pd.read_html(schedule_page.text)[0]
+            # 课程表
+            decided_table = [decided_table['星期一'].values,  decided_table['星期二'].values,
+                              decided_table['星期三'].values,
+                             decided_table['星期四'].values, decided_table['星期五'].values,
+                             decided_table['星期六'].values, decided_table['星期日'].values]
+            decided_table = pd.DataFrame(decided_table).fillna('')
+            decided_table = np.array(decided_table)
+            schedule = []
+            for i in range(12):
+                row = []
+                temp = decided_table[:, i].tolist()
+                for j in range(7):
+                    now_class = {"name":"","room":"","leader":"","color":"","index":"","time":"","period":""}
+                    # 当前没有课的话
+                    if temp[j] == '':
+                        row.append(now_class)
+                        continue
+                    else:
+                        # 拆分课程信息
+                        class_info = temp[j].split()
+                        # print(class_info)
+                        now_class["period"] = re.findall(r"(\d+-\d+)", decided_table[:, i][j])[0]
+                        now_class["name"] = class_info[0]
+                        now_class["room"] = class_info[-1]
+                        now_class["leader"] = class_info[-2]
+                        row.append(now_class)
+                schedule.append(row)
+            for i in range(len(schedule)):
+                print(schedule[i])
+            res['schedule'] = schedule
+            return res
+    except Exception as e:
+        print(e)
         res["message"] = "fault"
         return res
-    else:
-        print('登录成功!')
-        self_info = pd.read_html(home_page.text)[0]
-        print(pd.DataFrame(self_info))
-        name = pd.DataFrame(self_info)[1][0]
-        res["message"] = "success"
-        schedule_page = session.get(url=schedule_url + param, headers=headers)
-        """
-        我的课程表
-        """
-        decided_table = pd.read_html(schedule_page.text)[0]
-        # 课程表
-        decided_table = [decided_table['星期一'].values,  decided_table['星期二'].values,
-                          decided_table['星期三'].values,
-                         decided_table['星期四'].values, decided_table['星期五'].values,
-                         decided_table['星期六'].values, decided_table['星期日'].values]
-        decided_table = pd.DataFrame(decided_table).fillna('')
-        decided_table = np.array(decided_table)
-        schedule = []
-        for i in range(12):
-            row = []
-            temp = decided_table[:, i].tolist()
-            for j in range(7):
-                now_class = {"name":"","room":"","leader":"","color":"","index":"","time":"","period":""}
-                # 当前没有课的话
-                if temp[j] == '':
-                    row.append(now_class)
-                    continue
-                else:
-                    # 拆分课程信息
-                    class_info = temp[j].split()
-                    # print(class_info)
-                    now_class["period"] = re.findall(r"(\d+-\d+)", decided_table[:, i][j])[0]
-                    now_class["name"] = class_info[0]
-                    now_class["room"] = class_info[-1]
-                    now_class["leader"] = class_info[-2]
-                    row.append(now_class)
-            schedule.append(row)
-        for i in range(len(schedule)):
-            print(schedule[i])
-        res['schedule'] = schedule
-        return res
-
         # """
         # 以下课程时间地点待定,具体请关注课程备注或相关通知：
         # """
@@ -114,5 +117,5 @@ def main(username = '',password = '',zc = '',xj = '',xn = ''):
         # print(undetermined_schedule)
         # undetermined_schedule.to_csv(r'store.csv', mode='a', encoding='utf_8_sig')
 if __name__ == '__main__':
-    main("21190211105","tel1314","12","11","2019")
-    # "21190211105","tel1314"
+    main("21190211105","","12","11","2019")
+    # "21190211105",""
