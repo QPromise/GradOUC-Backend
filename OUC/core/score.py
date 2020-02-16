@@ -34,7 +34,6 @@ def calculate_score(score,credit):
 def main(username = '',password = ''):
     # 创建一个回话
     session = requests.Session()
-
     # 获得登录页面
     response = session.get(login_url)
     login_soup = BeautifulSoup(response.text, 'lxml')
@@ -50,25 +49,25 @@ def main(username = '',password = ''):
         "lt": lt,
         "_eventId": eventId
     }
-
+    res = {"message": "", "courses": "", "mean": "", "have_class": 0}
     try:
         # 提交登录表单
         post_form = session.post(url=login_url, headers=headers, data=values)
         # 获取登录后主页面
-        home_page = session.get(url=home_url, headers=headers)
+        res['message'] = 'timeout'
+        home_page = session.get(url=home_url, headers=headers,timeout=6)
+        res['message'] = 'fault'
         home_soup = BeautifulSoup(home_page.text, 'lxml')
-        res = {"message": "", "courses": "","mean":"","have_class":0}
         if home_soup.findAll(name="div", attrs={"class": "panel_password"}):
             print('登录失败!')
-            res["message"] = "fault"
             return res
         else:
             print('登录成功!')
             try:
+                res["message"] = "success"
                 self_info = pd.read_html(home_page.text)[0]
                 print(pd.DataFrame(self_info))
                 name = pd.DataFrame(self_info)[1][0]
-                res["message"] = "success"
                 course_page = session.get(course_url, headers=headers)
                 """
                 计划内的课程
@@ -125,7 +124,9 @@ def main(username = '',password = ''):
             return res
     except Exception as e:
         print(e)
-        return {"message": "fault", "courses": "","mean":"","have_class":2}
+        res["have_class"] = 2
+        return res
+
 if __name__ == '__main__':
     print(main("21190211105",""))
     # print(main("21180231272",""))
