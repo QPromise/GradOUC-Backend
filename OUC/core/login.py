@@ -19,6 +19,7 @@ headers = {
 
 # 登录地址
 login_url = "http://id.ouc.edu.cn:8071/sso/login?service=http%3A%2F%2Fpgs.ouc.edu.cn%2Fallogene%2Fpage%2Fhome.htm%3B"
+new_login_url = "http://pgs.ouc.edu.cn/sso/login?service=http%3A%2F%2Fpgs.ouc.edu.cn%2Fpy%2Fpage%2Fstudent%2Fxslcsm.htm%3B"
 # 登录后的主页
 home_url = "http://pgs.ouc.edu.cn/allogene/page/home.htm;"
 
@@ -32,7 +33,7 @@ def main(username = '',password = ''):
     session = requests.Session()
 
     # 获得登录页面
-    response = session.get(login_url)
+    response = session.get(new_login_url)
     login_soup = BeautifulSoup(response.text, 'lxml')
 
     # 获取隐藏字段
@@ -50,7 +51,7 @@ def main(username = '',password = ''):
     res = {"message": "", "name": ""}
     try:
         # 提交登录表单
-        post_form = session.post(url=login_url, headers=headers, data=values)
+        post_form = session.post(url=new_login_url, headers=headers, data=values)
         # 获取登录后主页面
         res["message"] = "timeout"
         home_page = session.get(url=home_url, headers=headers,timeout=6)
