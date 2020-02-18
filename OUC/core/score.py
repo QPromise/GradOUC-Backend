@@ -36,7 +36,7 @@ def main(username = '',password = ''):
     # 创建一个回话
     session = requests.Session()
     # 获得登录页面
-    response = session.get(new_login_url)
+    response = session.get(login_url)
     login_soup = BeautifulSoup(response.text, 'lxml')
 
     # 获取隐藏字段
@@ -53,7 +53,7 @@ def main(username = '',password = ''):
     res = {"message": "", "courses": "", "mean": "", "have_class": 0}
     try:
         # 提交登录表单
-        post_form = session.post(url=new_login_url, headers=headers, data=values)
+        post_form = session.post(url=login_url, headers=headers, data=values)
         # 获取登录后主页面
         res['message'] = 'timeout'
         home_page = session.get(url=home_url, headers=headers,timeout=6)
@@ -131,4 +131,4 @@ def main(username = '',password = ''):
 
 if __name__ == '__main__':
     # print(main("21190211105",""))
-    print(main("21180231272",""))
+    print(main("21180231272","608401"))

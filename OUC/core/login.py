@@ -33,7 +33,7 @@ def main(username = '',password = ''):
     session = requests.Session()
 
     # 获得登录页面
-    response = session.get(new_login_url)
+    response = session.get(login_url)
     login_soup = BeautifulSoup(response.text, 'lxml')
 
     # 获取隐藏字段
@@ -51,7 +51,7 @@ def main(username = '',password = ''):
     res = {"message": "", "name": ""}
     try:
         # 提交登录表单
-        post_form = session.post(url=new_login_url, headers=headers, data=values)
+        post_form = session.post(url=login_url, headers=headers, data=values)
         # 获取登录后主页面
         res["message"] = "timeout"
         home_page = session.get(url=home_url, headers=headers,timeout=6)
