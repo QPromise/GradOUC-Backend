@@ -81,11 +81,13 @@ def main(username = '',password = '',zc = '',xj = '',xn = ''):
                              decided_table['星期四'].values, decided_table['星期五'].values,
                              decided_table['星期六'].values, decided_table['星期日'].values]
             decided_table = pd.DataFrame(decided_table).fillna('')
+            # print(decided_table)
             decided_table = np.array(decided_table)
             schedule = []
             for i in range(12):
                 row = []
                 temp = decided_table[:, i].tolist()
+                # print(temp)
                 for j in range(7):
                     now_class = {"name":"","room":"","leader":"","color":"","index":"","time":"","period":""}
                     # 当前没有课的话
@@ -102,8 +104,8 @@ def main(username = '',password = '',zc = '',xj = '',xn = ''):
                         now_class["leader"] = class_info[-2]
                         row.append(now_class)
                 schedule.append(row)
-            for i in range(len(schedule)):
-                print(schedule[i])
+            # for i in range(len(schedule)):
+            #     print(schedule[i])
             res['schedule'] = schedule
             return res
     except Exception as e:
@@ -118,5 +120,5 @@ def main(username = '',password = '',zc = '',xj = '',xn = ''):
         # print(undetermined_schedule)
         # undetermined_schedule.to_csv(r'store.csv', mode='a', encoding='utf_8_sig')
 if __name__ == '__main__':
-    main("21190211105","","12","11","2019")
+    main("21190211105","","1","12","2019")
     # "21190211105",""
