@@ -21,7 +21,7 @@ headers = {
 login_url = "http://id.ouc.edu.cn:8071/sso/login?service=http%3A%2F%2Fpgs.ouc.edu.cn%2Fallogene%2Fpage%2Fhome.htm%3B"
 new_login_url = "http://pgs.ouc.edu.cn/sso/login?service=http%3A%2F%2Fpgs.ouc.edu.cn%2Fpy%2Fpage%2Fstudent%2Fxslcsm.htm%3B"
 # 登录后主页
-home_url = "http://pgs.ouc.edu.cn/allogene/page/home.htm;"
+home_url = "http://pgs.ouc.edu.cn/allogene/page/home.htm"
 # 课程地址
 course_url = "http://pgs.ouc.edu.cn/py/page/student/grkcgl.htm"
 
@@ -106,4 +106,4 @@ def main(username = '',password = ''):
         res["have_class"] = 2
         return res
 if __name__ == '__main__':
-    print(main("21190211105","tel1314"))
+    print(main("21190211105",""))
