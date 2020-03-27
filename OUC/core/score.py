@@ -22,7 +22,7 @@ headers = {
 login_url = "http://id.ouc.edu.cn:8071/sso/login?service=http%3A%2F%2Fpgs.ouc.edu.cn%2Fallogene%2Fpage%2Fhome.htm%3B"
 new_login_url = "http://pgs.ouc.edu.cn/sso/login?service=http%3A%2F%2Fpgs.ouc.edu.cn%2Fpy%2Fpage%2Fstudent%2Fxslcsm.htm%3B"
 # 登录后主页
-home_url = "http://pgs.ouc.edu.cn/allogene/page/home.htm;"
+home_url = "http://pgs.ouc.edu.cn/allogene/page/home.htm"
 # 课程地址
 course_url = "http://pgs.ouc.edu.cn/py/page/student/grkcgl.htm"
 
@@ -54,12 +54,13 @@ def main(username = '',password = ''):
     try:
         # 提交登录表单
         post_form = session.post(url=login_url, headers=headers, data=values)
+        # print(post_form.text)
         # 获取登录后主页面
         res['message'] = 'timeout'
         home_page = session.get(url=home_url, headers=headers,timeout=6)
         res['message'] = 'fault'
         home_soup = BeautifulSoup(home_page.text, 'lxml')
-        print(home_soup)
+        # print(home_soup)
         if home_soup.findAll(name="div", attrs={"class": "panel_password"}):
             print('登录失败!')
             return res
@@ -67,8 +68,9 @@ def main(username = '',password = ''):
             print('登录成功!')
             try:
                 res["message"] = "success"
+                # print(home_page.text)
                 self_info = pd.read_html(home_page.text)[0]
-                print(pd.DataFrame(self_info))
+                # print(pd.DataFrame(self_info))
                 name = pd.DataFrame(self_info)[1][0]
                 course_page = session.get(course_url, headers=headers)
                 """
@@ -78,8 +80,6 @@ def main(username = '',password = ''):
                 planned_table = pd.DataFrame(planned_table)
                 planned_table = planned_table.fillna("")
                 # print(len(planned_table))
-                # print(planned_table[1:2].value
-                # s)
                 planned_courses = []
                 scores = []
                 credits = []
@@ -131,4 +131,4 @@ def main(username = '',password = ''):
 
 if __name__ == '__main__':
     # print(main("21190211105",""))
-    print(main("21180231272","608401"))
+    print(main("21180231272",""))
