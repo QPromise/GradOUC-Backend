@@ -9,19 +9,25 @@ _*_coding:utf-8 _*_
 """
 from django.shortcuts import render
 from django.http import HttpResponse as response
-from .core import login,schedule,course,score,library
-from .news import yanzhao,xueshu,houqin
+from .core import login, schedule, course, score, library
+from .news import yanzhao, xueshu, houqin
 import json
-from .models import Config,News,Swiper
+from .models import Config, News, Swiper
 import time
+
+
 class MyEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, bytes):
             return str(obj, encoding='utf-8');
         return json.JSONEncoder.default(self, obj)
+
+
 def index(request):
     return render(request,"profile.html")
     # return response('欢迎使用微信小程序【研在OUC】')
+
+
 # 消息通知
 def get_news(request):
     news = News.objects.all()[0]
@@ -29,6 +35,7 @@ def get_news(request):
     # print(res)
     res = json.dumps(res)
     return response(res)
+
 
 # 配置开学日期，放假日期，学年，学期
 def get_config(request):
@@ -42,13 +49,14 @@ def get_config(request):
     res = json.dumps(res)
     return response(res)
 
+
 # 获取推送
 def get_swiper(request):
     swipers = Swiper.objects.all()
     print(swipers)
-    res= []
+    res = []
     for swiper in swipers:
-        temp = {"url":"","image":""}
+        temp = dict()
         temp["url"] = swiper.url
         temp["image"] = swiper.get_img_url()
         # print(swiper.url)
@@ -57,6 +65,8 @@ def get_swiper(request):
     res = json.dumps(res)
     # print(res)
     return response(res)
+
+
 # 绑定学号密码
 def do_login(request):
     sno,passwd = request.POST.get('sno'),request.POST.get('passwd')
@@ -66,6 +76,7 @@ def do_login(request):
     res = {'message':temp['message'],'name':temp['name'],'sno':sno,'passwd':passwd}
     res = json.dumps(res)
     return response(res)
+
 
 # 获取课表
 def get_schedule(request):
@@ -77,6 +88,7 @@ def get_schedule(request):
     res = json.dumps(res)
     return response(res)
 
+
 # 获取课程
 def get_course(request):
     sno, passwd = request.POST.get('sno'), request.POST.get('passwd')
@@ -87,6 +99,7 @@ def get_course(request):
     res = json.dumps(res)
     return response(res)
 
+
 # 获取成绩以及平均学分绩
 def get_score(request):
     sno, passwd = request.POST.get('sno'), request.POST.get('passwd')
@@ -96,6 +109,7 @@ def get_score(request):
     res = json.dumps(res)
     return response(res)
 
+
 # 图书查询
 def search_book(request):
     keyword,fieldCode,page= request.POST.get('keyword'),request.POST.get('type'),request.POST.get('page')
@@ -103,6 +117,7 @@ def search_book(request):
     # print(temp)
     res = json.dumps(temp)
     return response(res)
+
 
 #获取图书详细信息
 def get_bookDetail(request):
@@ -112,6 +127,7 @@ def get_bookDetail(request):
     res = {"have_info":temp["have_info"],"bookAvailableDetail":temp["bookAvailableDetail"]}
     res = json.dumps(temp)
     return response(res)
+
 
 #获取资讯
 def get_schoolNews(request):
@@ -134,6 +150,8 @@ def get_schoolNews(request):
         res = {"pages_count": temp["pages_count"], "news": temp["total_news"]}
         res = json.dumps(res)
         return response(res)
+
+
 # 获取资讯详细内容
 def get_schoolNewsDetail(request):
     type,id = request.POST.get('type'),request.POST.get('id')

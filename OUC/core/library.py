@@ -11,6 +11,8 @@ import json
 import requests
 import re
 import pandas as pd
+
+
 postUrl = 'http://222.195.226.30/opac/ajax_search_adv.php'
 # payloadData数据
 payloadData = {
@@ -32,22 +34,22 @@ payloadHeader = {
 
 }
 headers = {
-'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
-'Accept-Encoding': 'gzip, deflate',
-'Accept-Language': 'zh-CN,zh;q=0.9,fr-FR;q=0.8,fr;q=0.7,zh-TW;q=0.6,en;q=0.5',
-'Connection': 'keep-alive',
-'Cookie': '',
-'DNT': '1',
-'Host': '222.195.226.30',
-'Upgrade-Insecure-Requests': '1',
-'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36'
+    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3',
+    'Accept-Encoding': 'gzip, deflate',
+    'Accept-Language': 'zh-CN,zh;q=0.9,fr-FR;q=0.8,fr;q=0.7,zh-TW;q=0.6,en;q=0.5',
+    'Connection': 'keep-alive',
+    'Cookie': '',
+    'DNT': '1',
+    'Host': '222.195.226.30',
+    'Upgrade-Insecure-Requests': '1',
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36'
 }
 header = {
-'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36'
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36'
 }
 
 
-def search_book(fieldCode,keyword,page):
+def search_book(fieldCode, keyword, page):
         dumpJsonData = '{"searchWords":[{"fieldList":[{"fieldCode":"' + fieldCode + '","fieldValue":"' + keyword + '"}]}],' \
                        '"filters":[],"limiter":[],' '"sortField":"relevance","sortType":"desc","pageSize":20,"pageCount":' \
                         '"' + page + '","first":true}'
@@ -74,22 +76,24 @@ def search_book(fieldCode,keyword,page):
             # 书的可借数量
             booklist[i]['sum'] = re.findall(r">(\d+)<",num)[0]
             booklist[i]['available'] = num[-1]
-            if 'callNo' in booklist[i].keys():
+            if 'callNo' in booklist[i]:
                 del booklist[i]['callNo']
-            if 'docTypeName' in booklist[i].keys():
+            if 'docTypeName' in booklist[i]:
                 del booklist[i]['docTypeName']
-            if 'num' in booklist[i].keys():
+            if 'num' in booklist[i]:
                 del booklist[i]['num']
             res["list"] = booklist
-        print(res)
+        # print(res)
         return res
+
+
 def get_bookDetail(bookID):
     bookDetail_url = "http://222.195.226.30/opac/item.php?marc_no=" + str(bookID)
     content = requests.get(bookDetail_url,headers = header)
     content = pd.DataFrame(pd.read_html(content.text)[0]).fillna('')
-    print(len(content))
-    print(content.columns.size)
-    print()
+    # print(len(content))
+    # print(content.columns.size)
+    # print()
     res = {"have_info":"1","bookAvailableDetail":""}
     bookAvailableDetail = []
     # 如果有藏书的话
@@ -109,6 +113,8 @@ def get_bookDetail(bookID):
     else:
         res["have_info"] = "0"
         return res
+
+
 if __name__ == '__main__':
-    search_book('01','的hi扫黄打撒','')
+    search_book('01', '的hi扫黄打撒', '')
     get_bookDetail("0000146533")

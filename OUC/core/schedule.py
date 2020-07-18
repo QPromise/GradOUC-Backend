@@ -9,40 +9,14 @@ _*_coding:utf-8 _*_
 """
 import base64
 import requests
-import random
 import pandas as pd
 from bs4 import BeautifulSoup
 import numpy as np
 import re
-# proxy_list = [
-#  '123.171.5.133:8118',
-#  '60.2.44.182:30963',
-#  '61.178.149.237:59042',
-#  '175.148.68.177:1133',
-#  '58.254.220.116:52470',
-# ]
-# # 随机选择一个代理
-# proxy = random.choice(proxy_list)
-# proxies = {
-#  'http': 'http://' + proxy,
-#  'https': 'https://' + proxy,
-# }
+
 headers = {
 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36',
 }
-# headers2 = {
-#     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
-#     'Accept-Encoding': 'gzip, deflate',
-#     'Accept-Language': 'zh-CN,zh;q=0.9',
-#     'Cache-Control': 'max-age=0',
-#     'Connection': 'keep-alive',
-#     'Cookie': 'JSESSIONID=29863A42C2A7A25504DA764E7534E8AD; UM_distinctid=171005d9209d7-07f3c467ef9a55-4313f6a-100200-171005d920a84; sudy_sk=D4A8361C25D6393D1436AF5658FB09E9ED51CCCA2795AB2B68727331EA8077659BC07E7AF495B061F60F86A57B0C84A2CF4A82D0D97F3F7C73388D6D37ACEB740308638657D9294165EDD45F859F8676; COMPANY_ID=10122; LOGIN=3231313830323331323732; ID=5764506c767265565249383d; PASSWORD=4f7a4f50764f336d346f593d; SCREEN_NAME=71787435444b7871736b775678716365686149387a513d3d',
-#     'Host':'pgs.ouc.edu.cn',
-#
-#     # 'Referer': 'http://id.ouc.edu.cn:8071/sso/login?service=http%3A%2F%2Fpgs.ouc.edu.cn%2Fallogene%2Fpage%2Fhome.htm',
-#     'Upgrade-Insecure-Requests': '1',
-#     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36',
-# }
 
 # 登录地址
 login_url = "http://id.ouc.edu.cn:8071/sso/login?service=http%3A%2F%2Fpgs.ouc.edu.cn%2Fallogene%2Fpage%2Fhome.htm%3B"
@@ -51,6 +25,7 @@ new_login_url = "http://pgs.ouc.edu.cn/sso/login?service=http%3A%2F%2Fpgs.ouc.ed
 home_url = "http://pgs.ouc.edu.cn/allogene/page/home.htm"
 # 课表地址
 schedule_url = "http://pgs.ouc.edu.cn/py/page/student/grkcb.htm"
+
 
 def base64encode(passwd):
     encode_passwd = base64.b64encode(passwd.encode('GBK'))  # .decode('ascii') 转换成字符形式
@@ -145,5 +120,5 @@ def main(username = '',password = '',zc = '',xj = '',xn = ''):
         # print(undetermined_schedule)
         # undetermined_schedule.to_csv(r'store.csv', mode='a', encoding='utf_8_sig')
 if __name__ == '__main__':
-    main("21190211105","","1","12","2019")
+    main("21190211105", "", "1", "12", "2019")
     # "21190211105",""

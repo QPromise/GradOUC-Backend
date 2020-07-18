@@ -122,6 +122,7 @@ def main(kkyx = '-1',kcmc = '',jsxm = '蒋永国',pageId= 1):
             res['have_course'] = 1
         return res
 
+
 if __name__ == '__main__':
     # print(main("21190211105", ""))
     print(main())
