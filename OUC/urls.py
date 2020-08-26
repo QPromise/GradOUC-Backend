@@ -16,4 +16,5 @@ urlpatterns = [
     url(r'^get_schoolNews/$', views.get_schoolNews, name='get_schoolNews'),
     url(r'^get_schoolNewsDetail/$', views.get_schoolNewsDetail, name='get_schoolNewsDetail'),
     url(r'^get_swiper/$', views.get_swiper, name='get_swiper'),
+    url(r'^shenpi/$', views.shenpi, name='shenpi')
 ]
