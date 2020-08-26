@@ -28,6 +28,9 @@ def index(request):
     # return response('欢迎使用微信小程序【研在OUC】')
 
 
+def shenpi(request):
+    return render(request, "shenpi.html")
+
 # 消息通知
 def get_news(request):
     news = News.objects.all()[0]
