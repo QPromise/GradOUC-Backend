@@ -28,9 +28,21 @@ def index(request):
     # return response('欢迎使用微信小程序【研在OUC】')
 
 
-def shenpi(request):
-    return render(request, "shenpi.html")
+def shenpi_index(request):
+    return render(request, "shenpi_index.html")
 
+
+def shenpi_get_param(request):
+    sno, name = request.POST.get("sno"), request.POST.get("name")
+    out = request.POST.get("out")
+    print(sno, name, out)
+    door_index = request.POST.get("door")
+    doors = {"1": "崂山南门", "2": "崂山北门", "3": "崂山西门", "4": "崂山东门", "5": "南海苑", "6": "东海苑"}
+    if out == "1":
+        go = "出"
+    else:
+        go = "入"
+    return render(request, "shenpi.html", {"sno": sno, "name": name, "go": go, "door": doors[door_index]})
 # 消息通知
 def get_news(request):
     news = News.objects.all()[0]
