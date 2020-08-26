@@ -109,11 +109,11 @@ def main(username = '',password = ''):
                             else:
                                 score = "未选"
                         planned_course["score"] = score
-                        print(score,process)
+                        # print(score,process)
                         planned_courses.append(planned_course)
                     if scores !=[] and credits !=[]:
                         res["mean"] = calculate_score(scores,credits)
-                        print(calculate_score(scores,credits))
+                        # print(calculate_score(scores,credits))
                     else:
                         res["mean"] = 0
                         print("当前没有可计算的课程")
@@ -128,6 +128,7 @@ def main(username = '',password = ''):
         print(e)
         res["have_class"] = 2
         return res
+
 
 if __name__ == '__main__':
     # print(main("21190211105",""))

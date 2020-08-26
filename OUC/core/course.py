@@ -11,7 +11,7 @@ import base64
 import requests
 import pandas as pd
 from bs4 import BeautifulSoup
-import numpy as np
+
 headers = {
 
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36',
@@ -21,7 +21,8 @@ headers = {
 login_url = "http://id.ouc.edu.cn:8071/sso/login?service=http%3A%2F%2Fpgs.ouc.edu.cn%2Fallogene%2Fpage%2Fhome.htm%3B"
 new_login_url = "http://pgs.ouc.edu.cn/sso/login?service=http%3A%2F%2Fpgs.ouc.edu.cn%2Fpy%2Fpage%2Fstudent%2Fxslcsm.htm%3B"
 # 登录后主页
-home_url = "http://pgs.ouc.edu.cn/allogene/page/home.htm"
+home_url = "http://pgs.ouc.edu.cn/allogene/page/home.htm" \
+           ""
 # 课程地址
 course_url = "http://pgs.ouc.edu.cn/py/page/student/grkcgl.htm"
 
@@ -66,7 +67,7 @@ def main(username = '',password = ''):
             try:
                 res["message"] = "success"
                 self_info = pd.read_html(home_page.text)[0]
-                print(pd.DataFrame(self_info))
+                # print(pd.DataFrame(self_info))
                 name = pd.DataFrame(self_info)[1][0]
                 course_page = session.get(course_url, headers=headers)
                 """
@@ -80,8 +81,8 @@ def main(username = '',password = ''):
                 planned_courses = []
                 if len(planned_table) != 0:
                     for i in range(len(planned_table.values)):
-                        planned_course = {"select": "", "id": "", "name": "", "type": "", "credit": None, "xn": "", "xq": "",
-                                          "teacher": "", "process": ""}
+                        planned_course = {"select": "", "id": "", "name": "", "type": "",
+                                          "credit": None, "xn": "", "xq": "","teacher": "", "process": ""}
                         planned_course["select"] = planned_table[i:i + 1].values[0][0]
                         planned_course["id"] = planned_table[i:i + 1].values[0][1]
                         planned_course["name"] = planned_table[i:i + 1].values[0][2]
@@ -105,5 +106,7 @@ def main(username = '',password = ''):
         print(e)
         res["have_class"] = 2
         return res
+
+
 if __name__ == '__main__':
-    print(main("21190211105",""))
+    print(main("21190211105", ""))
