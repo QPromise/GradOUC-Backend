@@ -24,25 +24,37 @@ class MyEncoder(json.JSONEncoder):
 
 
 def index(request):
-    return render(request,"profile.html")
+    return render(request, "profile.html")
     # return response('欢迎使用微信小程序【研在OUC】')
 
 
+def shenpi_submit(request):
+    person_id = request.GET.get("vip")
+    if person_id is None:
+        return render(request, "shenpi_submit.html")
+    else:
+        person_dict = {
+            "0": {"sno": "21180231272", "name": "秦昌帅"},
+            "1": {"sno": "21200231213", "name": "王洁"},
+            "2": {"sno": "21180231274", "name": "李健"},
+        }
+        print(person_dict[person_id])
+        return render(request, "shenpi_submit.html", {"sno": person_dict[person_id]["sno"], "name": person_dict[person_id]["name"]})
+
+
 def shenpi_index(request):
-    return render(request, "shenpi_index.html")
-
-
-def shenpi_get_param(request):
+    doors = {"1": "崂山南门", "2": "崂山北门", "3": "崂山西门", "4": "崂山东门", "5": "南海苑", "6": "东海苑"}
     sno, name = request.POST.get("sno"), request.POST.get("name")
     out = request.POST.get("out")
-    print(sno, name, out)
     door_index = request.POST.get("door")
-    doors = {"1": "崂山南门", "2": "崂山北门", "3": "崂山西门", "4": "崂山东门", "5": "南海苑", "6": "东海苑"}
-    if out == "1":
-        go = "出"
-    else:
-        go = "入"
-    return render(request, "shenpi.html", {"sno": sno, "name": name, "go": go, "door": doors[door_index]})
+    print(sno, name, out)
+    name = "小叮当" if name == "" else name
+    avatar = "https://imgshenpi.ouc.edu.cn/avatarNew/%s.jpg" % sno if sno != "" \
+        else "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=4045261102,767704663&fm=26&gp=0.jpg"
+    go = "出" if out == "1" else "入"
+    return render(request, "shenpi_index.html", {"avatar": avatar, "name": name, "go": go, "door": doors[door_index]})
+
+
 # 消息通知
 def get_news(request):
     news = News.objects.all()[0]
