@@ -1,0 +1,52 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<!-- saved from url=(0025)http://ttdlg.xyz/i.html#/ -->
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>学生返校后日常通行码</title><link href="../static/need_files/app.c13c4ccf673f1bba98610118b9787d70.css" rel="stylesheet">
+</head>
+<body>
+
+<div id="app">
+    <div>
+
+    <div class="el-input" style="width: auto;"><!---->
+        <form action="/shenpi_index/" method="post">
+            <div class="el-divider el-divider--horizontal">
+        <div class="el-divider__text is-center">学号 姓名</div>
+        </div>
+        <input type="text" name = "sno" autocomplete="off" placeholder="请输入学号" class="el-input__inner" value = {{ sno }}>
+            <br> <br>
+        <input type="text" name = "name" autocomplete="off" placeholder="请输入姓名" class="el-input__inner" value = {{ name }}>
+            <br> <br>
+            <div class="el-divider el-divider--horizontal">
+            <div class="el-divider__text is-center">去向</div>
+            </div>
+            <input type="radio" name="out" value="1" checked="checked">出
+            <input type="radio" name="out" value="0">入
+        <br> <br>
+            <div class="el-divider el-divider--horizontal">
+            <div class="el-divider__text is-center">位置</div>
+            </div>
+            <input type="radio" name="door" value="1" checked="checked">崂山南门
+            <input type="radio" name="door" value="2">崂山北门
+            <br>
+            <input type="radio" name="door" value="3">崂山西门
+            <input type="radio" name="door" value="4">崂山东门
+            <br>
+            <input type="radio" name="door" value="5">南海苑
+            <input type="radio" name="door" value="6">东海苑
+            <br> <br>
+        <input type="submit" name = "submit" class="el-button el-button--primary"><!----><!---->
+        </input>
+        </form>
+        <!----><!----><!----><!---->
+    </div>
+
+    </div>
+    </div>
+
+
+
+</body></html>
