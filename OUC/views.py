@@ -38,27 +38,35 @@ def shenpi_submit(request):
             "1": {"sno": "21200231213", "name": "王洁"},
             "2": {"sno": "21180231274", "name": "李健"},
         }
-        print(person_dict[person_id])
-        return render(request, "shenpi_submit.html", {"sno": person_dict[person_id]["sno"], "name": person_dict[person_id]["name"]})
+        return render(request, "shenpi_submit.html",
+                      {"sno": person_dict[person_id]["sno"], "name": person_dict[person_id]["name"]})
 
 
 def shenpi_index(request):
-    doors = {"1": "崂山南门", "2": "崂山北门", "3": "崂山西门", "4": "崂山东门", "5": "南海苑", "6": "东海苑"}
+    doors = {"1": "崂山校区南门", "2": "崂山校区北门", "3": "崂山校区西门", "4": "崂山校区东门", "5": "南海苑", "6": "东海苑"}
+
     sno, name = request.POST.get("sno"), request.POST.get("name")
     out = request.POST.get("out")
     door_index = request.POST.get("door")
-    print(sno, name, out)
+    type = request.POST.get("type")
+
     name = "小叮当" if name == "" else name
     avatar = "https://imgshenpi.ouc.edu.cn/avatarNew/%s.jpg" % sno if sno != "" \
         else "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=4045261102,767704663&fm=26&gp=0.jpg"
     go = "出" if out == "1" else "入"
-    return render(request, "shenpi_index.html", {"avatar": avatar, "name": name, "go": go, "door": doors[door_index]})
+
+    if type == "1":
+        return render(request, "shenpi_index.html",
+                      {"avatar": avatar, "name": name, "go": go, "door": doors[door_index]})
+    else:
+        return render(request, "shenpi_index_teacher.html",
+                      {"avatar": avatar, "name": name, "door": doors[door_index]})
 
 
 # 消息通知
 def get_news(request):
     news = News.objects.all()[0]
-    res = {"index":news.index,"news":news.news+"  发布时间:"+str(news.date).split()[0]+""}
+    res = {"index": news.index, "news": news.news + "  发布时间:" + str(news.date).split()[0] + ""}
     # print(res)
     res = json.dumps(res)
     return response(res)
@@ -72,7 +80,7 @@ def get_config(request):
     begin_day = time.strptime(res.begin_day, "%Y-%m-%d %H:%M:%S")
     begin_day = int(time.mktime(begin_day))
     # print(begin_day)
-    res = {"begin_day":begin_day,"end_day":res.end_day,"xn":res.xn,"xq":res.xq}
+    res = {"begin_day": begin_day, "end_day": res.end_day, "xn": res.xn, "xq": res.xq}
     res = json.dumps(res)
     return response(res)
 
@@ -96,22 +104,22 @@ def get_swiper(request):
 
 # 绑定学号密码
 def do_login(request):
-    sno,passwd = request.POST.get('sno'),request.POST.get('passwd')
+    sno, passwd = request.POST.get('sno'), request.POST.get('passwd')
     # print(request.POST.get('sno'))
     # print(request.POST.get('passwd'))
-    temp = login.main(sno,passwd)
-    res = {'message':temp['message'],'name':temp['name'],'sno':sno,'passwd':passwd}
+    temp = login.main(sno, passwd)
+    res = {'message': temp['message'], 'name': temp['name'], 'sno': sno, 'passwd': passwd}
     res = json.dumps(res)
     return response(res)
 
 
 # 获取课表
 def get_schedule(request):
-    sno, passwd,zc,xn,xj= request.POST.get('sno'), request.POST.get('passwd'),\
-                          request.POST.get('zc'),request.POST.get('xn'),request.POST.get('xj')
+    sno, passwd, zc, xn, xj = request.POST.get('sno'), request.POST.get('passwd'), \
+                              request.POST.get('zc'), request.POST.get('xn'), request.POST.get('xj')
     # print(sno,passwd,zc,xn,xj)
-    temp = schedule.main(sno,passwd,zc,xj,xn)
-    res = {"message":temp["message"],"schedule":temp["schedule"]}
+    temp = schedule.main(sno, passwd, zc, xj, xn)
+    res = {"message": temp["message"], "schedule": temp["schedule"]}
     res = json.dumps(res)
     return response(res)
 
@@ -120,8 +128,8 @@ def get_schedule(request):
 def get_course(request):
     sno, passwd = request.POST.get('sno'), request.POST.get('passwd')
     # print(sno,passwd)
-    temp = course.main(sno,passwd)
-    res = {"message":temp["message"],"courses":temp["courses"],"have_class":temp["have_class"]}
+    temp = course.main(sno, passwd)
+    res = {"message": temp["message"], "courses": temp["courses"], "have_class": temp["have_class"]}
     # print(res)
     res = json.dumps(res)
     return response(res)
@@ -132,37 +140,38 @@ def get_score(request):
     sno, passwd = request.POST.get('sno'), request.POST.get('passwd')
     # print(sno, passwd)
     temp = score.main(sno, passwd)
-    res = {"message": temp["message"], "courses": temp["courses"], "mean":temp["mean"],"have_class": temp["have_class"]}
+    res = {"message": temp["message"], "courses": temp["courses"], "mean": temp["mean"],
+           "have_class": temp["have_class"]}
     res = json.dumps(res)
     return response(res)
 
 
 # 图书查询
 def search_book(request):
-    keyword,fieldCode,page= request.POST.get('keyword'),request.POST.get('type'),request.POST.get('page')
-    temp = library.search_book(fieldCode,keyword,page)
+    keyword, fieldCode, page = request.POST.get('keyword'), request.POST.get('type'), request.POST.get('page')
+    temp = library.search_book(fieldCode, keyword, page)
     # print(temp)
     res = json.dumps(temp)
     return response(res)
 
 
-#获取图书详细信息
+# 获取图书详细信息
 def get_bookDetail(request):
     bookID = request.POST.get('bookID')
     temp = library.get_bookDetail(bookID)
     # print(temp)
-    res = {"have_info":temp["have_info"],"bookAvailableDetail":temp["bookAvailableDetail"]}
+    res = {"have_info": temp["have_info"], "bookAvailableDetail": temp["bookAvailableDetail"]}
     res = json.dumps(temp)
     return response(res)
 
 
-#获取资讯
+# 获取资讯
 def get_schoolNews(request):
-    type,page = request.POST.get('type'),request.POST.get('page')
+    type, page = request.POST.get('type'), request.POST.get('page')
     # 1001代表研招网
     if type == '1001':
         temp = yanzhao.get_news(page)
-        res = {"pages_count":temp["pages_count"],"news":temp["total_news"]}
+        res = {"pages_count": temp["pages_count"], "news": temp["total_news"]}
         res = json.dumps(res)
         return response(res)
     # 1002代表学术资讯
@@ -181,18 +190,16 @@ def get_schoolNews(request):
 
 # 获取资讯详细内容
 def get_schoolNewsDetail(request):
-    type,id = request.POST.get('type'),request.POST.get('id')
+    type, id = request.POST.get('type'), request.POST.get('id')
     if type == '1001':
         temp = yanzhao.get_newsDeatil(id)
         res = temp
         return response(res)
     elif type == '1002':
-            temp = xueshu.get_newsDeatil(id)
-            res = temp
-            return response(res)
+        temp = xueshu.get_newsDeatil(id)
+        res = temp
+        return response(res)
     elif type == '1003':
-            temp = houqin.get_newsDeatil(id)
-            res = temp
-            return response(res)
-
-
+        temp = houqin.get_newsDeatil(id)
+        res = temp
+        return response(res)
