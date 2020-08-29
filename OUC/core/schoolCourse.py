@@ -21,6 +21,7 @@ from bs4 import BeautifulSoup
 import math
 import numpy as np
 import re
+
 headers = {
 
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36',
@@ -33,12 +34,13 @@ home_url = "http://pgs.ouc.edu.cn/allogene/page/home.htm"
 # 课程地址
 schoolCourse_url = "http://pgs.ouc.edu.cn/py/page/teacher/lnsjCxdc.htm"
 
+
 def base64encode(passwd):
     encode_passwd = base64.b64encode(passwd.encode('GBK'))  # .decode('ascii') 转换成字符形式
     return encode_passwd
 
 
-def main(kkyx = '-1',kcmc = '',jsxm = '蒋永国',pageId= 1):
+def main(kkyx='-1', kcmc='', jsxm='蒋永国', pageId=1):
     # 创建一个会话
     session = requests.Session()
 
@@ -51,8 +53,8 @@ def main(kkyx = '-1',kcmc = '',jsxm = '蒋永国',pageId= 1):
     eventId = login_soup.form.find("input", {"name": "_eventId"})["value"]
     # 填写post信息
     values = {
-        "username": '2002063',
-        "password": base64encode(''),
+        "username": '21180231272',
+        "password": base64encode('608401'),
         "lt": lt,
         "_eventId": eventId
     }
@@ -63,7 +65,7 @@ def main(kkyx = '-1',kcmc = '',jsxm = '蒋永国',pageId= 1):
     # 获取登录后主页面
     home_page = session.get(url=home_url, headers=headers)
     home_soup = BeautifulSoup(home_page.text, 'lxml')
-    res = {"message": "", "pages_count":"","schoolCourses": "","have_course":0}
+    res = {"message": "", "pages_count": "", "schoolCourses": "", "have_course": 0}
     if home_soup.findAll(name="div", attrs={"class": "panel_password"}):
         print('登录失败!')
         res["message"] = "fault"
@@ -79,21 +81,22 @@ def main(kkyx = '-1',kcmc = '',jsxm = '蒋永国',pageId= 1):
         课程名称：kcmc
         院系：kkyx
         """
-        print(kkyx,kcmc,jsxm,pageId)
+        print(kkyx, kcmc, jsxm, pageId)
         param = "?operateType=search" \
-                +"&key=&kckkxj=-1" \
-                 +"&kkyx="+kkyx\
-                 +"&kcxz=-1&skyy=-1&tskc=&kcbh=" \
-                  +"&kcmc="+kcmc+"&jsgh="+"&jsxm="+urllib.parse.unquote(str(urllib.parse.quote(jsxm)))+"&pageId="+str(pageId)
+                + "&key=&kckkxj=-1" \
+                + "&kkyx=" + kkyx \
+                + "&kcxz=-1&skyy=-1&tskc=&kcbh=" \
+                + "&kcmc=" + kcmc + "&jsgh=" + "&jsxm=" + urllib.parse.unquote(
+            str(urllib.parse.quote(jsxm))) + "&pageId=" + str(pageId)
 
         print(param)
-
-        schoolCourse_page = session.post(schoolCourse_url+param, headers=headers)
+        schoolCourse_page = session.post(schoolCourse_url + param, headers=headers)
         schoolCourse_soup = BeautifulSoup(schoolCourse_page.text, 'lxml')
+        print(schoolCourse_soup)
         temp = schoolCourse_soup.findAll(name="p", attrs={"class": "w250 fr tar"})
         pre = str(temp[0]).index('共')
         post = str(temp[0]).index('个')
-        res['pages_count'] = math.ceil(int(str(temp[0])[pre+1:post])/20)
+        res['pages_count'] = math.ceil(int(str(temp[0])[pre + 1:post]) / 20)
         print(res['pages_count'])
         schoolCourse_table = pd.read_html(schoolCourse_page.text)[0]
         schoolCourse_table = pd.DataFrame(schoolCourse_table)

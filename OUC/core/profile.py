@@ -1,17 +1,15 @@
-"""
-_*_coding:utf-8 _*_
-
-@Time    :2019/11/3 14:22
-@Author  :csqin
-@FileName: login.py
-@Software: PyCharm
+#!/usr/bin/python3
+# _*_coding:utf-8 _*_
 
 """
+Author: qinchangshuai(qinchangshuai@baidu.com) 
+Date: 2020/8/29 16:56 
+"""
+
 import base64
 import requests
 import pandas as pd
 from bs4 import BeautifulSoup
-from requests import RequestException
 
 headers = {
 
@@ -21,8 +19,11 @@ headers = {
 # 登录地址
 login_url = "http://id.ouc.edu.cn:8071/sso/login?service=http%3A%2F%2Fpgs.ouc.edu.cn%2Fallogene%2Fpage%2Fhome.htm%3B"
 new_login_url = "http://pgs.ouc.edu.cn/sso/login?service=http%3A%2F%2Fpgs.ouc.edu.cn%2Fpy%2Fpage%2Fstudent%2Fxslcsm.htm%3B"
-# 登录后的主页
-home_url = "http://pgs.ouc.edu.cn/allogene/page/home.htm"
+# 登录后主页
+home_url = "http://pgs.ouc.edu.cn/allogene/page/home.htm" \
+           ""
+# profile
+profile_url = "http://pgs.ouc.edu.cn/py/page/student/ckgrxxjh.htm"
 
 
 def base64encode(passwd):
@@ -49,8 +50,7 @@ def main(username='', password=''):
         "lt": lt,
         "_eventId": eventId
     }
-
-    res = {"message": "", "name": ""}
+    res = {"message": "", "info": "", "have_class": 0}
     try:
         # 提交登录表单
         post_form = session.post(url=login_url, headers=headers, data=values)
@@ -64,17 +64,30 @@ def main(username='', password=''):
             return res
         else:
             print('登录成功!')
-            res["message"] = "success"
-            print(home_page.text)
-            self_info = pd.read_html(home_page.text)[0]
-            print(pd.DataFrame(self_info))
-            name = pd.DataFrame(self_info)[1][0]
-            res["name"] = name
+            try:
+                res["message"] = "success"
+                profile_page = session.get(profile_url, headers=headers)
+                profile_soup = BeautifulSoup(profile_page.text, 'lxml')
+                name = profile_soup.findAll(name="dt", attrs={"class": "title cblue"})[0].text
+                # ml10 content w300
+                need_list = profile_soup.findAll(name="dd", attrs={"class": "ml10 content w300"})
+                profession = need_list[2].text.split("：")[1]
+                research = need_list[3].text.split("：")[1]
+                supervisor = need_list[4].text.split("：")[1]
+                # print(name, profession, research, supervisor)
+                info = {"name": name, "profession": profession, "research": research, "supervisor": supervisor}
+                res["info"] = info
+                res['have_info'] = 1
+            except Exception as e:
+                print(e)
+                res['have_info'] = 2
+                return res
             return res
     except Exception as e:
         print(e)
+        res["have_info"] = 2
         return res
 
 
 if __name__ == '__main__':
-    main("21180231272", "")
+    print(main("21200231213", ""))

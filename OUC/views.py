@@ -9,7 +9,7 @@ _*_coding:utf-8 _*_
 """
 from django.shortcuts import render
 from django.http import HttpResponse as response
-from .core import login, schedule, course, score, library
+from .core import login, schedule, course, score, library, profile
 from .news import yanzhao, xueshu, houqin
 import json
 from .models import Config, News, Swiper
@@ -142,6 +142,16 @@ def get_score(request):
     temp = score.main(sno, passwd)
     res = {"message": temp["message"], "courses": temp["courses"], "mean": temp["mean"],
            "have_class": temp["have_class"]}
+    res = json.dumps(res)
+    return response(res)
+
+
+# 获取个人信息
+def get_profile(request):
+    sno, passwd = request.POST.get('sno'), request.POST.get('passwd')
+    # print(sno, passwd)
+    temp = profile.main(sno, passwd)
+    res = {"message": temp["message"], "info": temp["info"], "have_info": temp["have_info"]}
     res = json.dumps(res)
     return response(res)
 

@@ -15,7 +15,7 @@ import numpy as np
 import re
 
 headers = {
-'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36',
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36',
 }
 
 # 登录地址
@@ -32,7 +32,7 @@ def base64encode(passwd):
     return encode_passwd
 
 
-def main(username = '',password = '',zc = '',xj = '',xn = ''):
+def main(username='', password='', zc='', xj='', xn=''):
     # 创建一个会话
     session = requests.Session()
     # 获得登录页面
@@ -55,11 +55,11 @@ def main(username = '',password = '',zc = '',xj = '',xn = ''):
         post_form = session.post(url=login_url, headers=headers, data=values)
         # 获取登录后主页面
         res['message'] = 'timeout'
-        home_page = session.get(url=home_url, headers=headers,timeout = 6)
+        home_page = session.get(url=home_url, headers=headers, timeout=6)
         # print(home_page.text)
         res['message'] = 'fault'
         home_soup = BeautifulSoup(home_page.text, 'lxml')
-        param = "?zc="+str(zc)+"&xj="+str(xj)+"&xn="+str(xn)
+        param = "?zc=" + str(zc) + "&xj=" + str(xj) + "&xn=" + str(xn)
         if home_soup.findAll(name="div", attrs={"class": "panel_password"}):
             print('登录失败!')
             return res
@@ -75,8 +75,8 @@ def main(username = '',password = '',zc = '',xj = '',xn = ''):
             """
             decided_table = pd.read_html(schedule_page.text)[0]
             # 课程表
-            decided_table = [decided_table['星期一'].values,  decided_table['星期二'].values,
-                              decided_table['星期三'].values,
+            decided_table = [decided_table['星期一'].values, decided_table['星期二'].values,
+                             decided_table['星期三'].values,
                              decided_table['星期四'].values, decided_table['星期五'].values,
                              decided_table['星期六'].values, decided_table['星期日'].values]
             decided_table = pd.DataFrame(decided_table).fillna('')
@@ -88,7 +88,8 @@ def main(username = '',password = '',zc = '',xj = '',xn = ''):
                 temp = decided_table[:, i].tolist()
                 # print(temp)
                 for j in range(7):
-                    now_class = {"name":"","room":"","leader":"","color":"","index":"","time":"","period":""}
+                    now_class = {"name": "", "room": "", "leader": "", "color": "", "index": "", "time": "",
+                                 "period": ""}
                     # 当前没有课的话
                     if temp[j] == '':
                         row.append(now_class)
@@ -119,6 +120,8 @@ def main(username = '',password = '',zc = '',xj = '',xn = ''):
         # undetermined_schedule = undetermined_schedule.fillna('no_info')
         # print(undetermined_schedule)
         # undetermined_schedule.to_csv(r'store.csv', mode='a', encoding='utf_8_sig')
+
+
 if __name__ == '__main__':
     main("21190211105", "", "1", "12", "2019")
     # "21190211105",""
