@@ -13,6 +13,7 @@ import pandas as pd
 from bs4 import BeautifulSoup
 import numpy as np
 import re
+
 headers = {
 
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36',
@@ -26,13 +27,17 @@ home_url = "http://pgs.ouc.edu.cn/allogene/page/home.htm"
 # 课程地址
 course_url = "http://pgs.ouc.edu.cn/py/page/student/grkcgl.htm"
 
+
 def base64encode(passwd):
     encode_passwd = base64.b64encode(passwd.encode('GBK'))  # .decode('ascii') 转换成字符形式
     return encode_passwd
 
-def calculate_score(score,credit):
-    return round(np.sum(np.array(score) * np.array(credit))/np.sum(np.array(credit)),4)
-def main(username = '',password = ''):
+
+def calculate_score(score, credit):
+    return round(np.sum(np.array(score) * np.array(credit)) / np.sum(np.array(credit)), 4)
+
+
+def main(username='', password=''):
     # 创建一个回话
     session = requests.Session()
     # 获得登录页面
@@ -57,7 +62,7 @@ def main(username = '',password = ''):
         # print(post_form.text)
         # 获取登录后主页面
         res['message'] = 'timeout'
-        home_page = session.get(url=home_url, headers=headers,timeout=6)
+        home_page = session.get(url=home_url, headers=headers, timeout=6)
         res['message'] = 'fault'
         home_soup = BeautifulSoup(home_page.text, 'lxml')
         # print(home_soup)
@@ -86,14 +91,14 @@ def main(username = '',password = ''):
                 if len(planned_table) != 0:
                     for i in range(len(planned_table.values)):
                         planned_course = {"name": "", "type": "", "credit": None,
-                                          "teacher": "", "score":None,"selected":False,"disabled":True}
+                                          "teacher": "", "score": None, "selected": False, "disabled": True}
                         planned_course["name"] = planned_table[i:i + 1].values[0][2]
                         planned_course["type"] = planned_table[i:i + 1].values[0][3]
                         planned_course["credit"] = planned_table[i:i + 1].values[0][4]
                         planned_course["teacher"] = planned_table[i:i + 1].values[0][7]
                         process = planned_table[i:i + 1].values[0][8]
                         # 成绩出了
-                        if re.search(r"(\d+)",process):
+                        if re.search(r"(\d+)", process):
                             score = float(process.split()[2])
                             # 如果成绩大于70才计算Mean
                             if score >= 70:
@@ -111,8 +116,8 @@ def main(username = '',password = ''):
                         planned_course["score"] = score
                         # print(score,process)
                         planned_courses.append(planned_course)
-                    if scores !=[] and credits !=[]:
-                        res["mean"] = calculate_score(scores,credits)
+                    if scores != [] and credits != []:
+                        res["mean"] = calculate_score(scores, credits)
                         # print(calculate_score(scores,credits))
                     else:
                         res["mean"] = 0
@@ -132,4 +137,4 @@ def main(username = '',password = ''):
 
 if __name__ == '__main__':
     # print(main("21190211105",""))
-    print(main("21180231272",""))
+    print(main("21180231272", ""))

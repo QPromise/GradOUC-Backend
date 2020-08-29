@@ -26,12 +26,13 @@ home_url = "http://pgs.ouc.edu.cn/allogene/page/home.htm" \
 # 课程地址
 course_url = "http://pgs.ouc.edu.cn/py/page/student/grkcgl.htm"
 
+
 def base64encode(passwd):
     encode_passwd = base64.b64encode(passwd.encode('GBK'))  # .decode('ascii') 转换成字符形式
     return encode_passwd
 
 
-def main(username = '',password = ''):
+def main(username='', password=''):
     # 创建一个回话
     session = requests.Session()
 
@@ -56,7 +57,7 @@ def main(username = '',password = ''):
         post_form = session.post(url=login_url, headers=headers, data=values)
         # 获取登录后主页面
         res["message"] = "timeout"
-        home_page = session.get(url=home_url, headers=headers,timeout=6)
+        home_page = session.get(url=home_url, headers=headers, timeout=6)
         res["message"] = "fault"
         home_soup = BeautifulSoup(home_page.text, 'lxml')
         if home_soup.findAll(name="div", attrs={"class": "panel_password"}):
@@ -73,6 +74,7 @@ def main(username = '',password = ''):
                 """
                 计划内的课程
                 """
+                print(pd.read_html(course_page.text))
                 planned_table = pd.read_html(course_page.text)[0]
                 planned_table = pd.DataFrame(planned_table)
                 planned_table = planned_table.fillna("")
@@ -82,7 +84,7 @@ def main(username = '',password = ''):
                 if len(planned_table) != 0:
                     for i in range(len(planned_table.values)):
                         planned_course = {"select": "", "id": "", "name": "", "type": "",
-                                          "credit": None, "xn": "", "xq": "","teacher": "", "process": ""}
+                                          "credit": None, "xn": "", "xq": "", "teacher": "", "process": ""}
                         planned_course["select"] = planned_table[i:i + 1].values[0][0]
                         planned_course["id"] = planned_table[i:i + 1].values[0][1]
                         planned_course["name"] = planned_table[i:i + 1].values[0][2]
@@ -96,7 +98,7 @@ def main(username = '',password = ''):
                     # print(planned_courses)
                     # print(len(planned_courses))
                     res['courses'] = planned_courses
-                    res['have_class'] =1
+                    res['have_class'] = 1
             except Exception as e:
                 print(e)
                 res['have_class'] = 2
@@ -109,4 +111,4 @@ def main(username = '',password = ''):
 
 
 if __name__ == '__main__':
-    print(main("21190211105", ""))
+    print(main("21200231213", ""))
