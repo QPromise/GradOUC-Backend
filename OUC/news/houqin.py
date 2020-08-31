@@ -1,12 +1,11 @@
-"""
-_*_coding:utf-8 _*_
-
-@Time    :2019/11/20 11:03
-@Author  :csqin 
-@FileName: houqin.py
-@Software: PyCharm
+#!/usr/bin/python3
+# _*_coding:utf-8 _*_
 
 """
+Author: cs_qin(cs_qin@qq.com)
+Date: 2020/8/30 22:06
+"""
+
 
 import json
 import html2text
@@ -16,6 +15,7 @@ from bs4 import BeautifulSoup
 import re
 import time
 from datetime import datetime
+
 
 """
 网站新闻爬取

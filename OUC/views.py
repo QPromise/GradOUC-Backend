@@ -1,15 +1,14 @@
-"""
-_*_coding:utf-8 _*_
-
-@Time    :2019/11/3 14:22
-@Author  :csqin
-@FileName: views.py
-@Software: PyCharm
+#!/usr/bin/python3
+# _*_coding:utf-8 _*_
 
 """
+Author: cs_qin(cs_qin@qq.com)
+Date: 2019/11/3 14:22
+"""
+
 from django.shortcuts import render
 from django.http import HttpResponse as response
-from .core import login, schedule, course, score, library, profile
+from .core import login, schedule, course, score, library, profile, school_course
 from .news import yanzhao, xueshu, houqin
 import json
 from .models import Config, News, Swiper
@@ -130,6 +129,21 @@ def get_course(request):
     # print(sno,passwd)
     temp = course.main(sno, passwd)
     res = {"message": temp["message"], "courses": temp["courses"], "have_class": temp["have_class"]}
+    # print(res)
+    res = json.dumps(res)
+    return response(res)
+
+
+# 获取全校开课
+def get_school_course(request):
+    sno, passwd = request.POST.get('sno'), request.POST.get('passwd')
+    xn, xq = request.POST.get('xn'), request.POST.get('xq')
+    pageId, kkyx = request.POST.get('pageId'), request.POST.get('kkyx')
+    kcmc, jsxm = request.POST.get('kcmc'), request.POST.get('jsxm')
+    temp = school_course.main(xn, xq, sno, passwd, kkyx, kcmc, jsxm, pageId)
+    res = {"message": temp["message"], "pages_count": temp["pages_count"], "number": temp["number"],
+           "schoolCourses": temp["school_courses"], "have_course": temp["have_course"]
+           }
     # print(res)
     res = json.dumps(res)
     return response(res)

@@ -1,16 +1,16 @@
-"""
-_*_coding:utf-8 _*_
-
-@Time    :2019/11/3 19:21
-@Author  :csqin 
-@FileName: course.py
-@Software: PyCharm
+#!/usr/bin/python3
+# _*_coding:utf-8 _*_
 
 """
+Author: cs_qin(cs_qin@qq.com)
+Date: 2020/8/30 22:06
+"""
+
 import base64
 import requests
 import pandas as pd
 from bs4 import BeautifulSoup
+
 
 headers = {
 

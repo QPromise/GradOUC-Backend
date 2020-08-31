@@ -1,18 +1,18 @@
-"""
-_*_coding:utf-8 _*_
-
-@Time    :2019/11/3 14:50
-@Author  :csqin 
-@FileName: schedule.py
-@Software: PyCharm
+#!/usr/bin/python3
+# _*_coding:utf-8 _*_
 
 """
+Author: cs_qin(cs_qin@qq.com)
+Date: 2020/8/30 22:06
+"""
+
 import base64
 import requests
 import pandas as pd
 from bs4 import BeautifulSoup
 import numpy as np
 import re
+
 
 headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36',

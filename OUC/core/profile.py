@@ -2,14 +2,15 @@
 # _*_coding:utf-8 _*_
 
 """
-Author: qinchangshuai(qinchangshuai@baidu.com) 
-Date: 2020/8/29 16:56 
+Author: cs_qin(cs_qin@qq.com)
+Date: 2020/8/30 22:06
 """
 
 import base64
 import requests
 import pandas as pd
 from bs4 import BeautifulSoup
+
 
 headers = {
 

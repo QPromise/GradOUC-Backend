@@ -1,17 +1,16 @@
-"""
-_*_coding:utf-8 _*_
-
-@Time    :2019/11/3 14:22
-@Author  :csqin
-@FileName: login.py
-@Software: PyCharm
+#!/usr/bin/python3
+# _*_coding:utf-8 _*_
 
 """
+Author: cs_qin(cs_qin@qq.com)
+Date: 2020/8/30 22:06
+"""
+
 import base64
 import requests
 import pandas as pd
 from bs4 import BeautifulSoup
-from requests import RequestException
+
 
 headers = {
 
@@ -49,12 +48,9 @@ def main(username='', password=''):
         "lt": lt,
         "_eventId": eventId
     }
-
     res = {"message": "", "name": ""}
     try:
-        # 提交登录表单
         post_form = session.post(url=login_url, headers=headers, data=values)
-        # 获取登录后主页面
         res["message"] = "timeout"
         home_page = session.get(url=home_url, headers=headers, timeout=6)
         res["message"] = "fault"
@@ -65,9 +61,9 @@ def main(username='', password=''):
         else:
             print('登录成功!')
             res["message"] = "success"
-            print(home_page.text)
+            # print(home_page.text)
             self_info = pd.read_html(home_page.text)[0]
-            print(pd.DataFrame(self_info))
+            # print(pd.DataFrame(self_info))
             name = pd.DataFrame(self_info)[1][0]
             res["name"] = name
             return res
