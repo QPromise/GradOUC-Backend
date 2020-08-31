@@ -1,16 +1,16 @@
-"""
-_*_coding:utf-8 _*_
-
-@Time    :2019/11/7 9:16
-@Author  :csqin 
-@FileName: library.py
-@Software: PyCharm
+#!/usr/bin/python3
+# _*_coding:utf-8 _*_
 
 """
+Author: cs_qin(cs_qin@qq.com)
+Date: 2020/8/30 22:06
+"""
+
 import json
 import requests
 import re
 import pandas as pd
+
 
 postUrl = 'http://222.195.226.30/opac/ajax_search_adv.php'
 # payloadData数据
