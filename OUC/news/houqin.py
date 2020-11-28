@@ -6,16 +6,11 @@ Author: cs_qin(cs_qin@qq.com)
 Date: 2020/8/30 22:06
 """
 
-
 import json
 import html2text
 import urllib.request
-import math
 from bs4 import BeautifulSoup
 import re
-import time
-from datetime import datetime
-
 
 """
 网站新闻爬取
@@ -37,25 +32,21 @@ def get_news(page):
     # 使用BeautifulSoup模块解析变量中的web内容
     news_soup = BeautifulSoup(html, 'html.parser')
     # publish_dates = html.select('.Article_PublishDate')
-    temp_news = news_soup.find_all("span", {"class": "Article_Title"})
-    temp_dates = news_soup.find_all("span", {"class": "Article_PublishDate"})
-    # print(temp_news)
+    temp_news = news_soup.find_all("span", {"class": "news_title"})
+    temp_dates = news_soup.find_all("span", {"class": "news_meta"})
     total_news = []
     pages_count = int(news_soup.find("em", {"class": "all_pages"}).text)
-    res = {"pages_count": "", "total_news": total_news}
+    res = {}
     for elem_news, elem_date in zip(temp_news, temp_dates):
-        news = {"id": "", "title": "", "date": ""}
+        news = {}
         news["id"] = elem_news.find("a")["href"]
         news["title"] = str(elem_news.find("a")["title"]).strip()
         news["date"] = str(elem_date.text).strip()
         # print(elem_news.find("a"))
         # print(elem_date.text)
         total_news.append(news)
-    # print(total_news)
-    # print(pages_count)
     res["total_news"] = total_news
     res["pages_count"] = pages_count
-    # eventId = news_soup.find("input", {"name": "_eventId"})
     return res
 
 
@@ -121,14 +112,12 @@ def get_newsDeatil(id):
         pass
     # print(content)
     text_maker = html2text.HTML2Text()
-
     text_maker.bypass_tables = True
     text_maker.ignore_images = False
     res = {"title": title, "time": time, "content": text_maker.handle(content)}
-    # print(res)
     return json.dumps(res)
 
 
 if __name__ == '__main__':
     # get_news(1)
-    get_newsDeatil('/2018/1025/c14786a215138/page.htm')
+    get_newsDeatil('/2020/1118/c14786a307034/page.htm')
