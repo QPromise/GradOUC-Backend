@@ -51,6 +51,7 @@ class Login(object):
 
     @classmethod
     def write_student_info(cls, username, password, session):
+        password = cls.base64encode(password).decode('ascii')
         student = models.Student.objects.filter(sno=username)
         if len(student) == 0:
             res = cls.get_student_info(session)
