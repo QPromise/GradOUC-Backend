@@ -18,7 +18,7 @@ import time
 class MyEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, bytes):
-            return str(obj, encoding='utf-8');
+            return str(obj, encoding='utf-8')
         return json.JSONEncoder.default(self, obj)
 
 
@@ -87,7 +87,6 @@ def get_config(request):
 # 获取推送
 def get_swiper(request):
     swipers = Swiper.objects.all()
-    print(swipers)
     res = []
     for swiper in swipers:
         temp = dict()
@@ -152,18 +151,14 @@ def get_school_course(request):
 # 获取成绩以及平均学分绩
 def get_score(request):
     sno, passwd = request.POST.get('sno'), request.POST.get('passwd')
-    # print(sno, passwd)
     temp = score.main(sno, passwd)
-    res = {"message": temp["message"], "courses": temp["courses"], "mean": temp["mean"],
-           "have_class": temp["have_class"]}
-    res = json.dumps(res)
+    res = json.dumps(temp)
     return response(res)
 
 
 # 获取个人信息
 def get_profile(request):
     sno, passwd = request.POST.get('sno'), request.POST.get('passwd')
-    # print(sno, passwd)
     temp = profile.main(sno, passwd)
     res = {"message": temp["message"], "info": temp["info"], "have_info": temp["have_info"]}
     res = json.dumps(res)
