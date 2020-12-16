@@ -18,6 +18,7 @@ class SwiperAdmin(admin.ModelAdmin):
 class StudentAdmin(admin.ModelAdmin):
     list_display = ['id', 'sno', 'name', 'passwd', 'department', 'profession',
                     'research', 'supervisor', 'update_date', 'login_date']
+    search_fields = ['name', 'department', 'supervisor']
 
 
 admin.site.register(Config, ConfigAdmin)
