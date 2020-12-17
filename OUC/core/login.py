@@ -22,9 +22,9 @@ home_url = "http://pgs.ouc.edu.cn/allogene/page/home.htm"
 profile_url = "http://pgs.ouc.edu.cn/py/page/student/ckgrxxjh.htm"
 
 
-def main(username, password):
+def main(sno, passwd, openid):
     res = {"message": "", "name": ""}
-    login_info = login.Login.login(username, password)
+    login_info = login.Login.login(sno, passwd, openid)
     if login_info["message"] == "success":
         session = login_info["session"]
         res["message"] = login_info["message"]
@@ -52,4 +52,4 @@ def main(username, password):
 
 
 if __name__ == '__main__':
-    main("21180231272", "")
+    main("21180231272", "", "")

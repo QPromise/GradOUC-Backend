@@ -27,41 +27,6 @@ def index(request):
     # return response('欢迎使用微信小程序【研在OUC】')
 
 
-def shenpi_submit(request):
-    person_id = request.GET.get("vip")
-    if person_id is None:
-        return render(request, "shenpi_submit.html")
-    else:
-        person_dict = {
-            "0": {"sno": "21180231272", "name": "秦昌帅"},
-            "1": {"sno": "21200231213", "name": "王洁"},
-            "2": {"sno": "21180231274", "name": "李健"},
-        }
-        return render(request, "shenpi_submit.html",
-                      {"sno": person_dict[person_id]["sno"], "name": person_dict[person_id]["name"]})
-
-
-def shenpi_index(request):
-    doors = {"1": "崂山校区南门", "2": "崂山校区北门", "3": "崂山校区西门", "4": "崂山校区东门", "5": "南海苑", "6": "东海苑"}
-
-    sno, name = request.POST.get("sno"), request.POST.get("name")
-    out = request.POST.get("out")
-    door_index = request.POST.get("door")
-    type = request.POST.get("type")
-
-    name = "小叮当" if name == "" else name
-    avatar = "https://imgshenpi.ouc.edu.cn/avatarNew/%s.jpg" % sno if sno != "" \
-        else "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=4045261102,767704663&fm=26&gp=0.jpg"
-    go = "出" if out == "1" else "入"
-
-    if type == "1":
-        return render(request, "shenpi_index.html",
-                      {"avatar": avatar, "name": name, "go": go, "door": doors[door_index]})
-    else:
-        return render(request, "shenpi_index_teacher.html",
-                      {"avatar": avatar, "name": name, "door": doors[door_index]})
-
-
 # 消息通知
 def get_news(request):
     news = News.objects.all()[0]
@@ -103,9 +68,11 @@ def get_swiper(request):
 # 绑定学号密码
 def do_login(request):
     sno, passwd = request.POST.get('sno'), request.POST.get('passwd')
+    openid = request.POST.get('openid')
+    print(openid)
     # print(request.POST.get('sno'))
     # print(request.POST.get('passwd'))
-    temp = login.main(sno, passwd)
+    temp = login.main(sno, passwd, openid)
     res = {'message': temp['message'], 'name': temp['name'], 'sno': sno, 'passwd': passwd}
     res = json.dumps(res)
     return response(res)
@@ -115,8 +82,8 @@ def do_login(request):
 def get_schedule(request):
     sno, passwd, zc, xn, xj = request.POST.get('sno'), request.POST.get('passwd'), \
                               request.POST.get('zc'), request.POST.get('xn'), request.POST.get('xj')
-    # print(sno,passwd,zc,xn,xj)
-    temp = schedule.main(sno, passwd, zc, xj, xn)
+    openid = request.POST.get('openid')
+    temp = schedule.main(sno, passwd, openid, zc, xj, xn)
     res = {"message": temp["message"], "schedule": temp["schedule"]}
     res = json.dumps(res)
     return response(res)
@@ -125,24 +92,10 @@ def get_schedule(request):
 # 获取课程
 def get_course(request):
     sno, passwd = request.POST.get('sno'), request.POST.get('passwd')
+    openid = request.POST.get('openid')
     # print(sno,passwd)
-    temp = course.main(sno, passwd)
+    temp = course.main(sno, passwd, openid)
     res = {"message": temp["message"], "courses": temp["courses"], "have_class": temp["have_class"]}
-    # print(res)
-    res = json.dumps(res)
-    return response(res)
-
-
-# 获取全校开课
-def get_school_course(request):
-    sno, passwd = request.POST.get('sno'), request.POST.get('passwd')
-    xn, xq = request.POST.get('xn'), request.POST.get('xq')
-    pageId, kkyx = request.POST.get('pageId'), request.POST.get('kkyx')
-    kcmc, jsxm = request.POST.get('kcmc'), request.POST.get('jsxm')
-    temp = school_course.main(xn, xq, sno, passwd, kkyx, kcmc, jsxm, pageId)
-    res = {"message": temp["message"], "pages_count": temp["pages_count"], "number": temp["number"],
-           "schoolCourses": temp["school_courses"], "have_course": temp["have_course"]
-           }
     # print(res)
     res = json.dumps(res)
     return response(res)
@@ -151,7 +104,8 @@ def get_school_course(request):
 # 获取成绩以及平均学分绩
 def get_score(request):
     sno, passwd = request.POST.get('sno'), request.POST.get('passwd')
-    temp = score.main(sno, passwd)
+    openid = request.POST.get('openid')
+    temp = score.main(sno, passwd, openid)
     res = json.dumps(temp)
     return response(res)
 
@@ -159,8 +113,23 @@ def get_score(request):
 # 获取个人信息
 def get_profile(request):
     sno, passwd = request.POST.get('sno'), request.POST.get('passwd')
-    temp = profile.main(sno, passwd)
+    openid = request.POST.get('openid')
+    temp = profile.main(sno, passwd, openid)
     res = {"message": temp["message"], "info": temp["info"], "have_info": temp["have_info"]}
+    res = json.dumps(res)
+    return response(res)
+
+
+# 获取全校开课
+def get_school_course(request):
+    sno, passwd = request.POST.get('sno'), request.POST.get('passwd')
+    openid = request.POST.get('openid')
+    xn, xq = request.POST.get('xn'), request.POST.get('xq')
+    pageId, kkyx = request.POST.get('pageId'), request.POST.get('kkyx')
+    kcmc, jsxm = request.POST.get('kcmc'), request.POST.get('jsxm')
+    temp = school_course.main(xn, xq, sno, passwd, openid, kkyx, kcmc, jsxm, pageId)
+    res = {"message": temp["message"], "pages_count": temp["pages_count"], "number": temp["number"],
+           "schoolCourses": temp["school_courses"], "have_course": temp["have_course"]}
     res = json.dumps(res)
     return response(res)
 
@@ -222,3 +191,40 @@ def get_schoolNewsDetail(request):
         temp = houqin.get_newsDeatil(id)
         res = temp
         return response(res)
+
+
+def shenpi_submit(request):
+    person_id = request.GET.get("vip")
+    if person_id is None:
+        return render(request, "shenpi_submit.html")
+    else:
+        person_dict = {
+            "0": {"sno": "21180231272", "name": "秦昌帅"},
+            "1": {"sno": "21200231213", "name": "王洁"},
+            "2": {"sno": "21180231274", "name": "李健"},
+        }
+        return render(request, "shenpi_submit.html",
+                      {"sno": person_dict[person_id]["sno"], "name": person_dict[person_id]["name"]})
+
+
+def shenpi_index(request):
+    doors = {"1": "崂山校区南门", "2": "崂山校区北门", "3": "崂山校区西门", "4": "崂山校区东门", "5": "南海苑", "6": "东海苑"}
+
+    sno, name = request.POST.get("sno"), request.POST.get("name")
+    out = request.POST.get("out")
+    door_index = request.POST.get("door")
+    type = request.POST.get("type")
+
+    name = "小叮当" if name == "" else name
+    avatar = "https://imgshenpi.ouc.edu.cn/avatarNew/%s.jpg" % sno if sno != "" \
+        else "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=4045261102,767704663&fm=26&gp=0.jpg"
+    go = "出" if out == "1" else "入"
+
+    if type == "1":
+        return render(request, "shenpi_index.html",
+                      {"avatar": avatar, "name": name, "go": go, "door": doors[door_index]})
+    else:
+        return render(request, "shenpi_index_teacher.html",
+                      {"avatar": avatar, "name": name, "door": doors[door_index]})
+
+

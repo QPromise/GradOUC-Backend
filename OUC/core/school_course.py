@@ -36,14 +36,14 @@ def is_all_en(name):
     return True
 
 
-def main(xn, xq, sno, passwd, kkyx=-1, kcmc='', jsxm='', pageId=1):
+def main(xn, xq, sno, passwd, openid, kkyx=-1, kcmc='', jsxm='', pageId=1):
     """
     教师姓名：jsxm
     课程名称：kcmc
     院系：kkyx
     """
     res = {"message": "", "pages_count": "", "number": 0, "school_courses": "", "have_course": 0}
-    login_info = login.Login.login(sno, passwd)
+    login_info = login.Login.login(sno, passwd, openid)
     if login_info["message"] == "success":
         session = login_info["session"]
         res["message"] = login_info["message"]
