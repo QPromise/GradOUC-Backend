@@ -52,6 +52,7 @@ class Login(object):
     @classmethod
     def write_student_info(cls, sno, passwd, openid, session):
         passwd = cls.base64encode(passwd).decode('ascii')
+        print(openid)
         student = models.Student.objects.filter(openid=openid)
         if len(student) == 0:
             res = cls.get_student_info(session)
@@ -77,7 +78,7 @@ class Login(object):
                         student.update(update_date=timezone.now())
                 # 之前获取到了，只更新登录时间，这个是情况最多的。
                 else:
-                    print("here-----", openid)
+                    # print("here-----", openid)
                     student.update(update_date=timezone.now())
             # 用户换了账号密码
             else:
@@ -134,7 +135,7 @@ class Login(object):
                 return {"message": "fault"}
             else:
                 print('登录成功!')
-                if openid is not None:
+                if openid is not None and openid != "null":
                     cls.write_student_info(sno, passwd, openid, session)
                 else:
                     print(sno, passwd)
