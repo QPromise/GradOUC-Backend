@@ -25,9 +25,9 @@ def calculate_score(score, credit):
     return round(np.sum(np.array(score) * np.array(credit)) / np.sum(np.array(credit)), 4)
 
 
-def main(username, password):
+def main(sno, passwd, openid):
     res = {"message": "", "courses": "", "mean": "", "have_class": 0}
-    login_info = login.Login.login(username, password)
+    login_info = login.Login.login(sno, passwd, openid)
     if login_info["message"] == "success":
         session = login_info["session"]
         res["message"] = login_info["message"]
@@ -86,4 +86,4 @@ def main(username, password):
 
 if __name__ == '__main__':
     # print(main("21190211105",""))
-    print(main("21180231272", "608401"))
+    print(main("21180231272", "", ""))

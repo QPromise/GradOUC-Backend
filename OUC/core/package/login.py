@@ -50,38 +50,55 @@ class Login(object):
             return None
 
     @classmethod
-    def write_student_info(cls, username, password, session):
-        password = cls.base64encode(password).decode('ascii')
-        student = models.Student.objects.filter(sno=username)
+    def write_student_info(cls, sno, passwd, openid, session):
+        passwd = cls.base64encode(passwd).decode('ascii')
+        student = models.Student.objects.filter(openid=openid)
         if len(student) == 0:
             res = cls.get_student_info(session)
             if res is not None:
-                models.Student.objects.create(sno=username, name=res["name"], passwd=password,
+                models.Student.objects.create(openid=openid, sno=sno, name=res["name"], passwd=passwd,
                                               department=res["department"], profession=res["profession"],
                                               research=res["research"], supervisor=res["supervisor"])
             else:
-                models.Student.objects.create(sno=username, passwd=password)
+                models.Student.objects.create(openid=openid, sno=sno, passwd=passwd)
         else:
-            if student[0].name == "-":
+            # 如果当前openid的账号和密码没变
+            if student[0].sno == sno and student[0].passwd == passwd:
+                # 之前没有获取到姓名等
+                if student[0].name == "-":
+                    res = cls.get_student_info(session)
+                    if res is not None:
+                        student.update(sno=sno, passwd=passwd, name=res["name"], department=res["department"],
+                                       profession=res["profession"], research=res["research"],
+                                       supervisor=res["supervisor"],
+                                       update_date=timezone.now())
+                    # 这次也没有获取到
+                    else:
+                        student.update(update_date=timezone.now())
+                # 之前获取到了，只更新登录时间，这个是情况最多的。
+                else:
+                    print("here-----", openid)
+                    student.update(update_date=timezone.now())
+            # 用户换了账号密码
+            else:
                 res = cls.get_student_info(session)
                 if res is not None:
-                    student.update(name=res["name"], department=res["department"], profession=res["profession"],
-                                   research=res["research"], supervisor=res["supervisor"],
-                                   update_date=timezone.now())
+                    student.update(sno=sno, passwd=passwd, name=res["name"], department=res["department"],
+                                   profession=res["profession"], research=res["research"],
+                                   supervisor=res["supervisor"], update_date=timezone.now())
+                # 这次没有获取到
                 else:
-                    student.update(passwd=password, update_date=timezone.now())
-            else:
-                print("here")
-                student.update(passwd=password, update_date=timezone.now())
+                    student.update(sno=sno, passwd=passwd, name="-", department="-", profession="-",
+                                   research="-", supervisor="-", update_date=timezone.now())
 
     @classmethod
-    def base64encode(cls, password):
+    def base64encode(cls, passwd):
         """密码加密"""
-        encode_password = base64.b64encode(password.encode('GBK'))  # .decode('ascii') 转换成字符形式
-        return encode_password
+        encode_passwd = base64.b64encode(passwd.encode('GBK'))  # .decode('ascii') 转换成字符形式
+        return encode_passwd
 
     @classmethod
-    def login(cls, username, password):
+    def login(cls, sno, passwd, openid):
         """登录研究生系统主页"""
         try:
             # 创建一个回话
@@ -94,8 +111,8 @@ class Login(object):
             eventId = login_soup.form.find("input", {"name": "_eventId"})["value"]
             # 填写post信息
             values = {
-                "username": username,
-                "password": cls.base64encode(password),
+                "username": sno,
+                "password": cls.base64encode(passwd),
                 "lt": lt,
                 "_eventId": eventId
             }
@@ -117,7 +134,10 @@ class Login(object):
                 return {"message": "fault"}
             else:
                 print('登录成功!')
-                cls.write_student_info(username, password, session)
+                if openid is not None:
+                    cls.write_student_info(sno, passwd, openid, session)
+                else:
+                    print(sno, passwd)
                 return {"message": "success", "session": session}
         except Exception as e:
             print(e)

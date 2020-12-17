@@ -19,9 +19,9 @@ headers = {
 course_url = "http://pgs.ouc.edu.cn/py/page/student/grkcgl.htm"
 
 
-def main(username, password):
+def main(sno, passwd, openid):
     res = {"message": "", "courses": "", "have_class": 0}
-    login_info = login.Login.login(username, password)
+    login_info = login.Login.login(sno, passwd, openid)
     if login_info["message"] == "success":
         session = login_info["session"]
         res["message"] = login_info["message"]
@@ -59,4 +59,4 @@ def main(username, password):
 
 
 if __name__ == '__main__':
-    print(main("21200231213", ""))
+    print(main("21200231213", "", None))

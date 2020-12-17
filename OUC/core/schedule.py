@@ -20,9 +20,9 @@ headers = {
 schedule_url = "http://pgs.ouc.edu.cn/py/page/student/grkcb.htm"
 
 
-def main(username, password, zc, xj, xn):
+def main(sno, passwd, openid, zc, xj, xn):
     res = {"message": "", "schedule": ""}
-    login_info = login.Login.login(username, password)
+    login_info = login.Login.login(sno, passwd, openid)
     if login_info["message"] == "success":
         session = login_info["session"]
         res["message"] = login_info["message"]
@@ -79,4 +79,4 @@ def main(username, password, zc, xj, xn):
 
 
 if __name__ == '__main__':
-    main("21190211105", "", "1", "12", "2019")
+    main("21190211105", "", "", "1", "12", "2019")

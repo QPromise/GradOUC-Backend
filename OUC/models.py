@@ -5,6 +5,7 @@ import datetime
 
 class Student(models.Model):
     id = models.AutoField(primary_key=True)
+    openid = models.CharField('openid', max_length=50, db_index=True)
     sno = models.CharField('学号', max_length=15, default="-", db_index=True)
     name = models.CharField('姓名', max_length=20, default="-")
     passwd = models.CharField('密码', max_length=20, default="-")
@@ -14,6 +15,8 @@ class Student(models.Model):
     supervisor = models.CharField('导师', max_length=20, default="-")
     update_date = models.DateTimeField('最新登录日期', auto_now=True)
     login_date = models.DateTimeField('注册日期', auto_now_add=True)
+    status = models.IntegerField('用户状态(0:正常,1:问题,2:禁用)', default=0)
+    lock_date = models.DateTimeField('禁用日期', null=True, blank=True)
 
     class Meta(object):
         ordering = ('-update_date',)
