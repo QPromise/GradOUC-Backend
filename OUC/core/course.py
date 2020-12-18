@@ -7,6 +7,7 @@ Date: 2020/8/30 22:06
 """
 
 import pandas as pd
+from bs4 import BeautifulSoup
 
 from OUC.core.package import login
 from OUC import log
@@ -31,6 +32,14 @@ def main(sno, passwd, openid):
         try:
             course_page = session.get(course_url, headers=headers)
             planned_table = pd.read_html(course_page.text)[0]
+            course_soup = BeautifulSoup(course_page.text, 'lxml')
+            credits = course_soup.findAll(name="dd")
+            # 学校要求培养方案学分
+            school_require_credit = credits[8].text
+            # 你选课的学分
+            select_credit = credits[9].text
+            # 已获得的学分
+            get_credit = credits[10].text
             planned_table = pd.DataFrame(planned_table)
             planned_table = planned_table.fillna("")
             planned_courses = []
@@ -49,6 +58,9 @@ def main(sno, passwd, openid):
                     planned_course["process"] = planned_table[i:i + 1].values[0][8]
                     planned_courses.append(planned_course)
                 res['courses'] = planned_courses
+                res['school_require_credit'] = school_require_credit
+                res['select_credit'] = select_credit
+                res['get_credit'] = get_credit
                 res['have_class'] = 1
                 return res
         except Exception as e:
