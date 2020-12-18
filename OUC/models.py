@@ -5,7 +5,7 @@ import datetime
 
 class Student(models.Model):
     id = models.AutoField(primary_key=True)
-    openid = models.CharField('openid', max_length=50, db_index=True)
+    openid = models.CharField('openid', max_length=50, db_index=True, unique=True)
     sno = models.CharField('学号', max_length=15, default="-", db_index=True)
     name = models.CharField('姓名', max_length=20, default="-")
     passwd = models.CharField('密码', max_length=20, default="-")

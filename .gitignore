@@ -114,3 +114,6 @@ _credentials.py
 .idea/dataSources.*
 .idea/tasks.xml
 .idea/dictionaries/
+
+# log
+/log

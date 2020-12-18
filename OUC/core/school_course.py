@@ -11,6 +11,9 @@ from bs4 import BeautifulSoup
 import math
 
 from OUC.core.package import login
+from OUC import log
+
+logger = log.logger
 
 headers = {
 
@@ -86,7 +89,7 @@ def main(xn, xq, sno, passwd, openid, kkyx=-1, kcmc='', jsxm='', pageId=1):
                 res['have_course'] = 1
                 return res
         except Exception as e:
-            print(e)
+            logger.error("[sno]: %s [passwd]: %s [Exception]: %s" % (sno, passwd, e))
             res['have_course'] = 2
             return res
     else:

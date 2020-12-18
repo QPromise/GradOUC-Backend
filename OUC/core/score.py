@@ -11,6 +11,9 @@ import numpy as np
 import re
 
 from OUC.core.package import login
+from OUC import log
+
+logger = log.logger
 
 headers = {
 
@@ -75,7 +78,7 @@ def main(sno, passwd, openid):
                 res['have_class'] = 1
                 return res
         except Exception as e:
-            print(e)
+            logger.error("[sno]: %s [passwd]: %s [Exception]: %s" % (sno, passwd, e))
             res['have_class'] = 2
             return res
     else:
@@ -85,5 +88,4 @@ def main(sno, passwd, openid):
 
 
 if __name__ == '__main__':
-    # print(main("21190211105",""))
     print(main("21180231272", "", ""))

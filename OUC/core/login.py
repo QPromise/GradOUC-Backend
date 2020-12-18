@@ -10,6 +10,9 @@ import pandas as pd
 from bs4 import BeautifulSoup
 
 from OUC.core.package import login
+from OUC import log
+
+logger = log.logger
 
 headers = {
 
@@ -35,7 +38,7 @@ def main(sno, passwd, openid):
             res["name"] = name
             return res
         except Exception as e:
-            print(e)
+            logger.error("[sno]: %s [passwd]: %s [Exception]: %s" % (sno, passwd, e))
             try:
                 profile_page = session.get(profile_url, headers=headers)
                 profile_soup = BeautifulSoup(profile_page.text, 'lxml')
@@ -43,7 +46,7 @@ def main(sno, passwd, openid):
                 res["name"] = name
                 return res
             except Exception as e:
-                print(e)
+                logger.error("[sno]: %s [passwd]: %s [Exception]: %s" % (sno, passwd, e))
                 res["message"] = "timeout"
                 return res
     else:
