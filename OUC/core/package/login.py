@@ -12,6 +12,9 @@ from bs4 import BeautifulSoup
 import django.utils.timezone as timezone
 
 from OUC import models
+from OUC import log
+
+logger = log.logger
 
 
 class Login(object):
@@ -46,22 +49,24 @@ class Login(object):
                     "research": research,
                     "supervisor": supervisor}
         except Exception as e:
-            print(e)
+            logger.error("[Exception]: %s" % e)
             return None
 
     @classmethod
     def write_student_info(cls, sno, passwd, openid, session):
         passwd = cls.base64encode(passwd).decode('ascii')
-        print(openid)
         student = models.Student.objects.filter(openid=openid)
         if len(student) == 0:
             res = cls.get_student_info(session)
-            if res is not None:
-                models.Student.objects.create(openid=openid, sno=sno, name=res["name"], passwd=passwd,
-                                              department=res["department"], profession=res["profession"],
-                                              research=res["research"], supervisor=res["supervisor"])
-            else:
-                models.Student.objects.create(openid=openid, sno=sno, passwd=passwd)
+            try:
+                if res is not None:
+                    models.Student.objects.create(openid=openid, sno=sno, name=res["name"], passwd=passwd,
+                                                  department=res["department"], profession=res["profession"],
+                                                  research=res["research"], supervisor=res["supervisor"])
+                else:
+                    models.Student.objects.create(openid=openid, sno=sno, passwd=passwd)
+            except Exception as e:
+                logger.error("[write student info repeated]: [sno]: %s [passwd]: %s [Exception]: %s" % (sno, passwd, e))
         else:
             # 如果当前openid的账号和密码没变
             if student[0].sno == sno and student[0].passwd == passwd:
@@ -118,28 +123,27 @@ class Login(object):
                 "_eventId": eventId
             }
         except Exception as e:
-            print(e)
+            logger.error("[sno]: %s [passwd]: %s [Exception]: %s" % (sno, passwd, e))
             return {"message": "fault"}
         # 提交登录表单
         try:
             post_form = session.post(url=cls.login_url, headers=cls.headers, data=values)
             home_page = session.get(url=cls.home_url, headers=cls.headers, timeout=6)
         except Exception as e:
-            print(e)
+            logger.error("[sno]: %s [passwd]: %s [Exception]: %s" % (sno, passwd, e))
             return {"message": "timeout"}
 
         try:
             home_soup = BeautifulSoup(home_page.text, 'lxml')
             if home_soup.findAll(name="div", attrs={"class": "panel_password"}):
-                print('登录失败!')
+                logger.error("[sno]: %s [passwd]: %s [Exception]: %s" % (sno, passwd, "登录失败！"))
                 return {"message": "fault"}
             else:
-                print('登录成功!')
                 if openid is not None and openid != "null":
                     cls.write_student_info(sno, passwd, openid, session)
                 else:
                     print(sno, passwd)
                 return {"message": "success", "session": session}
         except Exception as e:
-            print(e)
+            logger.error("[sno]: %s [passwd]: %s [Exception]: %s" % (sno, passwd, e))
             return {"message": "fault"}

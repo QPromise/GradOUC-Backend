@@ -9,6 +9,9 @@ Date: 2020/8/30 22:06
 from bs4 import BeautifulSoup
 
 from OUC.core.package import login
+from OUC import log
+
+logger = log.logger
 
 headers = {
 
@@ -38,7 +41,7 @@ def main(sno, passwd, openid):
             res['have_info'] = 1
             return res
         except Exception as e:
-            print(e)
+            logger.error("[sno]: %s [passwd]: %s [Exception]: %s" % (sno, passwd, e))
             res['have_info'] = 2
             return res
     else:

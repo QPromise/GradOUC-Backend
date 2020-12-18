@@ -11,6 +11,9 @@ import numpy as np
 import re
 
 from OUC.core.package import login
+from OUC import log
+
+logger = log.logger
 
 headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36',
@@ -63,6 +66,7 @@ def main(sno, passwd, openid, zc, xj, xn):
             res['schedule'] = schedule
             return res
         except Exception as e:
+            logger.error("[sno]: %s [passwd]: %s [Exception]: %s" % (sno, passwd, e))
             return res
     else:
         res["message"] = login_info["message"]

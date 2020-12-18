@@ -82,7 +82,6 @@ def search_book(fieldCode, keyword, page):
         if 'num' in booklist[i]:
             del booklist[i]['num']
         res["list"] = booklist
-    # print(res)
     return res
 
 
@@ -90,9 +89,6 @@ def get_bookDetail(bookID):
     bookDetail_url = "http://222.195.226.30/opac/item.php?marc_no=" + str(bookID)
     content = requests.get(bookDetail_url, headers=header)
     content = pd.DataFrame(pd.read_html(content.text)[0]).fillna('')
-    # print(len(content))
-    # print(content.columns.size)
-    # print()
     res = {"have_info": "1", "bookAvailableDetail": ""}
     bookAvailableDetail = []
     # 如果有藏书的话
