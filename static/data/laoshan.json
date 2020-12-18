@@ -1227,8 +1227,8 @@
     "scale": 16,
     "data": [{
       "name": "北海苑菜鸟驿站",
-      "latitude": "36.164462",
-      "longitude": "120.501598",
+      "latitude": "36.163422",
+      "longitude": "120.502601",
       "iconPath": "/images/map/bulid.png",
       "width": "25",
       "height": "30",
@@ -1245,7 +1245,7 @@
       "img": [
         "package/beiqucainiao.jpg"
       ],
-      "description": ""
+      "description": "位于东操场，近篮球场和网球场的一侧。"
     },
       {
         "name": "北海苑京东顺丰快递(无站点)",
