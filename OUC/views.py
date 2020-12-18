@@ -95,7 +95,8 @@ def get_course(request):
     openid = request.POST.get('openid')
     # print(sno,passwd)
     temp = course.main(sno, passwd, openid)
-    res = {"message": temp["message"], "courses": temp["courses"], "have_class": temp["have_class"]}
+    res = {"message": temp["message"], "courses": temp["courses"], "school_require_credit": temp["school_require_credit"],
+           "select_credit": temp["select_credit"], "get_credit": temp["get_credit"], "have_class": temp["have_class"]}
     # print(res)
     res = json.dumps(res)
     return response(res)
