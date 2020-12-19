@@ -62,7 +62,7 @@ def main(sno, passwd, openid):
                 res['select_credit'] = select_credit
                 res['get_credit'] = get_credit
                 res['have_class'] = 1
-                return res
+            return res
         except Exception as e:
             logger.error("[sno]: %s [passwd]: %s [Exception]: %s" % (sno, passwd, e))
             res['have_class'] = 2

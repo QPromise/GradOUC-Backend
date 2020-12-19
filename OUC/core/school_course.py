@@ -87,7 +87,7 @@ def main(xn, xq, sno, passwd, openid, kkyx=-1, kcmc='', jsxm='', pageId=1):
                     school_courses.append(school_course)
                 res['school_courses'] = school_courses
                 res['have_course'] = 1
-                return res
+            return res
         except Exception as e:
             logger.error("[sno]: %s [passwd]: %s [Exception]: %s" % (sno, passwd, e))
             res['have_course'] = 2
