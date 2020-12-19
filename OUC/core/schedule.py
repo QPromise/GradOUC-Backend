@@ -32,6 +32,7 @@ def main(sno, passwd, openid, zc, xj, xn):
         try:
             param = "?zc=" + str(zc) + "&xj=" + str(xj) + "&xn=" + str(xn)
             schedule_page = session.get(url=schedule_url + param, headers=headers)
+            # print(schedule_page.text)
             # 我的课程表
             decided_table = pd.read_html(schedule_page.text)[0]
             # 课程表
@@ -46,7 +47,6 @@ def main(sno, passwd, openid, zc, xj, xn):
             for i in range(12):
                 row = []
                 temp = decided_table[:, i].tolist()
-                # print(temp)
                 for j in range(7):
                     now_class = {"name": "", "room": "", "leader": "", "color": "", "index": "", "time": "",
                                  "period": ""}
@@ -57,7 +57,16 @@ def main(sno, passwd, openid, zc, xj, xn):
                     else:
                         # 拆分课程信息
                         class_info = temp[j].split()
-                        now_class["period"] = re.findall(r"(\d+-\d+)", decided_table[:, i][j])[0]
+                        period_re = re.compile(r'[(](.*?)[)]', re.S)
+                        # print(decided_table[:, i][j])
+                        # print(re.findall(period_re, decided_table[:, i][j])[0])
+                        tmp_period = re.findall(period_re, decided_table[:, i][j])
+                        if len(tmp_period) == 0:
+                            period = "未知"
+                        else:
+                            period = tmp_period[0]
+                        now_class["period"] = period
+                        # now_class["period"] = re.findall(r"(\d+-\d+)", decided_table[:, i][j])[0]
                         now_class["name"] = class_info[0]
                         now_class["room"] = class_info[-1]
                         now_class["leader"] = class_info[-2]
@@ -83,4 +92,5 @@ def main(sno, passwd, openid, zc, xj, xn):
 
 
 if __name__ == '__main__':
-    main("21190211105", "", "", "1", "12", "2019")
+    # main("", "", "null", "17", "11", "2020")
+    main("", "", "null", "17", "11", "2020")

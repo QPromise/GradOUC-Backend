@@ -74,4 +74,4 @@ def main(sno, passwd, openid):
 
 
 if __name__ == '__main__':
-    print(main("21200231213", "", None))
+    print(main("", "", None))
