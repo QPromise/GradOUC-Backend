@@ -3,6 +3,15 @@ import datetime
 # Create your models here.
 
 
+class SubscribeStudent(models.Model):
+    id = models.AutoField(primary_key=True)
+    openid = models.CharField('openid', max_length=50, db_index=True, unique=True)
+    sno = models.CharField('学号', max_length=15, default="-", db_index=True)
+    scores = models.CharField('成绩', max_length=256, default="")
+    status = models.IntegerField('是否订阅(1为订阅，0为没有)', default=0)
+    subscribe_date = models.DateTimeField('订阅日期', auto_now_add=True)
+
+
 class Student(models.Model):
     id = models.AutoField(primary_key=True)
     openid = models.CharField('openid', max_length=50, db_index=True, unique=True)

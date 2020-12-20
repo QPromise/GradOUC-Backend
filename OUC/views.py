@@ -8,7 +8,7 @@ Date: 2019/11/3 14:22
 
 from django.shortcuts import render
 from django.http import HttpResponse as response
-from .core import login, schedule, course, score, library, profile, school_course
+from .core import login, schedule, course, score, library, profile, school_course, score_subscribe
 from .news import yanzhao, xueshu, houqin
 import json
 from .models import Config, News, Swiper
@@ -133,6 +133,28 @@ def get_school_course(request):
            "schoolCourses": temp["school_courses"], "have_course": temp["have_course"]}
     res = json.dumps(res)
     return response(res)
+
+
+# 订阅出成绩通知
+def subscribe_score(request):
+    openid = request.GET.get('openid')
+    res = score_subscribe.SubscribeScore.subscribe_score(openid)
+    res = json.dumps(res)
+    return response(res)
+
+
+# 查看订阅状态
+def get_subscribe_status(request):
+    openid = request.GET.get('openid')
+    res = score_subscribe.SubscribeScore.get_subscribe_status(openid)
+    res = json.dumps(res)
+    return response(res)
+
+
+def start_travel_subscribe(request):
+    score_subscribe.AccessToken.update_access_token()
+    score_subscribe.SubscribeScore.travel_subscribe_student()
+    return response(json.dumps({"code": 200}))
 
 
 # 图书查询
