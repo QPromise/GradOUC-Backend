@@ -32,7 +32,6 @@ pipfile = "*"
 gunicorn = "*"
 html2text = "*"
 pillow = "*"
-apscheduler = "==3.6.3"
 
 [requires]
 python_version = "3.6"
