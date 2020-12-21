@@ -1,6 +1,6 @@
 from django.conf.urls import url
 
-from . import views
+from OUC import views
 
 app_name = 'OUC'
 urlpatterns = [
@@ -18,6 +18,9 @@ urlpatterns = [
     url(r'^get_schoolNewsDetail/$', views.get_schoolNewsDetail, name='get_schoolNewsDetail'),
     url(r'^get_swiper/$', views.get_swiper, name='get_swiper'),
     url(r'^get_profile/$', views.get_profile, name='get_profile'),
+    url(r'^subscribe_score', views.subscribe_score, name='subscribe_score'),
+    url(r'^set_failure_popup_false', views.set_failure_popup_false, name='set_failure_popup_false'),
+    url(r'^get_subscribe_status', views.get_subscribe_status, name='get_subscribe_status'),
     url(r'^shenpi_index/$', views.shenpi_index, name='shenpi_index'),
     url(r'^shenpi_submit/', views.shenpi_submit, name='shenpi_submit')
 ]
