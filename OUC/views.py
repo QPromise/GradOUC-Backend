@@ -6,13 +6,13 @@ Author: cs_qin(cs_qin@qq.com)
 Date: 2019/11/3 14:22
 """
 
+import json
+import time
 from django.shortcuts import render
 from django.http import HttpResponse as response
 from .core import login, schedule, course, score, library, profile, school_course, score_subscribe
 from .news import yanzhao, xueshu, houqin
-import json
 from .models import Config, News, Swiper
-import time
 
 
 class MyEncoder(json.JSONEncoder):
@@ -44,7 +44,7 @@ def get_config(request):
     begin_day = time.strptime(res.begin_day, "%Y-%m-%d %H:%M:%S")
     begin_day = int(time.mktime(begin_day))
     # print(begin_day)
-    res = {"begin_day": begin_day, "end_day": res.end_day, "xn": res.xn, "xq": res.xq}
+    res = {"begin_day": begin_day, "end_day": res.end_day, "xn": res.xn, "xq": res.xq, "is_open_subscribe": res.is_open_subscribe}
     res = json.dumps(res)
     return response(res)
 
@@ -151,10 +151,10 @@ def get_subscribe_status(request):
     return response(res)
 
 
-def start_travel_subscribe(request):
-    score_subscribe.AccessToken.update_access_token()
-    score_subscribe.SubscribeScore.travel_subscribe_student()
-    return response(json.dumps({"code": 200}))
+def set_failure_popup_false(request):
+    openid = request.GET.get('openid')
+    res = score_subscribe.SubscribeScore.set_failure_popup_false(openid)
+    return response(json.dumps(res))
 
 
 # 图书查询

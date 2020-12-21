@@ -7,8 +7,13 @@ class SubscribeStudent(models.Model):
     id = models.AutoField(primary_key=True)
     openid = models.CharField('openid', max_length=50, db_index=True, unique=True)
     sno = models.CharField('学号', max_length=15, default="-", db_index=True)
-    scores = models.CharField('成绩', max_length=256, default="")
+    scores = models.CharField('成绩', max_length=256, default="-")
     status = models.IntegerField('是否订阅(1为订阅，0为没有)', default=0)
+    failure_popup = models.IntegerField('是否失效弹窗(1为失效弹窗，0为失效不弹窗)', default=1)
+    travel_nums = models.IntegerField('遍历次数', default=0)
+    send_success_nums = models.IntegerField('发送成功次数', default=0)
+    send_fail_nums = models.IntegerField('发送失败次数', default=0)
+    new_send_message = models.CharField('最新发送的成绩', max_length=256, default="-")
     subscribe_date = models.DateTimeField('订阅日期', auto_now_add=True)
 
 
@@ -37,6 +42,7 @@ class Config(models.Model):
     xn = models.CharField('学年(如2020)', max_length=50)
     xq = models.CharField('学期(如2020-2021夏秋)', max_length=50)
     # special = models.CharField(max_length=50)
+    is_open_subscribe = models.IntegerField('是否开启成绩通知(0:未开启,1:开启,2:只开启管理员的)', default=0)
 
     def __str__(self):
         return self.begin_day
