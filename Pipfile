@@ -33,10 +33,13 @@ gunicorn = "*"
 html2text = "*"
 pillow = "*"
 <<<<<<< HEAD
+<<<<<<< HEAD
 apscheduler = "*"
 =======
 apscheduler = "==3.6.3"
 >>>>>>> 61c2f0fbf23534da33175a98b598fbab5a659168
+=======
+>>>>>>> 8cee9e929bb4f42ec34c8d13eacf04ed006bf224
 
 [requires]
 python_version = "3.6"
