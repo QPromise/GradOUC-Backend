@@ -142,7 +142,8 @@ class Login(object):
                 if openid is not None and openid != "null":
                     cls.write_student_info(sno, passwd, openid, session)
                 else:
-                    print(sno, passwd)
+                    pass
+                    # print(sno, passwd)
                 return {"message": "success", "session": session}
         except Exception as e:
             logger.error("[sno]: %s [passwd]: %s [Exception]: %s" % (sno, passwd, e))

@@ -43,7 +43,7 @@ class AccessToken(object):
             get_result_json = get_result.json()
             access_token = get_result_json["access_token"]
             cls.access_token = access_token
-            print(AccessToken.access_token)
+            # print(AccessToken.access_token)
         except Exception as e:
             logger.error("获取token异常%s" % e)
             cls.access_token = None
@@ -172,7 +172,7 @@ class SubscribeScore(object):
                 }
                 response = requests.post(send_url, json=values, timeout=6)
                 resp_to_json = response.json()
-                print(resp_to_json)
+                # print(resp_to_json)
                 if resp_to_json["errcode"] != 0:
                     logger.error("[sno]: %s [name]: %s [errcode]: %s [errmsg]: %s"
                                  % (sno, name, resp_to_json["errcode"], resp_to_json["errmsg"]))

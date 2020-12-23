@@ -24,7 +24,8 @@ course_url = "http://pgs.ouc.edu.cn/py/page/student/grkcgl.htm"
 
 
 def main(sno, passwd, openid):
-    res = {"message": "", "courses": "", "have_class": 0}
+    res = {"message": "", "courses": "", "have_class": 0, "school_require_credit": "--",
+           "select_credit": "--", "get_credit": "--"}
     login_info = login.Login.login(sno, passwd, openid)
     if login_info["message"] == "success":
         session = login_info["session"]
@@ -35,11 +36,16 @@ def main(sno, passwd, openid):
             course_soup = BeautifulSoup(course_page.text, 'lxml')
             credits = course_soup.findAll(name="dd")
             # 学校要求培养方案学分
-            school_require_credit = credits[8].text
-            # 你选课的学分
-            select_credit = credits[9].text
-            # 已获得的学分
-            get_credit = credits[10].text
+            try:
+                school_require_credit = credits[8].text
+                # 你选课的学分
+                select_credit = credits[9].text
+                # 已获得的学分
+                get_credit = credits[10].text
+            except Exception as e:
+                school_require_credit, select_credit, get_credit = "--", "--", "--"
+                logger.error("[sno]: %s [passwd]: %s [Exception]: %s" % (sno, passwd, e))
+
             planned_table = pd.DataFrame(planned_table)
             planned_table = planned_table.fillna("")
             planned_courses = []
