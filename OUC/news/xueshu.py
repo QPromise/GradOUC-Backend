@@ -9,12 +9,9 @@ Date: 2020/8/30 22:06
 import json
 import html2text
 import urllib.request
-import math
 from bs4 import BeautifulSoup
 import re
 import time
-from datetime import datetime
-
 
 """
 网站新闻爬取
@@ -74,22 +71,25 @@ def get_newsDeatil(id):
     # 使用BeautifulSoup模块解析变量中的web内容
     news_soup = BeautifulSoup(html, 'lxml')
     # print(news_soup)
-    title = news_soup.find("td", {"class": "atitle"}).text.strip()
-    time = news_soup.find("span", {"class": "arti_update"}).text.strip()
-    content = str(news_soup.find("div", {"class": "wp_articlecontent"}))
-    image_url = re.findall(r'<img[^>]*src="([^"]*)"', content)
-    if image_url != []:
-        for url in image_url:
-            if url.find('http') == -1:
-                content = content.replace(url, 'http://www.ouc.edu.cn' + url)
-    else:
-        pass
-    text_maker = html2text.HTML2Text()
-    text_maker.ignore_links = True
-    text_maker.bypass_tables = False
-    text_maker.ignore_images = False
-    res = {"title": title, "time": time, "content": text_maker.handle(str(content))}
-    # print(res)
+    try:
+        title = news_soup.find("td", {"class": "atitle"}).text.strip()
+        news_time = news_soup.find("span", {"class": "arti_update"}).text.strip()
+        content = str(news_soup.find("div", {"class": "wp_articlecontent"}))
+        image_url = re.findall(r'<img[^>]*src="([^"]*)"', content)
+        if len(image_url) != 0:
+            for url in image_url:
+                if url.find('http') == -1:
+                    content = content.replace(url, 'http://www.ouc.edu.cn' + url)
+        else:
+            pass
+        text_maker = html2text.HTML2Text()
+        text_maker.ignore_links = True
+        text_maker.bypass_tables = False
+        text_maker.ignore_images = False
+        res = {"title": title, "time": news_time, "content": text_maker.handle(str(content))}
+    except Exception as e:
+        res = {"title": "错误提示", "time": "访问时间：" + time.strftime("%Y-%m-%d-%H:%M:%S", time.localtime()), "content": "内容无法显示，请去官网查看"}
+    print(res)
     return json.dumps(res)
 
 
