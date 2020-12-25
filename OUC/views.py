@@ -202,18 +202,14 @@ def get_schoolNews(request):
 # 获取资讯详细内容
 def get_schoolNewsDetail(request):
     type, id = request.POST.get('type'), request.POST.get('id')
+    res = None
     if type == '1001':
-        temp = yanzhao.get_newsDeatil(id)
-        res = temp
-        return response(res)
+        res = yanzhao.get_newsDeatil(id)
     elif type == '1002':
-        temp = xueshu.get_newsDeatil(id)
-        res = temp
-        return response(res)
+        res = xueshu.get_newsDeatil(id)
     elif type == '1003':
-        temp = houqin.get_newsDeatil(id)
-        res = temp
-        return response(res)
+        res = houqin.get_newsDeatil(id)
+    return response(res)
 
 
 def shenpi_submit(request):

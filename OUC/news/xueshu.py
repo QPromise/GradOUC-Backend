@@ -13,6 +13,9 @@ from bs4 import BeautifulSoup
 import re
 import time
 
+from OUC import log
+
+logger = log.logger
 """
 网站新闻爬取
 """
@@ -41,7 +44,7 @@ def get_news(page):
     pages_count = int(news_soup.find("em", {"class": "all_pages"}).text)
     res = {"pages_count": "", "total_news": total_news}
     for elem_news, elem_date in zip(temp_news, temp_dates):
-        news = {"id": "", "title": "", "date": ""}
+        news = dict()
         news["id"] = elem_news.find("a")["href"]
         news["title"] = str(elem_news.find("a")["title"]).strip()
         news["date"] = str(elem_date.text).strip()
@@ -88,8 +91,9 @@ def get_newsDeatil(id):
         text_maker.ignore_images = False
         res = {"title": title, "time": news_time, "content": text_maker.handle(str(content))}
     except Exception as e:
-        res = {"title": "错误提示", "time": "访问时间：" + time.strftime("%Y-%m-%d-%H:%M:%S", time.localtime()), "content": "内容无法显示，请去官网查看"}
-    print(res)
+        logger.error("[news_id]: %s [Exception]: %s" % (id, e))
+        res = {"title": "错误提示", "time": "访问时间：" + time.strftime("%Y-%m-%d-%H:%M:%S", time.localtime()),
+               "content": "内容无法显示，请去官网查看"}
     return json.dumps(res)
 
 
