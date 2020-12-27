@@ -7,6 +7,7 @@ urlpatterns = [
     url(r'^$', views.index, name='index'),  # profile/
     url(r'^do_login/$', views.do_login, name='do_login'),
     url(r'^get_schedule/$', views.get_schedule, name='get_schedule'),
+    url(r'^get_today_course/$', views.get_today_course, name='get_today_course'),
     url(r'^get_news/$', views.get_news, name='get_news'),
     url(r'^get_config/$', views.get_config, name='get_config'),
     url(r'^get_course/$', views.get_course, name='get_course'),
