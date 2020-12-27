@@ -84,10 +84,11 @@ def get_newsDeatil(id):
         # 如果页面中有图片链接 则替换为相对路径
         if len(image_url) != 0:
             for url in image_url:
-                if url == '/_ueditor/themes/default/images/icon_doc.gif':
-                    content = content.replace('<img src="/_ueditor/themes/default/images/icon_doc.gif"/>', '')
-                else:
+                if content.find("icon_doc") == -1 and content.find("icon_xls") == -1:
                     content = content.replace(url, 'http://hqbzc.ouc.edu.cn' + url)
+                else:
+                    content = content.replace(url, "")
+
         else:
             pass
         # 如果页面中有地址链接 则替换为相对路径
@@ -118,11 +119,11 @@ def get_newsDeatil(id):
         text_maker = html2text.HTML2Text()
         text_maker.bypass_tables = True
         text_maker.ignore_images = False
-        res = {"title": title, "time": news_time, "content": text_maker.handle(content)}
+        res = {"title": title, "time": news_time, "content": text_maker.handle(content), "news_url": newsDetail_url}
     except Exception as e:
         logger.error("[news_id]: %s [Exception]: %s" % (id, e))
-        res = {"title": "错误提示", "time": "访问时间：" + time.strftime("%Y-%m-%d-%H:%M:%S", time.localtime()),
-               "content": "内容无法显示，请去官网查看"}
+        res = {"title": "访问失败", "time": "访问时间：" + time.strftime("%Y-%m-%d %H:%M", time.localtime()),
+               "content": "内容无法显示，请复制网址去浏览器查看", "news_url": newsDetail_url}
     return json.dumps(res)
 
 

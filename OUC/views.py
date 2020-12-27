@@ -10,8 +10,9 @@ import json
 import time
 from django.shortcuts import render
 from django.http import HttpResponse as response
-from .core import login, schedule, course, score, library, profile, school_course, score_subscribe
-from .news import yanzhao, xueshu, houqin
+
+from .core import login, schedule, today_course, course, score, library, profile, school_course, score_subscribe
+from .news import yanzhao, xueshu, houqin, school, yanyuan
 from .models import Config, News, Swiper
 
 
@@ -85,6 +86,17 @@ def get_schedule(request):
     openid = request.POST.get('openid')
     temp = schedule.main(sno, passwd, openid, zc, xj, xn)
     res = {"message": temp["message"], "schedule": temp["schedule"]}
+    res = json.dumps(res)
+    return response(res)
+
+
+# 获取课表
+def get_today_course(request):
+    sno, passwd, zc, xn, xj, day = request.POST.get('sno'), request.POST.get('passwd'), request.POST.get('zc'),\
+                                   request.POST.get('xn'), request.POST.get('xj'), request.POST.get('day')
+    openid = request.POST.get('openid')
+    temp = today_course.main(sno, passwd, openid, zc, xj, xn, day)
+    res = {"message": temp["message"], "course": temp["course"]}
     res = json.dumps(res)
     return response(res)
 
@@ -197,6 +209,18 @@ def get_schoolNews(request):
         res = {"pages_count": temp["pages_count"], "news": temp["total_news"]}
         res = json.dumps(res)
         return response(res)
+    # 1004 代表学校新闻
+    elif type == '1004':
+        temp = school.get_news(page)
+        res = {"pages_count": temp["pages_count"], "news": temp["total_news"]}
+        res = json.dumps(res)
+        return response(res)
+    # 1005 代表研究生院新闻
+    elif type == '1005':
+        temp = yanyuan.get_news(page)
+        res = {"pages_count": temp["pages_count"], "news": temp["total_news"]}
+        res = json.dumps(res)
+        return response(res)
 
 
 # 获取资讯详细内容
@@ -209,6 +233,10 @@ def get_schoolNewsDetail(request):
         res = xueshu.get_newsDeatil(id)
     elif type == '1003':
         res = houqin.get_newsDeatil(id)
+    elif type == '1004':
+        res = school.get_newsDeatil(id)
+    elif type == '1005':
+        res = yanyuan.get_newsDeatil(id)
     return response(res)
 
 
