@@ -9,6 +9,7 @@ Date: 2020/8/30 22:06
 import pandas as pd
 import numpy as np
 import re
+import time
 
 from OUC.core.package import login
 from OUC import log
@@ -53,7 +54,11 @@ def main(sno, passwd, openid):
                     process = planned_table[i:i + 1].values[0][8]
                     # 成绩出了
                     if re.search(r"(\d+)", process):
-                        score = float(process.split()[2])
+                        # 判断是否重修
+                        if process.find("重修") != -1:
+                            score = float(process.split()[1][1:])
+                        else:
+                            score = float(process.split()[2])
                         # 如果成绩大于70才计算Mean
                         if score >= 70:
                             scores.append(score)
@@ -88,4 +93,7 @@ def main(sno, passwd, openid):
 
 
 if __name__ == '__main__':
-    print(main("21180231272", "", ""))
+    start = time.time()
+    print(main("21201031006", "", "null"))
+    end = time.time()
+    print(end - start)

@@ -105,4 +105,4 @@ def main(sno, passwd, openid, zc, xj, xn, day):
 
 if __name__ == '__main__':
     # main("", "", "null", "17", "11", "2020")
-    main("21200231213", "2020wangjie", "null", "16", "11", "2020", 4)
+    main("21200231213", "", "", "16", "11", "2020", 4)
