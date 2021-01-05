@@ -176,7 +176,7 @@ class SubscribeScore(object):
                 if resp_to_json["errcode"] != 0:
                     logger.error("[sno]: %s [name]: %s [errcode]: %s [errmsg]: %s"
                                  % (sno, name, resp_to_json["errcode"], resp_to_json["errmsg"]))
-                    print("error", resp_to_json["errcode"], resp_to_json["errmsg"])
+                    # print("error", resp_to_json["errcode"], resp_to_json["errmsg"])
                 return resp_to_json["errcode"]
             else:
                 logger.error("[sno]: %s [name]: %s [get token error]: %s" % (sno, name, "获取token失败"))
@@ -218,12 +218,13 @@ class SubscribeScore(object):
                         for i in range(len(courses)):
                             cur_score = courses[i]["score"]
                             if re.search(r"(\d+)", db_write_scores[i]):
+                                # 之前数据库存储的是已经出的数字
                                 if cur_score != float(db_write_scores[i]):
                                     # models.SubscribeStudent.objects.filter(openid=openid).update(scores=db_write_scores_str)
                                     # 这是成绩更新的情况，先写入数据库，然后直接发消息，退出
                                     res_code = cls.send_score(openid, name, sno, "1001", courses[i]["name"], cur_score)
                                     if res_code == 0:
-                                        subscribe_student.new_send_message = "%s:(之前%s|最新%s)" % (
+                                        subscribe_student.new_send_message = "%s:%s -> %s" % (
                                             courses[i]["name"], db_write_scores[i], cur_score)
                                         db_write_scores[i] = cur_score
                                         db_write_scores_str = cls.__list_to_str(db_write_scores)
@@ -244,13 +245,12 @@ class SubscribeScore(object):
                                         #     openid=openid).update(scores=db_write_scores_str)
                                     break
                             else:
+                                # 之前数据库存储的是没出的
                                 if cur_score != db_write_scores[i]:
-                                    db_write_scores[i] = cur_score
-                                    db_write_scores_str = cls.__list_to_str(db_write_scores)
                                     # 这是成绩更新的情况，先写入数据库，然后直接发消息，退出
                                     res_code = cls.send_score(openid, name, sno, "1001", courses[i]["name"], cur_score)
                                     if res_code == 0:
-                                        subscribe_student.new_send_message = "%s:(之前%s|最新%s)" % (
+                                        subscribe_student.new_send_message = "%s:%s -> %s" % (
                                             courses[i]["name"], db_write_scores[i], cur_score)
                                         db_write_scores[i] = cur_score
                                         db_write_scores_str = cls.__list_to_str(db_write_scores)
@@ -263,7 +263,6 @@ class SubscribeScore(object):
                                         subscribe_student.send_fail_nums = subscribe_student.send_fail_nums + 1
                                         subscribe_student.save()
                                     else:
-                                        subscribe_student.scores = db_write_scores_str
                                         subscribe_student.send_fail_nums = subscribe_student.send_fail_nums + 1
                                         subscribe_student.save()
                                     break

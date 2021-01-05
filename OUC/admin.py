@@ -18,7 +18,7 @@ class SwiperAdmin(admin.ModelAdmin):
 class StudentAdmin(admin.ModelAdmin):
     list_display = ['id', 'openid', 'sno', 'name', 'passwd', 'department', 'profession',
                     'research', 'supervisor', 'update_date', 'login_date', 'status', 'lock_date']
-    search_fields = ['name', 'department', 'supervisor']
+    search_fields = ['name', 'department', 'supervisor', 'sno']
     # list_filter = ['department']
     list_per_page = 15
 

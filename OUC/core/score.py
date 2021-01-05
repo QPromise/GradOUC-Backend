@@ -78,7 +78,7 @@ def main(sno, passwd, openid):
                     res["mean"] = calculate_score(scores, credits)
                 else:
                     res["mean"] = 0
-                    print("当前没有可计算的课程")
+                    # print("当前没有可计算的课程")
                 res['courses'] = planned_courses
                 res['have_class'] = 1
             return res

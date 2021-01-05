@@ -48,7 +48,7 @@ def start_travel_subscribe_student():
             scheduler.resume_job("get_access_token")
         try:
             scheduler.add_job(travel_subscribe_student, trigger='interval', coalesce=True,
-                              seconds=650, id='travel_subscribe_student')
+                              seconds=610, id='travel_subscribe_student')
         except Exception as e:
             logger.error("%s" % e)
             scheduler.resume_job("travel_subscribe_student")
