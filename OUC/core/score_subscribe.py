@@ -150,7 +150,7 @@ class SubscribeScore(object):
                     "touser": openid,
                     "template_id": cls.template_id,
                     "page": "pages/core/score/score",
-                    #"miniprogram_state": "developer",
+                    "miniprogram_state": "developer",
                     "lang": "zh_CN",
                     "data": {
                         "name1": {
@@ -249,8 +249,12 @@ class SubscribeScore(object):
                                     db_write_scores_str = cls.__list_to_str(db_write_scores)
                                     # 这是成绩更新的情况，先写入数据库，然后直接发消息，退出
                                     res_code = cls.send_score(openid, name, sno, "1001", courses[i]["name"], cur_score)
-                                    print(res_code)
                                     if res_code == 0:
+                                        subscribe_student.new_send_message = "%s:(之前%s|最新%s)" % (
+                                            courses[i]["name"], db_write_scores[i], cur_score)
+                                        db_write_scores[i] = cur_score
+                                        db_write_scores_str = cls.__list_to_str(db_write_scores)
+                                        subscribe_student.scores = db_write_scores_str
                                         subscribe_student.send_success_nums = subscribe_student.send_success_nums + 1
                                         subscribe_student.save()
                                     elif res_code == 43101:
