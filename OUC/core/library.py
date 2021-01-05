@@ -110,6 +110,10 @@ def get_bookDetail(bookID):
         return res
 
 
+def my_borrow():
+    pass
+
+
 if __name__ == '__main__':
     search_book('01', '的hi扫黄打撒', '')
     get_bookDetail("0000146533")
