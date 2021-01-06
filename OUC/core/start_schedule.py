@@ -9,7 +9,7 @@ Date: 2020/12/21 9:56
 import datetime
 from apscheduler.schedulers.background import BackgroundScheduler
 
-from OUC.core import score_subscribe
+from OUC.core import test_score_subscribe
 from OUC import log
 from OUC import models
 
@@ -21,7 +21,7 @@ def get_access_token():
         if models.Config.objects.all()[0].is_open_subscribe in [1, 2]:
             cur_hour = datetime.datetime.now().strftime('%H:%M')
             if cur_hour < '23:50' and cur_hour >= '06:00':
-                score_subscribe.AccessToken.update_access_token()
+                test_score_subscribe.AccessToken.update_access_token()
     except Exception as e:
         logger.warning("缺少是否订阅的数据列，数据库当前还没migrate%s" % e)
 
@@ -31,7 +31,7 @@ def travel_subscribe_student():
         if models.Config.objects.all()[0].is_open_subscribe in [1, 2]:
             cur_hour = datetime.datetime.now().strftime('%H:%M')
             if cur_hour < '23:50' and cur_hour >= '06:00':
-                score_subscribe.SubscribeScore.travel_subscribe_student()
+                test_score_subscribe.SubscribeScore.travel_subscribe_student()
     except Exception as e:
         logger.warning("缺少是否订阅的数据列，数据库当前还没migrate%s" % e)
 
@@ -42,13 +42,13 @@ def start_travel_subscribe_student():
         # 监控任务
         try:
             scheduler.add_job(get_access_token, trigger='interval', coalesce=True,
-                              seconds=600, id='get_access_token')
+                              seconds=500, id='get_access_token')
         except Exception as e:
             logger.error("%s" % e)
             scheduler.resume_job("get_access_token")
         try:
             scheduler.add_job(travel_subscribe_student, trigger='interval', coalesce=True,
-                              seconds=610, id='travel_subscribe_student')
+                              seconds=520, id='travel_subscribe_student')
         except Exception as e:
             logger.error("%s" % e)
             scheduler.resume_job("travel_subscribe_student")

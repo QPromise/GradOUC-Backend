@@ -5,6 +5,9 @@
 Author: qinchangshuai(cs_qin@qq.com) 
 Date: 2020/12/20 12:03 
 """
+import gevent
+from gevent.pool import Pool
+from gevent import monkey; monkey.patch_all(thread=False)
 import requests
 import json
 import time
@@ -43,7 +46,6 @@ class AccessToken(object):
             get_result_json = get_result.json()
             access_token = get_result_json["access_token"]
             cls.access_token = access_token
-            # print(AccessToken.access_token)
         except Exception as e:
             logger.error("获取token异常%s" % e)
             cls.access_token = None
@@ -213,6 +215,7 @@ class SubscribeScore(object):
             # 其它
             else:
                 db_write_scores = cls.__str_to_list(str, db_get_scores)
+                print(db_write_scores)
                 if len(courses) == len(db_write_scores):
                     try:
                         for i in range(len(courses)):
@@ -290,26 +293,34 @@ class SubscribeScore(object):
             # 找出已经订阅的student
             subscribe_students = models.SubscribeStudent.objects.filter(status=1)
             # 遍历列表
-            travel_begin = time.time()
-            for subscribe_student in subscribe_students:
-                try:
-                    # 判断是否重新进行了登录
-                    cur_student = models.Student.objects.filter(openid=subscribe_student.openid)[0]
-                    if cur_student.sno != subscribe_student.sno:
-                        db_scores = "-"
-                    else:
-                        db_scores = subscribe_student.scores
-                    cls.score_compare(subscribe_student.openid, cur_student.sno,
-                                      cls.base64decode(cur_student.passwd),
-                                      cur_student.name, db_scores, subscribe_student)
-                    subscribe_student.travel_nums = subscribe_student.travel_nums + 1
-                    subscribe_student.save()
-                except Exception as e:
-                    logger.error("遍历当前学生：%s失败! %s" % (subscribe_student, e))
-            travel_end = time.time()
-            logger.info("【成绩订阅】遍历%s个学生共耗时%ss" % (len(subscribe_students), travel_end - travel_begin))
+            begin = time.time()
+            try:
+                pool = Pool(50)
+                travels = [pool.spawn(cls.travel_single_student, subscribe_student) for subscribe_student in subscribe_students]
+                gevent.joinall(travels)
+            except Exception as e:
+                logger.error("多协程遍历订阅列表:%s" % e)
+            end = time.time()
+            logger.info("【成绩订阅】遍历%s个学生共耗时%ss" % (len(travels), (end - begin)))
         except Exception as e:
             logger.error("获取订阅的学生失败！ %s" % e)
+
+    @classmethod
+    def travel_single_student(cls, subscribe_student):
+        try:
+            # 判断是否重新进行了登录
+            cur_student = models.Student.objects.filter(openid=subscribe_student.openid)[0]
+            if cur_student.sno != subscribe_student.sno:
+                db_scores = "-"
+            else:
+                db_scores = subscribe_student.scores
+            cls.score_compare(subscribe_student.openid, cur_student.sno,
+                              cls.base64decode(cur_student.passwd),
+                              cur_student.name, db_scores, subscribe_student)
+            subscribe_student.travel_nums = subscribe_student.travel_nums + 1
+            subscribe_student.save()
+        except Exception as e:
+            logger.error("遍历当前学生：%s失败! %s" % (subscribe_student, e))
 
     @classmethod
     def __list_to_str(cls, arr):
