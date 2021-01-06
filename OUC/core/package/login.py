@@ -35,7 +35,7 @@ class Login(object):
     @classmethod
     def get_student_info(cls, session):
         try:
-            profile_page = session.get(cls.profile_url, headers=cls.headers, timeout=6)
+            profile_page = session.get(cls.profile_url, headers=cls.headers)
             profile_soup = BeautifulSoup(profile_page.text, 'lxml')
             name = profile_soup.findAll(name="dt", attrs={"class": "title cblue"})[0].text
             need_list = profile_soup.findAll(name="dd", attrs={"class": "ml10 content w300"})

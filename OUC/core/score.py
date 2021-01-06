@@ -36,7 +36,7 @@ def main(sno, passwd, openid):
         session = login_info["session"]
         res["message"] = login_info["message"]
         try:
-            course_page = session.get(course_url, headers=headers, timeout=10)
+            course_page = session.get(course_url, headers=headers)
             # 计划内的课程
             planned_table = pd.read_html(course_page.text)[0]
             planned_table = pd.DataFrame(planned_table)
@@ -94,6 +94,6 @@ def main(sno, passwd, openid):
 
 if __name__ == '__main__':
     start = time.time()
-    print(main("21201031006", "", "null"))
+    print(main("21200231213", "2020wangjie", "null"))
     end = time.time()
     print(end - start)

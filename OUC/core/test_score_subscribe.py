@@ -295,8 +295,8 @@ class SubscribeScore(object):
             # 遍历列表
             begin = time.time()
             try:
-                pool = Pool(50)
-                travels = [pool.spawn(cls.travel_single_student, subscribe_student) for subscribe_student in subscribe_students]
+                # pool = Pool(50)
+                travels = [gevent.spawn(cls.travel_single_student, subscribe_student) for subscribe_student in subscribe_students]
                 gevent.joinall(travels)
             except Exception as e:
                 logger.error("多协程遍历订阅列表:%s" % e)
