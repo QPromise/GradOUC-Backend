@@ -215,7 +215,7 @@ class SubscribeScore(object):
             # 其它
             else:
                 db_write_scores = cls.__str_to_list(str, db_get_scores)
-                print(db_write_scores)
+                # print(db_write_scores, courses)
                 if len(courses) == len(db_write_scores):
                     try:
                         for i in range(len(courses)):
