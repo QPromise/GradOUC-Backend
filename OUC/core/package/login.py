@@ -35,7 +35,7 @@ class Login(object):
     @classmethod
     def get_student_info(cls, session):
         try:
-            profile_page = session.get(cls.profile_url, headers=cls.headers)
+            profile_page = session.get(cls.profile_url, headers=cls.headers, timeout=6)
             profile_soup = BeautifulSoup(profile_page.text, 'lxml')
             name = profile_soup.findAll(name="dt", attrs={"class": "title cblue"})[0].text
             need_list = profile_soup.findAll(name="dd", attrs={"class": "ml10 content w300"})
@@ -110,7 +110,7 @@ class Login(object):
             # 创建一个回话
             session = requests.Session()
             # 获得登录页面
-            response = session.get(cls.login_url)
+            response = session.get(cls.login_url, timeout=6)
             login_soup = BeautifulSoup(response.text, 'lxml')
             # 获取隐藏字段
             lt = login_soup.form.find("input", {"name": "lt"})["value"]
