@@ -217,55 +217,44 @@ class SubscribeScore(object):
                     try:
                         for i in range(len(courses)):
                             cur_score = courses[i]["score"]
+                            # 之前数据库存储的是已经出的数字
                             if re.search(r"(\d+)", db_write_scores[i]):
-                                # 之前数据库存储的是已经出的数字
-                                if cur_score != float(db_write_scores[i]):
-                                    # models.SubscribeStudent.objects.filter(openid=openid).update(scores=db_write_scores_str)
-                                    # 这是成绩更新的情况，先写入数据库，然后直接发消息，退出
-                                    res_code = cls.send_score(openid, name, sno, "1001", courses[i]["name"], cur_score)
-                                    if res_code == 0:
-                                        subscribe_student.new_send_message = "%s:%s -> %s" % (
-                                            courses[i]["name"], db_write_scores[i], cur_score)
-                                        db_write_scores[i] = cur_score
-                                        db_write_scores_str = cls.__list_to_str(db_write_scores)
-                                        subscribe_student.scores = db_write_scores_str
-                                        subscribe_student.send_success_nums = subscribe_student.send_success_nums + 1
-                                        subscribe_student.save()
-                                    elif res_code == 43101:
-                                        # 当用户取消订阅的时候
-                                        subscribe_student.status = 0
-                                        subscribe_student.send_fail_nums = subscribe_student.send_fail_nums + 1
-                                        subscribe_student.save()
-                                        # models.SubscribeStudent.objects.filter(
-                                        #     openid=openid).update(status=0)
-                                    else:
-                                        subscribe_student.send_fail_nums = subscribe_student.send_fail_nums + 1
-                                        subscribe_student.save()
-                                        # models.SubscribeStudent.objects.filter(
-                                        #     openid=openid).update(scores=db_write_scores_str)
-                                    break
+                                tmp_db_write_score = float(db_write_scores[i])
                             else:
-                                # 之前数据库存储的是没出的
-                                if cur_score != db_write_scores[i]:
-                                    # 这是成绩更新的情况，先写入数据库，然后直接发消息，退出
-                                    res_code = cls.send_score(openid, name, sno, "1001", courses[i]["name"], cur_score)
-                                    if res_code == 0:
-                                        subscribe_student.new_send_message = "%s:%s -> %s" % (
-                                            courses[i]["name"], db_write_scores[i], cur_score)
-                                        db_write_scores[i] = cur_score
-                                        db_write_scores_str = cls.__list_to_str(db_write_scores)
-                                        subscribe_student.scores = db_write_scores_str
-                                        subscribe_student.send_success_nums = subscribe_student.send_success_nums + 1
-                                        subscribe_student.save()
-                                    elif res_code == 43101:
-                                        # 当用户取消订阅的时候
-                                        subscribe_student.status = 0
-                                        subscribe_student.send_fail_nums = subscribe_student.send_fail_nums + 1
-                                        subscribe_student.save()
-                                    else:
-                                        subscribe_student.send_fail_nums = subscribe_student.send_fail_nums + 1
-                                        subscribe_student.save()
+                                tmp_db_write_score = db_write_scores[i]
+                            # 如果与数据库存储的成绩不一样
+                            if cur_score != tmp_db_write_score:
+                                # 如果课表发生了变动，出现选课的情况，直接把最新的写入
+                                if cur_score == "未出" or cur_score == "未选":
+                                    db_write_scores = [course["score"] for course in courses]
+                                    db_write_scores_str = cls.__list_to_str(db_write_scores)
+                                    subscribe_student.sno = sno
+                                    subscribe_student.scores = db_write_scores_str
+                                    subscribe_student.save()
                                     break
+                                # 这是成绩更新的情况，先写入数据库，然后直接发消息，退出
+                                res_code = cls.send_score(openid, name, sno, "1001", courses[i]["name"], cur_score)
+                                if res_code == 0:
+                                    subscribe_student.new_send_message = "%s:%s -> %s" % (
+                                        courses[i]["name"], db_write_scores[i], cur_score)
+                                    db_write_scores[i] = cur_score
+                                    db_write_scores_str = cls.__list_to_str(db_write_scores)
+                                    subscribe_student.scores = db_write_scores_str
+                                    subscribe_student.send_success_nums = subscribe_student.send_success_nums + 1
+                                    subscribe_student.save()
+                                elif res_code == 43101:
+                                    # 当用户取消订阅的时候
+                                    subscribe_student.status = 0
+                                    subscribe_student.send_fail_nums = subscribe_student.send_fail_nums + 1
+                                    subscribe_student.save()
+                                    # models.SubscribeStudent.objects.filter(
+                                    #     openid=openid).update(status=0)
+                                else:
+                                    subscribe_student.send_fail_nums = subscribe_student.send_fail_nums + 1
+                                    subscribe_student.save()
+                                    # models.SubscribeStudent.objects.filter(
+                                    #     openid=openid).update(scores=db_write_scores_str)
+                                break
                     except Exception as e:
                         logger.error("[sno]: %s [passwd]: %s [比较数据库与新抓取的课表出现异常]: [Exception]: %s" % (sno, passwd, e))
                 else:
