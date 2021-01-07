@@ -32,7 +32,7 @@ def main(sno, passwd, openid, zc, xj, xn):
         res["message"] = login_info["message"]
         try:
             param = "?zc=" + str(zc) + "&xj=" + str(xj) + "&xn=" + str(xn)
-            schedule_page = session.get(url=schedule_url + param, headers=headers)
+            schedule_page = session.get(url=schedule_url + param, headers=headers, timeout=6)
             # print(schedule_page.text)
             # 我的课程表
             decided_table = pd.read_html(schedule_page.text)[0]
