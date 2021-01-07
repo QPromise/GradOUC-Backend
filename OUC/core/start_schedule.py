@@ -52,22 +52,19 @@ def start_travel_subscribe_student():
         # 监控任务
         try:
             scheduler.add_job(get_access_token, trigger='interval', coalesce=True,
-                              seconds=500, id='get_access_token')
+                              seconds=530, id='get_access_token')
         except Exception as e:
             logger.error("%s" % e)
-            scheduler.resume_job("get_access_token")
         try:
             scheduler.add_job(travel_subscribe_student, trigger='interval', coalesce=True,
-                              seconds=510, id='travel_subscribe_student')
+                              seconds=550, id='travel_subscribe_student')
         except Exception as e:
             logger.error("%s" % e)
-            scheduler.resume_job("travel_subscribe_student")
         try:
             scheduler.add_job(update_all_subscribe_student, trigger='interval', coalesce=True,
                               seconds=21600, id='update_all_subscribe_student')
         except Exception as e:
             logger.error("%s" % e)
-            scheduler.resume_job("update_all_subscribe_student")
         # 调度器开始
         logger.debug("调度器开始执行....")
         scheduler.start()
