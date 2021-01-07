@@ -80,20 +80,35 @@ class SubscribeScore(object):
         :return:
         """
         if openid == "null":
-            return {"score_notice": False, "open_failure_popup": False}
+            return {"score_notice": False, "open_failure_popup": False, "times": 0}
         try:
             subscribe_student = models.SubscribeStudent.objects.filter(openid=openid)
             if len(subscribe_student) == 0:
-                return {"score_notice": False, "open_failure_popup": False}
+                return {"score_notice": False, "open_failure_popup": False, "times": 0}
             else:
-                score_notice = False if subscribe_student[0].status == 0 else True
+                times = subscribe_student[0].status
+                if subscribe_student[0].legal_subscribe_date != "-":
+                    legal_subscribe_dates = cls.__str_to_list(int, subscribe_student[0].legal_subscribe_date)
+                    new_legal_subscribe_dates = []
+                    for timestamp in legal_subscribe_dates:
+                        print(int(time.time()), timestamp, type(timestamp))
+                        if (int(time.time()) - timestamp) // (3600 * 24) < 7:
+                            new_legal_subscribe_dates.append(timestamp)
+                    times = len(new_legal_subscribe_dates)
+                    subscribe_student[0].status = times
+                    if len(new_legal_subscribe_dates) == 0:
+                        subscribe_student[0].legal_subscribe_date = "-"
+                    else:
+                        subscribe_student[0].legal_subscribe_date = cls.__list_to_str(new_legal_subscribe_dates)
+                    subscribe_student[0].save()
+                score_notice = False if times == 0 else True
                 if subscribe_student[0].failure_popup == 1:
-                    return {"score_notice": score_notice, "open_failure_popup": True}
+                    return {"score_notice": score_notice, "open_failure_popup": True, "times": times}
                 else:
-                    return {"score_notice": score_notice, "open_failure_popup": False}
+                    return {"score_notice": score_notice, "open_failure_popup": False, "times": times}
         except Exception as e:
             logger.error("用户openid=%s获取自己的订阅状态失败！%s" % (openid, e))
-            return {"score_notice": False, "open_failure_popup": False}
+            return {"score_notice": False, "open_failure_popup": False, "times": 0}
 
     @classmethod
     def subscribe_score(cls, openid):
@@ -111,7 +126,7 @@ class SubscribeScore(object):
                 subscribe_student = models.SubscribeStudent.objects.filter(openid=openid)
                 if len(subscribe_student) == 0:
                     try:
-                        models.SubscribeStudent.objects.create(openid=openid, sno=student[0].sno, status=1)
+                        models.SubscribeStudent.objects.create(openid=openid, sno=student[0].sno, status=1, legal_subscribe_date=int(time.time()))
                         res["message"] = "success"
                     except Exception as e:
                         res["message"] = "repeated"
@@ -120,9 +135,22 @@ class SubscribeScore(object):
                 else:
                     if subscribe_student[0].status == 0:
                         subscribe_student[0].status = 1
+                        subscribe_student[0].legal_subscribe_date = int(time.time())
                         subscribe_student[0].save()
                         res["message"] = "success"
                     else:
+                        # 将数据库中的已有数据给修改一下
+                        if subscribe_student[0].legal_subscribe_date == "-":
+                            subscribe_student[0].status = 1
+                            subscribe_student[0].legal_subscribe_date = int(time.time())
+                            subscribe_student[0].save()
+                        else:
+                            # 多点一个订阅就把当前的时间给加进去，次数同时加一
+                            subscribe_student[0].status = subscribe_student[0].status + 1
+                            legal_subscribe_dates = cls.__str_to_list(int, subscribe_student[0].legal_subscribe_date)
+                            legal_subscribe_dates.append(int(time.time()))
+                            subscribe_student[0].legal_subscribe_date = cls.__list_to_str(legal_subscribe_dates)
+                            subscribe_student[0].save()
                         res["message"] = "repeated"
             else:
                 res["message"] = "fault"
@@ -239,12 +267,28 @@ class SubscribeScore(object):
                                         courses[i]["name"], db_write_scores[i], cur_score)
                                     db_write_scores[i] = cur_score
                                     db_write_scores_str = cls.__list_to_str(db_write_scores)
+
+                                    if subscribe_student.status - 1 <= 0:
+                                        subscribe_student.status = 0
+                                        subscribe_student.legal_subscribe_date = "-"
+                                    else:
+                                        subscribe_student.status = subscribe_student.status - 1
+                                        if subscribe_student.legal_subscribe_date == "-":
+                                            pass
+                                        else:
+                                            legal_subscribe_dates = cls.__str_to_list(int, subscribe_student.legal_subscribe_date)
+                                            if len(legal_subscribe_dates) == 1:
+                                                subscribe_student.legal_subscribe_date = "-"
+                                            else:
+                                                subscribe_student.legal_subscribe_date = cls.__list_to_str(legal_subscribe_dates[1:])
+
                                     subscribe_student.scores = db_write_scores_str
                                     subscribe_student.send_success_nums = subscribe_student.send_success_nums + 1
                                     subscribe_student.save()
                                 elif res_code == 43101:
                                     # 当用户取消订阅的时候
                                     subscribe_student.status = 0
+                                    subscribe_student.legal_subscribe_date = "-"
                                     subscribe_student.send_fail_nums = subscribe_student.send_fail_nums + 1
                                     subscribe_student.save()
                                     # models.SubscribeStudent.objects.filter(
@@ -277,7 +321,7 @@ class SubscribeScore(object):
         """
         try:
             # 找出已经订阅的student
-            subscribe_students = models.SubscribeStudent.objects.filter(status=1)
+            subscribe_students = models.SubscribeStudent.objects.filter(status__gte=1)
             # 遍历列表
             travel_begin = time.time()
             for subscribe_student in subscribe_students:
