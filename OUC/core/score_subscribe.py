@@ -345,6 +345,47 @@ class SubscribeScore(object):
             logger.error("获取订阅的学生失败！ %s" % e)
 
     @classmethod
+    def update_score(cls, sno, passwd, subscribe_student):
+        """
+        """
+        res = score.main(sno, passwd, "null")
+        if res["message"] == "success" and res["have_class"] == 1:
+            courses = res["courses"]
+            try:
+                db_write_scores = [course["score"] for course in courses]
+                db_write_scores_str = cls.__list_to_str(db_write_scores)
+                subscribe_student.sno = sno
+                subscribe_student.scores = db_write_scores_str
+                subscribe_student.save()
+            except Exception as e:
+                logger.error("[sno]: %s [passwd]: %s [定期更新订阅成绩列表异常]: [Exception]: %s" % (sno, passwd, e))
+        else:
+            logger.error("[sno]: %s [name]: %s [定期更新订阅成绩列表失败]: [reason]: %s" % (sno, passwd, res))
+
+    @classmethod
+    def update_all_subscribe_student(cls):
+        """
+        遍历已经订阅的数据库表，去查找学号密码，挨个遍历，时间间隔半天
+        :return:
+        """
+        try:
+            # 找出已经订阅的student
+            subscribe_students = models.SubscribeStudent.objects.all()
+            # 遍历列表
+            travel_begin = time.time()
+            for subscribe_student in subscribe_students:
+                try:
+                    # 判断是否重新进行了登录
+                    cur_student = models.Student.objects.filter(openid=subscribe_student.openid)[0]
+                    cls.update_score(cur_student.sno, cls.base64decode(cur_student.passwd), subscribe_student)
+                except Exception as e:
+                    logger.error("[定期更新订阅成绩列表]遍历当前学生：%s失败! %s" % (subscribe_student, e))
+            travel_end = time.time()
+            logger.info("[定期更新订阅成绩列表]更新%s个学生课程成功，共耗时%ss" % (len(subscribe_students), travel_end - travel_begin))
+        except Exception as e:
+            logger.error("[定期更新订阅成绩列表]获取订阅的学生失败！ %s" % e)
+
+    @classmethod
     def __list_to_str(cls, arr):
         """
         将list转为以,分割的字符串，方便数据库存储
