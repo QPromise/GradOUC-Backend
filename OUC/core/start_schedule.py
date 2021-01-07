@@ -36,6 +36,16 @@ def travel_subscribe_student():
         logger.warning("缺少是否订阅的数据列，数据库当前还没migrate%s" % e)
 
 
+def update_all_subscribe_student():
+    try:
+        if models.Config.objects.all()[0].is_open_subscribe in [1, 2]:
+            # cur_hour = datetime.datetime.now().strftime('%H:%M')
+            # if cur_hour <= '02:50' or cur_hour >= '06:00':
+            score_subscribe.SubscribeScore.update_all_subscribe_student()
+    except Exception as e:
+        logger.warning("缺少是否订阅的数据列，数据库当前还没migrate%s" % e)
+
+
 def start_travel_subscribe_student():
     scheduler = BackgroundScheduler()
     try:
@@ -52,6 +62,12 @@ def start_travel_subscribe_student():
         except Exception as e:
             logger.error("%s" % e)
             scheduler.resume_job("travel_subscribe_student")
+        try:
+            scheduler.add_job(update_all_subscribe_student, trigger='interval', coalesce=True,
+                              seconds=21600, id='update_all_subscribe_student')
+        except Exception as e:
+            logger.error("%s" % e)
+            scheduler.resume_job("update_all_subscribe_student")
         # 调度器开始
         logger.debug("调度器开始执行....")
         scheduler.start()
