@@ -25,7 +25,7 @@ class StudentAdmin(admin.ModelAdmin):
 
 class SubscribeStudentAdmin(admin.ModelAdmin):
     list_display = ['id', 'openid', 'sno', 'scores', 'status', 'failure_popup', 'travel_nums',
-                    'send_success_nums', 'send_fail_nums', 'new_send_message', 'subscribe_date']
+                    'send_success_nums', 'send_fail_nums', 'new_send_message', 'legal_subscribe_date', 'subscribe_date']
     search_fields = ['sno']
     list_per_page = 15
 

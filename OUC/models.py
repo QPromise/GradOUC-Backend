@@ -8,12 +8,13 @@ class SubscribeStudent(models.Model):
     openid = models.CharField('openid', max_length=50, db_index=True, unique=True)
     sno = models.CharField('学号', max_length=15, default="-", db_index=True)
     scores = models.CharField('成绩', max_length=256, default="-")
-    status = models.IntegerField('是否订阅(1为订阅，0为没有)', default=0)
+    status = models.IntegerField('订阅次数(1及其以上为订阅，0为没有)', default=0)
     failure_popup = models.IntegerField('是否失效弹窗(1为失效弹窗，0为失效不弹窗)', default=1)
     travel_nums = models.IntegerField('遍历次数', default=0)
     send_success_nums = models.IntegerField('发送成功次数', default=0)
     send_fail_nums = models.IntegerField('发送失败次数', default=0)
     new_send_message = models.CharField('最新发送的成绩', max_length=256, default="-")
+    legal_subscribe_date = models.CharField('每次订阅的时间戳（有效期七天以内）', max_length=1024, default="-")
     subscribe_date = models.DateTimeField('订阅日期', auto_now_add=True)
 
 
