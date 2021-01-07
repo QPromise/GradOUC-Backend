@@ -24,7 +24,8 @@ schedule_url = "http://pgs.ouc.edu.cn/py/page/student/grkcb.htm"
 
 
 def main(sno, passwd, openid, zc, xj, xn):
-    res = {"message": "", "schedule": ""}
+    res = {"message": "", "schedule": [{"name": "", "room": "", "leader": "", "color": "", "index": "", "time": "",
+                                 "period": ""}]}
     login_info = login.Login.login(sno, passwd, openid)
     if login_info["message"] == "success":
         session = login_info["session"]
@@ -76,7 +77,9 @@ def main(sno, passwd, openid, zc, xj, xn):
             return res
         except Exception as e:
             logger.error("[sno]: %s [passwd]: %s [Exception]: %s" % (sno, passwd, e))
+            res["message"] = "timeout"
             return res
+
     else:
         res["message"] = login_info["message"]
         return res
@@ -93,4 +96,4 @@ def main(sno, passwd, openid, zc, xj, xn):
 
 if __name__ == '__main__':
     # main("", "", "null", "17", "11", "2020")
-    main("", "", "null", "17", "11", "2020")
+    main("21180231272", "", "null", "17", "11", "2020")

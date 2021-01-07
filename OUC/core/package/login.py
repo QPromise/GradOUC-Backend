@@ -129,6 +129,7 @@ class Login(object):
         try:
             post_form = session.post(url=cls.login_url, headers=cls.headers, data=values)
             home_page = session.get(url=cls.home_url, headers=cls.headers, timeout=6)
+            session.keep_live = False
         except Exception as e:
             logger.error("[sno]: %s [passwd]: %s [Exception]: %s" % (sno, passwd, e))
             return {"message": "timeout"}
