@@ -253,7 +253,7 @@ class SubscribeScore(object):
                             # 如果与数据库存储的成绩不一样
                             if cur_score != tmp_db_write_score:
                                 # 如果课表发生了变动，出现选课的情况，直接把最新的写入
-                                if cur_score == "未出" or cur_score == "未选":
+                                if cur_score == "未出" or cur_score == "未选" or tmp_db_write_score == "未选":
                                     db_write_scores = [course["score"] for course in courses]
                                     db_write_scores_str = cls.__list_to_str(db_write_scores)
                                     subscribe_student.sno = sno
