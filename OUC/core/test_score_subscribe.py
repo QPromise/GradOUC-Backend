@@ -5,9 +5,9 @@
 Author: qinchangshuai(cs_qin@qq.com) 
 Date: 2020/12/20 12:03 
 """
-import gevent
-from gevent.pool import Pool
-from gevent import monkey; monkey.patch_all(thread=False)
+# import gevent
+# from gevent.pool import Pool
+# from gevent import monkey; monkey.patch_all(thread=False)
 import requests
 import json
 import time

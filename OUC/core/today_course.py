@@ -88,6 +88,7 @@ def main(sno, passwd, openid, zc, xj, xn, day):
             return res
         except Exception as e:
             logger.error("[sno]: %s [passwd]: %s [Exception]: %s" % (sno, passwd, e))
+            res["message"] = "timeout"
             return res
     else:
         res["message"] = login_info["message"]
