@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls import url, include
 
+import sys, socket
 import datetime
 from apscheduler.schedulers.background import BackgroundScheduler
 
@@ -58,22 +59,27 @@ def update_all_subscribe_student():
 
 
 def start_travel_subscribe_student():
-    scheduler = BackgroundScheduler()
     try:
-        # 监控任务
-        scheduler.add_job(get_access_token, trigger='cron', coalesce=True,
-                          minute='*/7', id='get_access_token')
-        scheduler.add_job(travel_subscribe_student, trigger='cron', coalesce=True,
-                          minute='*/8', id='travel_subscribe_student')
-        scheduler.add_job(update_all_subscribe_student, trigger='cron', coalesce=True,
-                          hour='*/6', id='update_all_subscribe_student')
-        # 调度器开始
-        logger.debug("调度器开始执行....")
-        scheduler.start()
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        sock.bind(("127.0.0.1", 47200))
+        try:
+            scheduler = BackgroundScheduler()
+            # 监控任务
+            scheduler.add_job(get_access_token, trigger='cron', coalesce=True,
+                              minute='*/7', id='get_access_token')
+            scheduler.add_job(travel_subscribe_student, trigger='cron', coalesce=True,
+                              minute='*/8', id='travel_subscribe_student')
+            scheduler.add_job(update_all_subscribe_student, trigger='cron', coalesce=True,
+                              hour='*/6', id='update_all_subscribe_student')
+            # 调度器开始
+            logger.debug("调度器开始执行....")
+            scheduler.start()
+        except Exception as e:
+            # 报错则调度器停止执行
+            logger.error("调度器停止执行！%s" % e)
+            scheduler.shutdown()
     except Exception as e:
-        # 报错则调度器停止执行
-        logger.error("调度器停止执行！%s" % e)
-        scheduler.shutdown()
+        logger.error("[调度器执行了两遍]%s scheduler has already started!" % e)
 
 
 start_travel_subscribe_student()
