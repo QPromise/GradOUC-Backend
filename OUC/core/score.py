@@ -68,10 +68,12 @@ def main(sno, passwd, openid):
                     # 成绩没出
                     else:
                         # 选了的课
-                        if process.find("未选") == -1:
-                            score = "未出"
-                        else:
+                        if process.find("未选") != -1:
                             score = "未选"
+                        elif process.find("免修") != -1:
+                            score = "免修"
+                        else:
+                            score = "未出"
                     planned_course["score"] = score
                     planned_courses.append(planned_course)
                 if scores != [] and credits != []:
