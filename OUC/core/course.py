@@ -33,6 +33,7 @@ def main(sno, passwd, openid):
         try:
             course_page = session.get(course_url, headers=headers, timeout=6)
             course_soup = BeautifulSoup(course_page.text, 'lxml')
+            course_table = pd.read_html(course_page.text)
             credits = course_soup.findAll(name="dd")
             # 学校要求培养方案学分
             try:
@@ -45,7 +46,7 @@ def main(sno, passwd, openid):
                 school_require_credit, select_credit, get_credit = "--", "--", "--"
                 logger.error("[sno]: %s [passwd]: %s [Exception]: %s" % (sno, passwd, e))
             # 计划内的课程
-            planned_table = pd.read_html(course_page.text)[0]
+            planned_table = course_table[0]
             planned_table = pd.DataFrame(planned_table)
             planned_table = planned_table.fillna("")
             planned_courses = []
@@ -68,26 +69,27 @@ def main(sno, passwd, openid):
                 res['select_credit'] = select_credit
                 res['get_credit'] = get_credit
                 res['have_class'] = 1
-            # 计划外的课程
-            unplanned_table = pd.read_html(course_page.text)[1]
-            unplanned_table = pd.DataFrame(unplanned_table)
-            unplanned_table = unplanned_table.fillna("")
-            unplanned_courses = []
-            if len(unplanned_table) != 0:
-                for i in range(len(unplanned_table.values)):
-                    unplanned_course = {"select": "", "id": "", "name": "", "type": "",
-                                      "credit": None, "xn": "", "xq": "", "teacher": "", "process": ""}
-                    unplanned_course["select"] = unplanned_table[i:i + 1].values[0][0]
-                    unplanned_course["id"] = unplanned_table[i:i + 1].values[0][1]
-                    unplanned_course["name"] = unplanned_table[i:i + 1].values[0][2]
-                    unplanned_course["type"] = unplanned_table[i:i + 1].values[0][3]
-                    unplanned_course["credit"] = unplanned_table[i:i + 1].values[0][4]
-                    unplanned_course["xn"] = unplanned_table[i:i + 1].values[0][5]
-                    unplanned_course["xq"] = unplanned_table[i:i + 1].values[0][6]
-                    unplanned_course["teacher"] = unplanned_table[i:i + 1].values[0][7]
-                    unplanned_course["process"] = unplanned_table[i:i + 1].values[0][8]
-                    unplanned_courses.append(unplanned_course)
-                res['unplanned_courses'] = unplanned_courses
+            # 如果有计划外的课程
+            if len(course_table) > 1:
+                unplanned_table = course_table[1]
+                unplanned_table = pd.DataFrame(unplanned_table)
+                unplanned_table = unplanned_table.fillna("")
+                unplanned_courses = []
+                if len(unplanned_table) != 0:
+                    for i in range(len(unplanned_table.values)):
+                        unplanned_course = {"select": "", "id": "", "name": "", "type": "",
+                                          "credit": None, "xn": "", "xq": "", "teacher": "", "process": ""}
+                        unplanned_course["select"] = unplanned_table[i:i + 1].values[0][0]
+                        unplanned_course["id"] = unplanned_table[i:i + 1].values[0][1]
+                        unplanned_course["name"] = unplanned_table[i:i + 1].values[0][2]
+                        unplanned_course["type"] = unplanned_table[i:i + 1].values[0][3]
+                        unplanned_course["credit"] = unplanned_table[i:i + 1].values[0][4]
+                        unplanned_course["xn"] = unplanned_table[i:i + 1].values[0][5]
+                        unplanned_course["xq"] = unplanned_table[i:i + 1].values[0][6]
+                        unplanned_course["teacher"] = unplanned_table[i:i + 1].values[0][7]
+                        unplanned_course["process"] = unplanned_table[i:i + 1].values[0][8]
+                        unplanned_courses.append(unplanned_course)
+                    res['unplanned_courses'] = unplanned_courses
             return res
         except Exception as e:
             logger.error("[sno]: %s [passwd]: %s [Exception]: %s" % (sno, passwd, e))
@@ -100,5 +102,5 @@ def main(sno, passwd, openid):
 
 
 if __name__ == '__main__':
+    print(main("21201631055", "", None))
     print(main("21200231213", "", None))
-    # print(main("21180231272", "", None))
