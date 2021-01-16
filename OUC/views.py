@@ -11,7 +11,7 @@ import time
 from django.shortcuts import render
 from django.http import HttpResponse as response
 
-from .core import login, schedule, today_course, course, score, library, profile, school_course, score_subscribe
+from .core import login, schedule, today_course, course, score, library, profile, school_course, score_subscribe, exam
 from .news import yanzhao, xueshu, houqin, school, yanyuan
 from .models import Config, News, Swiper
 
@@ -90,13 +90,22 @@ def get_schedule(request):
     return response(res)
 
 
-# 获取课表
+# 获取今日课表
 def get_today_course(request):
     sno, passwd, zc, xn, xj, day = request.POST.get('sno'), request.POST.get('passwd'), request.POST.get('zc'),\
                                    request.POST.get('xn'), request.POST.get('xj'), request.POST.get('day')
     openid = request.POST.get('openid')
     temp = today_course.main(sno, passwd, openid, zc, xj, xn, day)
     res = {"message": temp["message"], "course": temp["course"]}
+    res = json.dumps(res)
+    return response(res)
+
+
+# 获取考试安排
+def get_exam(request):
+    sno = request.POST.get('sno')
+    temp = exam.main(sno)
+    res = {"message": temp["message"], "exams": temp["exams"]}
     res = json.dumps(res)
     return response(res)
 
