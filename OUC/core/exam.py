@@ -7,6 +7,7 @@ Date: 2021/1/16 10:32
 """
 
 import json
+
 from OUC import log
 
 logger = log.logger
@@ -14,6 +15,13 @@ logger = log.logger
 
 def main(sno):
     sno = str(sno)
+    # if sno.isdigit():
+    #     pass
+    # else:
+    #     cur_student = models.Student.objects.filter(name=sno)
+    #     if len(cur_student) >= 1:
+    #         sno = cur_student[0].sno
+    #         print(sno)
     res = {"message": "success", "exams": ""}
     exams = []
     tmp_exams = []
@@ -42,6 +50,9 @@ def main(sno):
             return res
         for tmp_exam in tmp_exams:
             exam = dict()
+            exam["sno"] = tmp_exam[0]
+            exam["department"] = tmp_exam[1]
+            exam["profession"] = tmp_exam[2]
             exam["course_num"] = tmp_exam[3]
             exam["course_name"] = tmp_exam[4]
             exam["area"] = tmp_exam[5]
