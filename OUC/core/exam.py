@@ -22,7 +22,7 @@ def main(sno):
     #     if len(cur_student) >= 1:
     #         sno = cur_student[0].sno
     #         print(sno)
-    res = {"message": "success", "exams": ""}
+    res = {"message": "success", "exams": []}
     exams = []
     tmp_exams = []
     try:
