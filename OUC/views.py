@@ -66,7 +66,7 @@ def get_swiper(request):
     return response(res)
 
 
-# 获取推送
+# 获取最近使用的同学
 def get_recently_use(request):
     res = recently_use.main()
     res = json.dumps(res)
