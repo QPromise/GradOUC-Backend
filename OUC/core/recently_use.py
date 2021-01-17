@@ -17,6 +17,8 @@ def get_time_gap(before):
     cur_time = int(time.time())
     time_gap = cur_time - before
     if time_gap < 60:
+        if time_gap == 0:
+            time_gap = 1
         res = "%s秒" % time_gap
     elif time_gap < 3600:
         res = "%s分钟" % (time_gap // 60)
@@ -29,7 +31,7 @@ def get_time_gap(before):
 
 def main():
     try:
-        students = models.Student.objects.all()[:25]
+        students = models.Student.objects.all()[:15]
         res = []
         for student in students:
             cur_info = {"url": "url", "title": ""}
