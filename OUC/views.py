@@ -110,8 +110,9 @@ def get_today_course(request):
 
 # 获取考试安排
 def get_exam(request):
-    sno = request.POST.get('sno')
-    temp = exam.main(sno)
+    sno, my_sno, my_passwd, my_openid = request.POST.get('sno'), request.POST.get('my_sno'),\
+                                        request.POST.get('my_passwd'), request.POST.get('my_openid')
+    temp = exam.main(sno, my_sno, my_passwd, my_openid)
     res = {"message": temp["message"], "exams": temp["exams"]}
     res = json.dumps(res)
     return response(res)
