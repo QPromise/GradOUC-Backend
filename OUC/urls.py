@@ -19,6 +19,7 @@ urlpatterns = [
     url(r'^get_schoolNews/$', views.get_schoolNews, name='get_schoolNews'),
     url(r'^get_schoolNewsDetail/$', views.get_schoolNewsDetail, name='get_schoolNewsDetail'),
     url(r'^get_swiper/$', views.get_swiper, name='get_swiper'),
+    url(r'^get_recently_use/$', views.get_recently_use, name='get_recently_use'),
     url(r'^get_profile/$', views.get_profile, name='get_profile'),
     url(r'^subscribe_score', views.subscribe_score, name='subscribe_score'),
     url(r'^set_failure_popup_false', views.set_failure_popup_false, name='set_failure_popup_false'),

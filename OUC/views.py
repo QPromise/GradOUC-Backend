@@ -11,7 +11,7 @@ import time
 from django.shortcuts import render
 from django.http import HttpResponse as response
 
-from .core import login, schedule, today_course, course, score, library, profile, school_course, score_subscribe, exam
+from .core import login, schedule, today_course, course, score, library, profile, school_course, score_subscribe, exam, recently_use
 from .news import yanzhao, xueshu, houqin, school, yanyuan
 from .models import Config, News, Swiper
 
@@ -63,6 +63,13 @@ def get_swiper(request):
         res.append(temp)
     res = json.dumps(res)
     # print(res)
+    return response(res)
+
+
+# 获取最近使用的同学
+def get_recently_use(request):
+    res = recently_use.main()
+    res = json.dumps(res)
     return response(res)
 
 
