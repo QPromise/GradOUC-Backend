@@ -41,6 +41,7 @@ def main(sno, passwd, openid):
             logger.error("[sno]: %s [passwd]: %s [Exception]: %s" % (sno, passwd, e))
             try:
                 profile_page = session.get(profile_url, headers=headers, timeout=6)
+                session.close()
                 profile_soup = BeautifulSoup(profile_page.text, 'lxml')
                 name = profile_soup.findAll(name="dt", attrs={"class": "title cblue"})[0].text
                 res["name"] = name

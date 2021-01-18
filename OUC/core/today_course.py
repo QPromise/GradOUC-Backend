@@ -38,6 +38,7 @@ def main(sno, passwd, openid, zc, xj, xn, day):
         try:
             param = "?zc=" + str(zc) + "&xj=" + str(xj) + "&xn=" + str(xn)
             schedule_page = session.get(url=schedule_url + param, headers=headers, timeout=6)
+            session.close()
             # print(schedule_page.text)
             # 我的课程表
             courses_table = pd.read_html(schedule_page.text)[0]

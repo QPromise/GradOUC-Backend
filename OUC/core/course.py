@@ -32,6 +32,7 @@ def main(sno, passwd, openid):
         res["message"] = login_info["message"]
         try:
             course_page = session.get(course_url, headers=headers, timeout=6)
+            session.close()
             course_soup = BeautifulSoup(course_page.text, 'lxml')
             course_table = pd.read_html(course_page.text)
             credits = course_soup.findAll(name="dd")
