@@ -10,6 +10,7 @@ import base64
 import requests
 from bs4 import BeautifulSoup
 import django.utils.timezone as timezone
+import time
 
 from OUC import models
 from OUC import log
@@ -112,6 +113,7 @@ class Login(object):
             session = requests.Session()
             # 获得登录页面
             response = session.get(cls.login_url, timeout=6)
+            time.sleep(0.1)
             login_soup = BeautifulSoup(response.text, 'lxml')
             # 获取隐藏字段
             lt = login_soup.form.find("input", {"name": "lt"})["value"]
@@ -130,7 +132,9 @@ class Login(object):
         # 提交登录表单
         try:
             post_form = session.post(url=cls.login_url, headers=cls.headers, data=values)
+            time.sleep(0.2)
             home_page = session.get(url=cls.home_url, headers=cls.headers, timeout=6)
+            time.sleep(0.2)
             session.keep_live = False
         except Exception as e:
             session.close()
