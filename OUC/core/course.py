@@ -13,9 +13,6 @@ from OUC.core.package import login
 from OUC import log
 
 logger = log.logger
-proxy = {
-    'https':'175.43.57.33:9999'
-}
 
 headers = {
 
@@ -34,7 +31,7 @@ def main(sno, passwd, openid):
         session = login_info["session"]
         res["message"] = login_info["message"]
         try:
-            course_page = session.get(course_url, headers=headers, timeout=6, proxies=proxy)
+            course_page = session.get(course_url, headers=headers, timeout=6)
             session.close()
             course_soup = BeautifulSoup(course_page.text, 'lxml')
             course_table = pd.read_html(course_page.text)
