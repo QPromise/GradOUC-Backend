@@ -90,6 +90,7 @@ def main(xn, xq, sno, passwd, openid, kkyx=-1, kcmc='', jsxm='', pageId=1):
                 res['have_course'] = 1
             return res
         except Exception as e:
+            session.close()
             logger.error("[sno]: %s [passwd]: %s [Exception]: %s" % (sno, passwd, e))
             res['have_course'] = 2
             return res

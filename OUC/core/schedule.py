@@ -77,6 +77,7 @@ def main(sno, passwd, openid, zc, xj, xn):
             res['schedule'] = schedule
             return res
         except Exception as e:
+            session.close()
             logger.error("[sno]: %s [passwd]: %s [Exception]: %s" % (sno, passwd, e))
             res["message"] = "timeout"
             return res

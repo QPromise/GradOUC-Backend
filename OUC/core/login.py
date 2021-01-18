@@ -47,6 +47,7 @@ def main(sno, passwd, openid):
                 res["name"] = name
                 return res
             except Exception as e:
+                session.close()
                 logger.error("[sno]: %s [passwd]: %s [Exception]: %s" % (sno, passwd, e))
                 res["message"] = "timeout"
                 return res
