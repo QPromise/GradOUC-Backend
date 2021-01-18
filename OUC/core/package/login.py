@@ -107,6 +107,7 @@ class Login(object):
     def login(cls, sno, passwd, openid):
         """登录研究生系统主页"""
         try:
+            requests.DEFAULT_RETRIES = 5
             # 创建一个回话
             session = requests.Session()
             # 获得登录页面

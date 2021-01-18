@@ -66,9 +66,9 @@ def start_travel_subscribe_student():
             scheduler = BackgroundScheduler()
             # 监控任务
             scheduler.add_job(get_access_token, trigger='cron', coalesce=True,
-                              minute='*/15', id='get_access_token')
+                              minute='*/16', id='get_access_token')
             scheduler.add_job(travel_subscribe_student, trigger='cron', coalesce=True,
-                              minute='*/16', id='travel_subscribe_student')
+                              minute='*/17', id='travel_subscribe_student')
             scheduler.add_job(update_all_subscribe_student, trigger='cron', coalesce=True,
                               hour='*/8', id='update_all_subscribe_student')
             # 调度器开始
