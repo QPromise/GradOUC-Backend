@@ -15,6 +15,9 @@ from OUC import models
 from OUC import log
 
 logger = log.logger
+proxy = {
+    'https':'175.43.57.33:9999'
+}
 
 
 class Login(object):
@@ -111,7 +114,7 @@ class Login(object):
             # 创建一个回话
             session = requests.Session()
             # 获得登录页面
-            response = session.get(cls.login_url, timeout=6)
+            response = session.get(cls.login_url, timeout=6, proxies=proxy)
             login_soup = BeautifulSoup(response.text, 'lxml')
             # 获取隐藏字段
             lt = login_soup.form.find("input", {"name": "lt"})["value"]
@@ -129,8 +132,8 @@ class Login(object):
             return {"message": "fault"}
         # 提交登录表单
         try:
-            post_form = session.post(url=cls.login_url, headers=cls.headers, data=values)
-            home_page = session.get(url=cls.home_url, headers=cls.headers, timeout=6)
+            post_form = session.post(url=cls.login_url, headers=cls.headers, data=values, proxies=proxy)
+            home_page = session.get(url=cls.home_url, headers=cls.headers, timeout=6, proxies=proxy)
             session.keep_live = False
         except Exception as e:
             session.close()

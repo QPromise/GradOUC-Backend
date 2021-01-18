@@ -15,6 +15,9 @@ from OUC.core.package import login
 from OUC import log
 
 logger = log.logger
+proxy = {
+    'https':'175.43.57.33:9999'
+}
 
 headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36',
@@ -37,7 +40,7 @@ def main(sno, passwd, openid, zc, xj, xn, day):
         res["message"] = login_info["message"]
         try:
             param = "?zc=" + str(zc) + "&xj=" + str(xj) + "&xn=" + str(xn)
-            schedule_page = session.get(url=schedule_url + param, headers=headers, timeout=6)
+            schedule_page = session.get(url=schedule_url + param, headers=headers, timeout=6, proxies=proxy)
             session.close()
             # print(schedule_page.text)
             # 我的课程表
