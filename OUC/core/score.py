@@ -37,6 +37,7 @@ def main(sno, passwd, openid):
         res["message"] = login_info["message"]
         try:
             course_page = session.get(course_url, headers=headers, timeout=6)
+            session.close()
             # 计划内的课程
             planned_table = pd.read_html(course_page.text)[0]
             planned_table = pd.DataFrame(planned_table)

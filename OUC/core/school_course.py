@@ -55,6 +55,7 @@ def main(xn, xq, sno, passwd, openid, kkyx=-1, kcmc='', jsxm='', pageId=1):
                     "&kcxz=%d&skyy=%d&tskc=&kcbh=&kcmc=%s&jsgh=&jsxm=%s&pageId=%d" \
                     % (int(xn), int(xq), kkyx, -1, -1, kcmc, jsxm, int(pageId))
             school_course_page = session.get(school_course_url + param, headers=headers, timeout=6)
+            session.close()
             school_course_soup = BeautifulSoup(school_course_page.text, 'lxml')
             # 拿到个数
             temp = school_course_soup.findAll(name="p", attrs={"class": "w250 fr tar"})

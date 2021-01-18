@@ -338,7 +338,7 @@ class SubscribeScore(object):
                                       cur_student.name, db_scores, subscribe_student)
                     subscribe_student.travel_nums = subscribe_student.travel_nums + 1
                     subscribe_student.save()
-                    time.sleep(0.4)
+                    time.sleep(0.3)
                 except Exception as e:
                     logger.error("遍历当前学生：%s失败! %s" % (subscribe_student, e))
             travel_end = time.time()

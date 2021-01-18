@@ -124,6 +124,7 @@ class Login(object):
                 "_eventId": eventId
             }
         except Exception as e:
+            session.close()
             logger.error("[sno]: %s [passwd]: %s [Exception]: %s" % (sno, passwd, e))
             return {"message": "fault"}
         # 提交登录表单
@@ -132,6 +133,7 @@ class Login(object):
             home_page = session.get(url=cls.home_url, headers=cls.headers, timeout=6)
             session.keep_live = False
         except Exception as e:
+            session.close()
             logger.error("[sno]: %s [passwd]: %s [Exception]: %s" % (sno, passwd, e))
             return {"message": "timeout"}
 
@@ -147,5 +149,6 @@ class Login(object):
                     pass
                 return {"message": "success", "session": session}
         except Exception as e:
+            session.close()
             logger.error("[sno]: %s [passwd]: %s [Exception]: %s" % (sno, passwd, e))
             return {"message": "fault"}
