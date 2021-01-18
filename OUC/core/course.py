@@ -93,6 +93,7 @@ def main(sno, passwd, openid):
                     res['unplanned_courses'] = unplanned_courses
             return res
         except Exception as e:
+            session.close()
             logger.error("[sno]: %s [passwd]: %s [Exception]: %s" % (sno, passwd, e))
             res['have_class'] = 2
             return res

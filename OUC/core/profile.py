@@ -29,6 +29,7 @@ def main(sno, passwd, openid):
         res["message"] = login_info["message"]
         try:
             profile_page = session.get(profile_url, headers=headers, timeout=6)
+            session.close()
             profile_soup = BeautifulSoup(profile_page.text, 'lxml')
             name = profile_soup.findAll(name="dt", attrs={"class": "title cblue"})[0].text
             # ml10 content w300
@@ -41,6 +42,7 @@ def main(sno, passwd, openid):
             res['have_info'] = 1
             return res
         except Exception as e:
+            session.close()
             logger.error("[sno]: %s [passwd]: %s [Exception]: %s" % (sno, passwd, e))
             res['have_info'] = 2
             return res

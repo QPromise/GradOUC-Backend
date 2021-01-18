@@ -86,6 +86,7 @@ def main(sno, passwd, openid):
                 res['have_class'] = 1
             return res
         except Exception as e:
+            session.close()
             logger.error("[sno]: %s [passwd]: %s [Exception]: %s" % (sno, passwd, e))
             res['have_class'] = 2
             return res
