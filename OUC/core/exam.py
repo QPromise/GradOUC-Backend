@@ -15,8 +15,8 @@ logger = log.logger
 
 
 def main(sno, my_sno, my_passwd, my_openid):
-    if my_sno is not None and my_passwd is not None and my_openid is not None:
-        login.Login.login(my_sno, my_passwd, my_openid)
+    # if my_sno is not None and my_passwd is not None and my_openid is not None:
+    #     login.Login.login(my_sno, my_passwd, my_openid)
     # print(my_openid,my_passwd,my_sno)
     sno = str(sno)
     # if sno.isdigit():
