@@ -173,12 +173,13 @@ class SubscribeScore(object):
         """
         try:
             if AccessToken.access_token is not None:
+                if len(course_name) > 19:
+                    course_name = course_name[:15] + "..."
                 send_url = cls.send_url_prefix + AccessToken.access_token
                 values = {
                     "touser": openid,
                     "template_id": cls.template_id,
                     "page": "pages/core/score/score",
-                    "miniprogram_state": "developer",
                     "lang": "zh_CN",
                     "data": {
                         "name1": {
