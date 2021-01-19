@@ -60,15 +60,16 @@ def update_all_subscribe_student():
 
 def start_travel_subscribe_student():
     try:
+        update_all_subscribe_student()
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.bind(("127.0.0.1", 47200))
         try:
             scheduler = BackgroundScheduler()
             # 监控任务
             scheduler.add_job(get_access_token, trigger='cron', coalesce=True,
-                              minute='*/24', id='get_access_token')
+                              minute='*/28', id='get_access_token')
             scheduler.add_job(travel_subscribe_student, trigger='cron', coalesce=True,
-                              minute='*/25', id='travel_subscribe_student')
+                              minute='*/30', id='travel_subscribe_student')
             scheduler.add_job(update_all_subscribe_student, trigger='cron', coalesce=True,
                               hour='*/8', id='update_all_subscribe_student')
             # 调度器开始

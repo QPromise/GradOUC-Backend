@@ -64,7 +64,13 @@ class ProxyIP(object):
             cur_time = int(time.time())
             if cur_time - cls.get_ip_time > cls.rest_time:
                 cls.update_proxy_ip()
-        return cls.proxy_ip
+        username = "cs_qin"
+        password = "7wl4jvhz"
+        proxies = {
+            "http": "http://%(user)s:%(pwd)s@%(proxy)s/" % {"user": username, "pwd": password, "proxy": cls.proxy_ip},
+            "https": "http://%(user)s:%(pwd)s@%(proxy)s/" % {"user": username, "pwd": password, "proxy": cls.proxy_ip}
+        }
+        return proxies
 
 
 class Login(object):
@@ -162,17 +168,7 @@ class Login(object):
             session = requests.Session()
             session.keep_live = False
             session.verify = False
-            username = "cs_qin"
-            password = "7wl4jvhz"
-            proxy_ip = ProxyIP.get_ip()
-            if proxy_ip is not None:
-                proxies = {
-                    "http": "http://%(user)s:%(pwd)s@%(proxy)s/" % {"user": username, "pwd": password, "proxy": proxy_ip},
-                    "https": "http://%(user)s:%(pwd)s@%(proxy)s/" % {"user": username, "pwd": password, "proxy": proxy_ip}
-                }
-                session.proxies = proxies
-            else:
-                logger.error("获取代理ip失败")
+            session.proxies = ProxyIP.get_ip()
             # 获得登录页面
             response = session.get(cls.login_url, headers=cls.headers, timeout=6)
             login_soup = BeautifulSoup(response.text, 'lxml')
