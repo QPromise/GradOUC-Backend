@@ -21,12 +21,12 @@ logger = log.logger
 
 class Login(object):
     headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36',
         'Connection': 'close'
     }
     # 登录地址
-    login_url = "http://id.ouc.edu.cn:8071/sso/login?service=http%3A%2F%2Fpgs.ouc.edu.cn%2Fallogene%2Fpage%2Fhome.htm%3B"
-    new_login_url = "http://pgs.ouc.edu.cn/sso/login?service=http%3A%2F%2Fpgs.ouc.edu.cn%2Fpy%2Fpage%2Fstudent%2Fxslcsm.htm%3B"
+    login_url = "http://id.ouc.edu.cn:8071/sso/login?service=http%3A%2F%2Fpgs.ouc.edu.cn%2Fallogene%2Fpage%2Fhome.htm"
+    new_login_url = "http://pgs.ouc.edu.cn/sso/login?service=http%3A%2F%2Fpgs.ouc.edu.cn%2Fallogene%2Fpage%2Fhome.htm"
     # 登录后主页
     home_url = "http://pgs.ouc.edu.cn/allogene/page/home.htm"
     # profile
@@ -117,6 +117,11 @@ class Login(object):
             session.mount('https://', adapter)
             session.keep_live = False
             session.verify = False
+            session.proxies = {"http://1": "115.221.242.217:9999",
+                               "http://2": "36.250.156.145:9999",
+                               "http://3": "175.42.129.249:9999",
+                               "http://4": "123.55.98.191:9999",
+                               }
             # 获得登录页面
             response = session.get(cls.login_url, headers=cls.headers, timeout=6)
             time.sleep(0.1)
