@@ -60,11 +60,8 @@ def update_all_subscribe_student():
 
 def start_travel_subscribe_student():
     try:
-<<<<<<< HEAD
-=======
         get_access_token()
         travel_subscribe_student()
->>>>>>> ffa39163ec402c1e64a206021e5df1413994fc9a
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.bind(("127.0.0.1", 47200))
         try:
