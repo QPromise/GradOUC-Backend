@@ -60,7 +60,11 @@ def update_all_subscribe_student():
 
 def start_travel_subscribe_student():
     try:
-        update_all_subscribe_student()
+<<<<<<< HEAD
+=======
+        get_access_token()
+        travel_subscribe_student()
+>>>>>>> ffa39163ec402c1e64a206021e5df1413994fc9a
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.bind(("127.0.0.1", 47200))
         try:
@@ -71,7 +75,7 @@ def start_travel_subscribe_student():
             scheduler.add_job(travel_subscribe_student, trigger='cron', coalesce=True,
                               minute='*/30', id='travel_subscribe_student')
             scheduler.add_job(update_all_subscribe_student, trigger='cron', coalesce=True,
-                              hour='*/8', id='update_all_subscribe_student')
+                              hour='*/5', id='update_all_subscribe_student')
             # 调度器开始
             logger.debug("调度器开始执行....")
             scheduler.start()
