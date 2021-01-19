@@ -117,11 +117,7 @@ class Login(object):
             session.mount('https://', adapter)
             session.keep_live = False
             session.verify = False
-            session.proxies = {"http://1": "115.221.242.217:9999",
-                               "http://2": "36.250.156.145:9999",
-                               "http://3": "175.42.129.249:9999",
-                               "http://4": "123.55.98.191:9999",
-                               }
+            session.proxies = {"https": "123.55.98.193:9999"}
             # 获得登录页面
             response = session.get(cls.login_url, headers=cls.headers, timeout=6)
             time.sleep(0.1)
