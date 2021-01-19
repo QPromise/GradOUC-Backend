@@ -188,7 +188,7 @@ class Login(object):
             return {"message": "fault"}
         # 提交登录表单
         try:
-            post_form = session.post(url=cls.login_url, headers=cls.headers, data=values)
+            post_form = session.post(url=cls.login_url, headers=cls.headers, timeout=6, data=values)
             home_page = session.get(url=cls.home_url, headers=cls.headers, timeout=6)
 
         except Exception as e:
