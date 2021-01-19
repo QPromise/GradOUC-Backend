@@ -14,7 +14,6 @@ import re
 import time
 
 from OUC import log
-from OUC.core.package import login
 
 logger = log.logger
 
@@ -30,9 +29,6 @@ def get_news(page):
     head = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36'
     }
-    proxy_support = urllib.request.ProxyHandler(login.ProxyIP.get_ip())
-    opener = urllib.request.build_opener(proxy_support)
-    urllib.request.install_opener(opener)
     req = urllib.request.Request(yanzhao_url, headers=head)
     # 将服务器返回的页面放入rsp变量
     rsp = urllib.request.urlopen(req)
@@ -72,9 +68,6 @@ def get_newsDeatil(id):
         head = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36'
         }
-        proxy_support = urllib.request.ProxyHandler(login.ProxyIP.get_ip())
-        opener = urllib.request.build_opener(proxy_support)
-        urllib.request.install_opener(opener)
         req = urllib.request.Request(newsDetail_url, headers=head)
         # 将服务器返回的页面放入rsp变量
         rsp = urllib.request.urlopen(req)
