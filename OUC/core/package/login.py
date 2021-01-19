@@ -21,7 +21,7 @@ logger = log.logger
 
 class Login(object):
     headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36',
         'Connection': 'close'
     }
     # 登录地址
@@ -112,12 +112,11 @@ class Login(object):
         try:
             # 创建一个回话
             session = requests.Session()
-            adapter = HTTPAdapter(max_retries=3)
-            session.mount('http://', adapter)
-            session.mount('https://', adapter)
+            # adapter = HTTPAdapter(max_retries=3)
+            # session.mount('http://', adapter)
+            # session.mount('https://', adapter)
             session.keep_live = False
             session.verify = False
-            session.proxies = {"https": "123.55.98.193:9999"}
             # 获得登录页面
             response = session.get(cls.login_url, headers=cls.headers, timeout=6)
             time.sleep(0.1)
