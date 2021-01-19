@@ -21,6 +21,7 @@ logger = log.logger
 class Login(object):
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36',
+        'Connection': 'close'
     }
     # 登录地址
     login_url = "http://id.ouc.edu.cn:8071/sso/login?service=http%3A%2F%2Fpgs.ouc.edu.cn%2Fallogene%2Fpage%2Fhome.htm%3B"
@@ -112,7 +113,7 @@ class Login(object):
             # 创建一个回话
             session = requests.Session()
             # 获得登录页面
-            response = session.get(cls.login_url, timeout=6)
+            response = session.get(cls.login_url, headers=cls.headers, timeout=6)
             time.sleep(0.1)
             login_soup = BeautifulSoup(response.text, 'lxml')
             # 获取隐藏字段
