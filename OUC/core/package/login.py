@@ -11,12 +11,60 @@ import requests
 from bs4 import BeautifulSoup
 import django.utils.timezone as timezone
 import time
-from requests.adapters import HTTPAdapter
+import threading
 
 from OUC import models
 from OUC import log
 
 logger = log.logger
+
+
+class ProxyIP(object):
+    _instance_lock = threading.Lock()
+    api_url = "https://dps.kdlapi.com/api/getdps/?orderid=901105509469578&num=1&area=%E5%B1%B1%E4%B8%9C&pt=1&f_et=1&dedup=1&format=json&sep=1"
+    proxy_ip = None
+    get_ip_time = None
+    rest_time = None
+    count = 0
+
+    def __init__(self):
+        pass
+
+    @classmethod
+    def __new__(cls, *args, **kwargs):
+        if not hasattr(ProxyIP, "_instance"):
+            with ProxyIP._instance_lock:
+                if not hasattr(ProxyIP, "_instance"):
+                    ProxyIP._instance = object.__new__(cls)
+        return ProxyIP._instance
+
+    @classmethod
+    def update_proxy_ip(cls):
+        try:
+            # res = {"msg": "", "code": 0, "data": {"count": 1, "proxy_list": ["122.4.52.220:19012,1559"], "order_left_count": 997, "dedup_count": 1}}
+            get_result = requests.get(cls.api_url).json()['data']['proxy_list'][0].split(",")
+            proxy_ip, rest_time = get_result[0], get_result[1]
+            get_ip_time = int(time.time())
+            cls.proxy_ip = proxy_ip
+            cls.rest_time = int(rest_time)
+            cls.get_ip_time = get_ip_time
+            cls.count += 1
+            logger.info("%s生成了第%s个IP[%s]，剩余时间%ss" % (get_ip_time, cls.count, proxy_ip, rest_time))
+        except Exception as e:
+            logger.error("获取ip异常%s" % e)
+            cls.proxy_ip = None
+            cls.get_ip_time = None
+            cls.rest_time = None
+
+    @classmethod
+    def get_ip(cls):
+        if cls.proxy_ip is None:
+            cls.update_proxy_ip()
+        else:
+            cur_time = int(time.time())
+            if cur_time - cls.get_ip_time > cls.rest_time:
+                cls.update_proxy_ip()
+        return cls.proxy_ip
 
 
 class Login(object):
@@ -112,14 +160,21 @@ class Login(object):
         try:
             # 创建一个回话
             session = requests.Session()
-            # adapter = HTTPAdapter(max_retries=3)
-            # session.mount('http://', adapter)
-            # session.mount('https://', adapter)
             session.keep_live = False
             session.verify = False
+            username = "cs_qin"
+            password = "7wl4jvhz"
+            proxy_ip = ProxyIP.get_ip()
+            if proxy_ip is not None:
+                proxies = {
+                    "http": "http://%(user)s:%(pwd)s@%(proxy)s/" % {"user": username, "pwd": password, "proxy": proxy_ip},
+                    "https": "http://%(user)s:%(pwd)s@%(proxy)s/" % {"user": username, "pwd": password, "proxy": proxy_ip}
+                }
+                session.proxies = proxies
+            else:
+                logger.error("获取代理ip失败")
             # 获得登录页面
             response = session.get(cls.login_url, headers=cls.headers, timeout=6)
-            time.sleep(0.1)
             login_soup = BeautifulSoup(response.text, 'lxml')
             # 获取隐藏字段
             lt = login_soup.form.find("input", {"name": "lt"})["value"]
@@ -138,9 +193,7 @@ class Login(object):
         # 提交登录表单
         try:
             post_form = session.post(url=cls.login_url, headers=cls.headers, data=values)
-            time.sleep(0.2)
             home_page = session.get(url=cls.home_url, headers=cls.headers, timeout=6)
-            time.sleep(0.2)
 
         except Exception as e:
             session.close()
