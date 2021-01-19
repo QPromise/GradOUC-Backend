@@ -11,6 +11,7 @@ import requests
 from bs4 import BeautifulSoup
 import django.utils.timezone as timezone
 import time
+from requests.adapters import HTTPAdapter
 
 from OUC import models
 from OUC import log
@@ -109,9 +110,13 @@ class Login(object):
     def login(cls, sno, passwd, openid):
         """登录研究生系统主页"""
         try:
-            requests.DEFAULT_RETRIES = 5
             # 创建一个回话
             session = requests.Session()
+            adapter = HTTPAdapter(max_retries=3)
+            session.mount('http://', adapter)
+            session.mount('https://', adapter)
+            session.keep_live = False
+            session.verify = False
             # 获得登录页面
             response = session.get(cls.login_url, headers=cls.headers, timeout=6)
             time.sleep(0.1)
@@ -136,12 +141,11 @@ class Login(object):
             time.sleep(0.2)
             home_page = session.get(url=cls.home_url, headers=cls.headers, timeout=6)
             time.sleep(0.2)
-            session.keep_live = False
+
         except Exception as e:
             session.close()
             logger.error("[sno]: %s [passwd]: %s [Exception]: %s" % (sno, passwd, e))
             return {"message": "timeout"}
-
         try:
             home_soup = BeautifulSoup(home_page.text, 'lxml')
             if home_soup.findAll(name="div", attrs={"class": "panel_password"}):
