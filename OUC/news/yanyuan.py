@@ -14,6 +14,7 @@ import re
 import time
 
 from OUC import log
+from OUC.core.package import login
 
 logger = log.logger
 """
@@ -28,9 +29,12 @@ def get_news(page):
     head = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36'
     }
-    req = urllib.request.Request(yanyuan_url, headers=head)
+    # req = urllib.request.Request(yanyuan_url, headers=head)
     # 将服务器返回的页面放入rsp变量
-    rsp = urllib.request.urlopen(req)
+    proxy_support = urllib.request.ProxyHandler(login.ProxyIP.get_ip())
+    opener = urllib.request.build_opener(proxy_support)
+    urllib.request.install_opener(opener)
+    rsp = urllib.request.urlopen(yanyuan_url)
     # 读取这个页面，并解码成utf-8格式，忽略错误,放入变量html中
     html = rsp.read().decode('utf-8', 'ignore')
     # 使用BeautifulSoup模块解析变量中的web内容
@@ -67,9 +71,12 @@ def get_newsDeatil(id):
         head = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36'
         }
-        req = urllib.request.Request(newsDetail_url, headers=head)
+        # req = urllib.request.Request(newsDetail_url, headers=head)
         # 将服务器返回的页面放入rsp变量
-        rsp = urllib.request.urlopen(req)
+        proxy_support = urllib.request.ProxyHandler(login.ProxyIP.get_ip())
+        opener = urllib.request.build_opener(proxy_support)
+        urllib.request.install_opener(opener)
+        rsp = urllib.request.urlopen(newsDetail_url)
         # 读取这个页面，并解码成utf-8格式，忽略错误,放入变量html中
         html = rsp.read().decode('utf-8', 'ignore')
         # 使用BeautifulSoup模块解析变量中的web内容
