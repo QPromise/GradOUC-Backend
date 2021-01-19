@@ -60,8 +60,6 @@ def update_all_subscribe_student():
 
 def start_travel_subscribe_student():
     try:
-        get_access_token()
-        travel_subscribe_student()
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.bind(("127.0.0.1", 47200))
         try:
@@ -84,7 +82,7 @@ def start_travel_subscribe_student():
         logger.error("[调度器执行了两遍]%s scheduler has already started!" % e)
 
 
-start_travel_subscribe_student()
+# start_travel_subscribe_student()
 
 urlpatterns = [
     path('admin/', admin.site.urls),

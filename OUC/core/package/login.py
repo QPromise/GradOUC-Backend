@@ -67,8 +67,8 @@ class ProxyIP(object):
         username = "cs_qin"
         password = "7wl4jvhz"
         proxies = {
-            "http": "http://%(user)s:%(pwd)s@%(proxy)s/" % {"user": username, "pwd": password, "proxy": cls.proxy_ip},
-            "https": "http://%(user)s:%(pwd)s@%(proxy)s/" % {"user": username, "pwd": password, "proxy": cls.proxy_ip}
+            "http": "http://%s:%s@%s/" % (username, password, cls.proxy_ip),
+            "https": "http://%s:%s@%s/" % (username, password, cls.proxy_ip)
         }
         return proxies
 
@@ -188,7 +188,7 @@ class Login(object):
             return {"message": "fault"}
         # 提交登录表单
         try:
-            post_form = session.post(url=cls.login_url, headers=cls.headers, data=values)
+            post_form = session.post(url=cls.login_url, headers=cls.headers, timeout=6, data=values)
             home_page = session.get(url=cls.home_url, headers=cls.headers, timeout=6)
 
         except Exception as e:
