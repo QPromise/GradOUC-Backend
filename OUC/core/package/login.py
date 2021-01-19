@@ -67,8 +67,8 @@ class ProxyIP(object):
         username = "cs_qin"
         password = "7wl4jvhz"
         proxies = {
-            "http": "http://%(user)s:%(pwd)s@%(proxy)s/" % {"user": username, "pwd": password, "proxy": cls.proxy_ip},
-            "https": "http://%(user)s:%(pwd)s@%(proxy)s/" % {"user": username, "pwd": password, "proxy": cls.proxy_ip}
+            "http": "http://%s:%s@%s/" % (username, password, cls.proxy_ip),
+            "https": "http://%s:%s@%s/" % (username, password, cls.proxy_ip)
         }
         return proxies
 
