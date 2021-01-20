@@ -17,7 +17,7 @@ logger = log.logger
 
 class ProxyIP(object):
     _instance_lock = threading.Lock()
-    api_url = "https://dps.kdlapi.com/api/getdps/?orderid=901105509469578&num=1&area=%E5%B1%B1%E4%B8%9C&pt=1&f_et=1&dedup=1&format=json&sep=1"
+    api_url = "https://dps.kdlapi.com/api/getdps/?orderid=901105509469578&num=1&area=%E5%B1%B1%E4%B8%9C&pt=1&f_et=1&format=json&sep=1"
     proxy_ip = None
     get_ip_time = None
     rest_time = None
