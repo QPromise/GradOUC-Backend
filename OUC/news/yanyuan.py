@@ -14,7 +14,7 @@ import re
 import time
 
 from OUC import log
-from OUC.core.package import login
+from OUC.core.package import proxy
 
 logger = log.logger
 """
@@ -31,7 +31,7 @@ def get_news(page):
     }
     # req = urllib.request.Request(yanyuan_url, headers=head)
     # 将服务器返回的页面放入rsp变量
-    proxy_support = urllib.request.ProxyHandler(login.ProxyIP.get_ip())
+    proxy_support = urllib.request.ProxyHandler(proxy.ProxyIP.get_ip())
     opener = urllib.request.build_opener(proxy_support)
     urllib.request.install_opener(opener)
     rsp = urllib.request.urlopen(yanyuan_url)
@@ -73,7 +73,7 @@ def get_newsDeatil(id):
         }
         # req = urllib.request.Request(newsDetail_url, headers=head)
         # 将服务器返回的页面放入rsp变量
-        proxy_support = urllib.request.ProxyHandler(login.ProxyIP.get_ip())
+        proxy_support = urllib.request.ProxyHandler(proxy.ProxyIP.get_ip())
         opener = urllib.request.build_opener(proxy_support)
         urllib.request.install_opener(opener)
         rsp = urllib.request.urlopen(newsDetail_url)
