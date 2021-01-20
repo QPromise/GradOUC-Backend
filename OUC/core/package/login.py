@@ -113,12 +113,12 @@ class Login(object):
             # 创建一个回话
             session = requests.Session()
             session.verify = False
-            cur_hour = datetime.datetime.now().strftime('%H:%M')
-            if cur_hour <= '01:30' or cur_hour >= '06:00':
-                session.proxies = proxy.ProxyIP.get_ip()
-            else:
-                proxy.ProxyIP.checkout_ip()
-                session.proxies = proxy.ProxyIP.get_ip()
+            # cur_hour = datetime.datetime.now().strftime('%H:%M')
+            # if cur_hour <= '01:30' or cur_hour >= '06:00':
+            #     session.proxies = proxy.ProxyIP.get_ip()
+            # else:
+            #     proxy.ProxyIP.checkout_ip()
+            session.proxies = proxy.ProxyIP.get_ip()
             # 获得登录页面
             response = session.get(cls.login_url, headers=cls.headers, timeout=6)
             login_soup = BeautifulSoup(response.text, 'lxml')

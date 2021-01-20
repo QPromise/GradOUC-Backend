@@ -56,15 +56,16 @@ class ProxyIP(object):
 
     @classmethod
     def checkout_ip(cls):
+        pass
+
+    @classmethod
+    def get_ip(cls):
         if cls.proxy_ip is None:
             cls.update_proxy_ip()
         else:
             cur_time = int(time.time())
             if cls.fail_times >= 5 or (cur_time - cls.get_ip_time >= (cls.rest_time - 1)):
                 cls.update_proxy_ip()
-
-    @classmethod
-    def get_ip(cls):
         username = "cs_qin"
         password = "7wl4jvhz"
         proxies = {
