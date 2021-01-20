@@ -67,13 +67,15 @@ def main(sno, passwd, openid):
                             credits.append(planned_course["credit"])
                             planned_course["selected"] = True
                             planned_course["disabled"] = False
-                    # 成绩没出
+                    # 成绩没有分数
                     else:
                         # 选了的课
                         if process.find("未选") != -1:
                             score = "未选"
                         elif process.find("免修") != -1:
                             score = "免修"
+                        elif process.find("通过") != -1:
+                            score = "通过"
                         else:
                             score = "未出"
                     planned_course["score"] = score
