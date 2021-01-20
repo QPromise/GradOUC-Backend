@@ -4,6 +4,9 @@ from bs4 import  BeautifulSoup
 cur = int(time.time())
 end = 1610606871
 print((end - cur) // (3600 * 24))
+expire_time = time.strptime("2021-01-20 15:32:08", "%Y-%m-%d %H:%M:%S")
+expire_time = int(time.mktime(expire_time))
+print(begin_day)
 
 import requests
 s = requests.session()
