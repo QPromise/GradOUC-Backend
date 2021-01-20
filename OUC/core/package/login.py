@@ -112,7 +112,6 @@ class Login(object):
         try:
             # 创建一个回话
             session = requests.Session()
-            session.keep_live = False
             session.verify = False
             cur_hour = datetime.datetime.now().strftime('%H:%M')
             if cur_hour <= '01:30' or cur_hour >= '06:00':
@@ -134,6 +133,7 @@ class Login(object):
                 "_eventId": eventId
             }
         except Exception as e:
+            proxy.ProxyIP.fail_times += 1
             session.close()
             logger.error("[sno]: %s [passwd]: %s [Exception]: %s" % (sno, passwd, e))
             return {"message": "fault"}
@@ -143,6 +143,7 @@ class Login(object):
             home_page = session.get(url=cls.home_url, headers=cls.headers, timeout=6)
 
         except Exception as e:
+            proxy.ProxyIP.fail_times += 1
             session.close()
             logger.error("[sno]: %s [passwd]: %s [Exception]: %s" % (sno, passwd, e))
             return {"message": "timeout"}

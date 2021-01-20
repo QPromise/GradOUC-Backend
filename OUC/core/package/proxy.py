@@ -22,6 +22,7 @@ class ProxyIP(object):
     get_ip_time = None
     rest_time = None
     count = 0
+    fail_times = 0
 
     def __init__(self):
         pass
@@ -41,6 +42,7 @@ class ProxyIP(object):
             get_result = requests.get(cls.api_url).json()['data']['proxy_list'][0].split(",")
             proxy_ip, rest_time = get_result[0], get_result[1]
             get_ip_time = int(time.time())
+            cls.fail_times = 0
             cls.proxy_ip = proxy_ip
             cls.rest_time = int(rest_time)
             cls.get_ip_time = get_ip_time
@@ -58,7 +60,7 @@ class ProxyIP(object):
             cls.update_proxy_ip()
         else:
             cur_time = int(time.time())
-            if cur_time - cls.get_ip_time >= (cls.rest_time - 1):
+            if cls.fail_times >= 5 or (cur_time - cls.get_ip_time >= (cls.rest_time - 1)):
                 cls.update_proxy_ip()
 
     @classmethod
