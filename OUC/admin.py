@@ -1,10 +1,11 @@
 from django.contrib import admin
-from .models import Config, News, Swiper, Student, SubscribeStudent
+from .models import Config, News, Swiper, Student, SubscribeStudent, StudentRank
 
 
 # Register your models here.
 class ConfigAdmin(admin.ModelAdmin):
-    list_display = ['begin_day', 'end_day', 'xn', 'xq', 'is_open_subscribe']
+    list_display = ['begin_day', 'end_day', 'xn', 'xq', 'is_open_subscribe',
+                    'is_open_score_rank', 'score_rank_max', 'score_rank_min']
 
 
 class NewsAdmin(admin.ModelAdmin):
@@ -30,8 +31,16 @@ class SubscribeStudentAdmin(admin.ModelAdmin):
     list_per_page = 15
 
 
+class StudentRankAdmin(admin.ModelAdmin):
+    list_display = ['id', 'openid', 'sno', 'avg_score', 'avg_score_update_date', 'department',
+                    'research', 'rank_research', 'travel_nums']
+    search_fields = ['sno']
+    list_per_page = 15
+
+
 admin.site.register(Config, ConfigAdmin)
 admin.site.register(News, NewsAdmin)
 admin.site.register(Swiper, SwiperAdmin)
 admin.site.register(Student, StudentAdmin)
 admin.site.register(SubscribeStudent, SubscribeStudentAdmin)
+admin.site.register(StudentRank, StudentRankAdmin)

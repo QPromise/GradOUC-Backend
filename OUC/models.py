@@ -3,6 +3,22 @@ import datetime
 # Create your models here.
 
 
+class StudentRank(models.Model):
+    id = models.AutoField(primary_key=True)
+    openid = models.CharField('openid', max_length=50, db_index=True, unique=True)
+    sno = models.CharField('学号', max_length=15, default="-", db_index=True)
+    avg_score = models.CharField('平均学分绩', max_length=10, default="-")
+    avg_score_update_date = models.DateTimeField('学分绩更新日期', auto_now=True)
+    department = models.CharField('学院', max_length=20, default="-")
+    research = models.CharField('研究方向', max_length=40, default="-")
+    rank_research = models.CharField('参与排名的研究方向', max_length=1024, default="-")
+    travel_nums = models.IntegerField('遍历次数', default=0)
+
+    # def save(self, *args, **kwargs):
+    #     self.avg_score = float(self.avg_score)
+    #     super(StudentRank, self).save(*args, **kwargs)
+
+
 class SubscribeStudent(models.Model):
     id = models.AutoField(primary_key=True)
     openid = models.CharField('openid', max_length=50, db_index=True, unique=True)
@@ -44,6 +60,9 @@ class Config(models.Model):
     xq = models.CharField('学期(如2020-2021夏秋)', max_length=50)
     # special = models.CharField(max_length=50)
     is_open_subscribe = models.IntegerField('是否开启成绩通知(0:未开启,1:开启,2:只开启管理员的)', default=0)
+    is_open_score_rank = models.IntegerField('是否开启成绩排名遍历(0:未开启,1:开启,2:只开启管理员的)', default=0)
+    score_rank_min = models.CharField('参与成绩计算的年级下限', max_length=5, default="2120")
+    score_rank_max = models.CharField('参与成绩计算的年级上限', max_length=5, default="2120")
 
     def __str__(self):
         return self.begin_day
