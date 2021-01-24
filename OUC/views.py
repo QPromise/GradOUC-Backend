@@ -49,7 +49,7 @@ def get_config(request):
     begin_day = int(time.mktime(begin_day))
     # print(begin_day)
     res = {"begin_day": begin_day, "end_day": res.end_day, "xn": res.xn, "xq": res.xq, "is_open_subscribe": res.is_open_subscribe,
-           "get_score_rank_nj_min": res.get_score_rank_nj_min, "get_score_rank_nj_max": res.get_score_rank_nj_min}
+           "get_score_rank_nj_min": res.get_score_rank_nj_min, "get_score_rank_nj_max": res.get_score_rank_nj_max}
     res = json.dumps(res)
     return response(res)
 
