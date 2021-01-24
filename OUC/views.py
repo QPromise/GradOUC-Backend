@@ -11,7 +11,8 @@ import time
 from django.shortcuts import render
 from django.http import HttpResponse as response
 
-from .core import login, schedule, today_course, course, score, library, profile, school_course, score_subscribe, exam, recently_use
+from .core import login, schedule, today_course, course, score, library,\
+    profile, school_course, score_subscribe, exam, recently_use, score_rank
 from .news import yanzhao, xueshu, houqin, school, yanyuan
 from .models import Config, News, Swiper
 
@@ -28,6 +29,7 @@ def index(request):
     # return response('欢迎使用微信小程序【研在OUC】')
 
 
+# =================================消息通知模块================================== #
 # 消息通知
 def get_news(request):
     news = News.objects.all()[0]
@@ -37,6 +39,7 @@ def get_news(request):
     return response(res)
 
 
+# =================================全局配置模块================================== #
 # 配置开学日期，放假日期，学年，学期
 def get_config(request):
     res = Config.objects.all()[0]
@@ -50,6 +53,7 @@ def get_config(request):
     return response(res)
 
 
+# =================================banner图推送模块================================== #
 # 获取推送
 def get_swiper(request):
     swipers = Swiper.objects.all()
@@ -66,6 +70,7 @@ def get_swiper(request):
     return response(res)
 
 
+# =================================最近使用同学展示模块================================== #
 # 获取最近使用的同学
 def get_recently_use(request):
     res = recently_use.main()
@@ -73,6 +78,7 @@ def get_recently_use(request):
     return response(res)
 
 
+# =================================绑定登录模块================================== #
 # 绑定学号密码
 def do_login(request):
     sno, passwd = request.POST.get('sno'), request.POST.get('passwd')
@@ -86,6 +92,7 @@ def do_login(request):
     return response(res)
 
 
+# =================================我的课表模块================================== #
 # 获取课表
 def get_schedule(request):
     sno, passwd, zc, xn, xj = request.POST.get('sno'), request.POST.get('passwd'), \
@@ -97,6 +104,7 @@ def get_schedule(request):
     return response(res)
 
 
+# =================================今日课表模块================================== #
 # 获取今日课表
 def get_today_course(request):
     sno, passwd, zc, xn, xj, day = request.POST.get('sno'), request.POST.get('passwd'), request.POST.get('zc'),\
@@ -108,6 +116,7 @@ def get_today_course(request):
     return response(res)
 
 
+# =================================我的考试安排模块================================== #
 # 获取考试安排
 def get_exam(request):
     sno, my_sno, my_passwd, my_openid = request.POST.get('sno'), request.POST.get('my_sno'),\
@@ -118,6 +127,7 @@ def get_exam(request):
     return response(res)
 
 
+# =================================我的课程模块================================== #
 # 获取课程
 def get_course(request):
     sno, passwd = request.POST.get('sno'), request.POST.get('passwd')
@@ -132,6 +142,7 @@ def get_course(request):
     return response(res)
 
 
+# =================================我的成绩模块================================== #
 # 获取成绩以及平均学分绩
 def get_score(request):
     sno, passwd = request.POST.get('sno'), request.POST.get('passwd')
@@ -141,6 +152,7 @@ def get_score(request):
     return response(res)
 
 
+# =================================个人信息模块================================== #
 # 获取个人信息
 def get_profile(request):
     sno, passwd = request.POST.get('sno'), request.POST.get('passwd')
@@ -151,6 +163,7 @@ def get_profile(request):
     return response(res)
 
 
+# =================================全校开课模块================================== #
 # 获取全校开课
 def get_school_course(request):
     sno, passwd = request.POST.get('sno'), request.POST.get('passwd')
@@ -165,6 +178,31 @@ def get_school_course(request):
     return response(res)
 
 
+# =================================成绩排名模块================================== #
+# 查看成绩排名
+def get_score_rank(request):
+    openid, sno, passwd = request.GET.get('openid'), request.GET.get('sno'), request.GET.get('passwd')
+    res = score_rank.ScoreRank.get_my_score_rank(openid, sno, passwd)
+    res = json.dumps(res)
+    return response(res)
+
+
+# 更新平均学分绩
+def update_avg_score(request):
+    openid, sno, passwd = request.GET.get('openid'), request.GET.get('sno'), request.GET.get('passwd')
+    res = score_rank.ScoreRank.update_my_score(openid, sno, passwd)
+    res = json.dumps(res)
+    return response(res)
+
+
+def get_department_all_research(request):
+    openid, sno = request.GET.get('openid'), request.GET.get('sno')
+    res = score_rank.ScoreRank.get_department_all_research(openid, sno)
+    res = json.dumps(res)
+    return response(res)
+
+
+# =================================成绩订阅模块================================== #
 # 订阅出成绩通知
 def subscribe_score(request):
     openid = request.GET.get('openid')
@@ -187,6 +225,7 @@ def set_failure_popup_false(request):
     return response(json.dumps(res))
 
 
+# =================================图书馆模块================================== #
 # 图书查询
 def search_book(request):
     keyword, fieldCode, page = request.POST.get('keyword'), request.POST.get('type'), request.POST.get('page')
@@ -258,6 +297,7 @@ def get_schoolNewsDetail(request):
     return response(res)
 
 
+# =================================moniqingjia模块================================== #
 def shenpi_submit(request):
     person_id = request.GET.get("vip")
     if person_id is None:

@@ -38,7 +38,7 @@ class Login(object):
     @classmethod
     def get_student_info(cls, session):
         try:
-            profile_page = session.get(cls.profile_url, headers=cls.headers, timeout=6)
+            profile_page = session.get(cls.profile_url, headers=cls.headers, timeout=8)
             profile_soup = BeautifulSoup(profile_page.text, 'lxml')
             name = profile_soup.findAll(name="dt", attrs={"class": "title cblue"})[0].text
             need_list = profile_soup.findAll(name="dd", attrs={"class": "ml10 content w300"})
@@ -120,7 +120,7 @@ class Login(object):
             #     proxy.ProxyIP.checkout_ip()
             session.proxies = proxy.ProxyIP.get_ip()
             # 获得登录页面
-            response = session.get(cls.login_url, headers=cls.headers, timeout=6)
+            response = session.get(cls.login_url, headers=cls.headers, timeout=8)
             login_soup = BeautifulSoup(response.text, 'lxml')
             # 获取隐藏字段
             lt = login_soup.form.find("input", {"name": "lt"})["value"]
@@ -139,8 +139,8 @@ class Login(object):
             return {"message": "fault"}
         # 提交登录表单
         try:
-            post_form = session.post(url=cls.login_url, headers=cls.headers, timeout=6, data=values)
-            home_page = session.get(url=cls.home_url, headers=cls.headers, timeout=6)
+            post_form = session.post(url=cls.login_url, headers=cls.headers, timeout=8, data=values)
+            home_page = session.get(url=cls.home_url, headers=cls.headers, timeout=8)
 
         except Exception as e:
             proxy.ProxyIP.fail_times += 1
