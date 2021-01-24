@@ -28,12 +28,37 @@ passwd = ""
 class ScoreRank(object):
 
     @classmethod
-    def get_my_department_profession(cls):
-        pass
+    def get_department_all_research(cls, openid, sno):
+        try:
+            config = models.Config.objects.all()[0]
+            sno_prefix = sno[:4]
+            # 找出已经订阅的student
+            if int(sno_prefix) in range(int(config.get_score_rank_nj_min), int(config.get_score_rank_nj_max) + 1):
+                student = models.StudentRank.objects.filter(openid=openid)
+                # 同年级 同选择研究方向的人数
+                query_research_list = models.StudentRank.objects.filter(Q(sno__startswith=sno_prefix) & Q(department=student[0].department)).values('research').distinct()
+                research_list = [cur_student["research"] for cur_student in query_research_list]
+                print(research_list)
+                return {"message": "success", "research_list": research_list}
+            else:
+                return {"message": "illegal"}
+        except Exception as e:
+            logger.error(
+                "[get my department profession]: [sno]: %s [passwd]: %s [Exception]: %s"
+                % (sno, passwd, e))
+            return {"message": "fault"}
 
     @classmethod
-    def set_rank_profession(cls):
-        pass
+    def set_join_rank_research(cls, openid, research_list):
+        try:
+            rank_student = models.StudentRank.objects.filter(openid=openid)
+            rank_student.update(rank_research=cls.__list_to_str(research_list))
+            return {"message": "success"}
+        except Exception as e:
+            logger.error(
+                "[get my department profession]: [sno]: %s [passwd]: %s [Exception]: %s"
+                % (sno, passwd, e))
+            return {"message": "fault"}
 
     @classmethod
     def update_my_score(cls, openid, sno, passwd):
@@ -47,7 +72,7 @@ class ScoreRank(object):
             config = models.Config.objects.all()[0]
             sno_prefix = sno[:4]
             # 找出已经订阅的student
-            if int(sno_prefix) in range(int(config.score_rank_min), int(config.score_rank_max) + 1):
+            if int(sno_prefix) in range(int(config.get_score_rank_nj_min), int(config.get_score_rank_nj_max) + 1):
                 res = cls.score_update(sno, passwd, openid, False)
                 if res["message"] == "success":
                     student = models.StudentRank.objects.filter(openid=openid)
@@ -80,6 +105,7 @@ class ScoreRank(object):
         try:
             rank_student = models.StudentRank.objects.filter(openid=openid)
             login_student = models.Student.objects.filter(openid=openid)
+            # 如果当前登录的学生没有计算平均学分绩
             if len(rank_student) == 0:
                 get_score = score.main(sno, passwd, "null")
                 if get_score["message"] == "success" and get_score["have_class"] == 1:
@@ -93,6 +119,7 @@ class ScoreRank(object):
                 try:
                     models.StudentRank.objects.create(openid=openid, sno=sno,
                                                       avg_score=avg_score, department=login_student[0].department,
+                                                      profession=login_student[0].profession,
                                                       research=login_student[0].research,
                                                       rank_research=login_student[0].research)
                 except Exception as e:
@@ -100,9 +127,10 @@ class ScoreRank(object):
                     logger.error(
                         "[student get rank white info repeated]: [sno]: %s [passwd]: %s [Exception]: %s"
                         % (sno, passwd, e))
+            # 如果当前登录的学生计算平均学分绩
             else:
                 try:
-                    # 如果登陆其它号了
+                    # 如果当前学生又登陆其它号了
                     if login_student[0].sno != rank_student[0].sno:
                         get_score = score.main(sno, passwd, "null")
                         if get_score["message"] == "success" and get_score["have_class"] == 1:
@@ -114,8 +142,10 @@ class ScoreRank(object):
                             res["message"] = "fault"
                             return res
                         rank_student.update(sno=sno, avg_score=avg_score,
-                                            rank_research=login_student[0].research,
+                                            department=login_student[0].department,
+                                            profession=login_student[0].profession,
                                             research=login_student[0].research,
+                                            rank_research=login_student[0].research,
                                             avg_score_update_date=timezone.now())
                         res["times"] = 1
                     # 如果没有登陆其他号
@@ -153,15 +183,16 @@ class ScoreRank(object):
         try:
             config = models.Config.objects.all()[0]
             # 找出已经订阅的student
-            for sno_start in range(int(config.score_rank_min), int(config.score_rank_max) + 1):
+            for sno_start in range(int(config.score_rank_travel_nj_min), int(config.score_rank_travel_nj_max) + 1):
+                # 找出符合学号年级的所有学生
                 students = models.Student.objects.filter(sno__startswith=str(sno_start))
-                # 遍历列表
+                # 遍历列表开始时间
                 travel_begin = time.time()
                 for student in students:
                     try:
-                        # 判断是否存在
+                        # 判断是否存在当前成绩排名的列表当中
                         cur_student = models.StudentRank.objects.filter(openid=student.openid)
-                        # 不存在
+                        # 如果当前登录的学生没有计算平均学分绩
                         if len(cur_student) == 0:
                             res = score.main(student.sno, cls.base64decode(student.passwd), "null")
                             if res["message"] == "success" and res["have_class"] == 1:
@@ -174,13 +205,14 @@ class ScoreRank(object):
                             try:
                                 models.StudentRank.objects.create(openid=student.openid, sno=student.sno,
                                                                   avg_score=avg_score, department=student.department,
+                                                                  profession=student.profession,
                                                                   research=student.research,
                                                                   rank_research=student.research)
                             except Exception as e:
                                 logger.error(
                                     "[student rank white info repeated]: [sno]: %s [passwd]: %s [Exception]: %s"
                                     % (student.sno, student.passwd, e))
-                        # 存在
+                        # 如果当前登录的学生已经计算平均学分绩
                         else:
                             res = score.main(student.sno, cls.base64decode(student.passwd), "null")
                             if res["message"] == "success" and res["have_class"] == 1:
@@ -194,8 +226,10 @@ class ScoreRank(object):
                                 # 如果登陆其它号了
                                 if student.sno != cur_student[0].sno:
                                     cur_student.update(sno=student.sno, avg_score=avg_score,
-                                                       rank_research=student.research,
+                                                       department=student.department,
+                                                       profession=student.profession,
                                                        research=student.research,
+                                                       rank_research=student.research,
                                                        travel_times=0,
                                                        avg_score_update_date=timezone.now())
                                 # 如果没有登陆其他号
@@ -206,7 +240,7 @@ class ScoreRank(object):
                                 logger.error(
                                     "[student rank white info repeated]: [sno]: %s [passwd]: %s [Exception]: %s"
                                     % (student.sno, student.passwd, e))
-                        time.sleep(5)
+                        time.sleep(3)
                     except Exception as e:
                         logger.error("【成绩排名】遍历当前学生：%s失败! %s" % (student, e))
                 travel_end = time.time()

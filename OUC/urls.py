@@ -15,6 +15,7 @@ urlpatterns = [
     url(r'^get_score/$', views.get_score, name='get_score'),
     url(r'^get_score_rank', views.get_score_rank, name='get_score_rank'),
     url(r'^update_avg_score', views.update_avg_score, name='update_avg_score'),
+    url(r'^get_department_all_research', views.get_department_all_research, name='get_department_all_research'),
     url(r'^get_exam/$', views.get_exam, name='get_exam'),
     url(r'^search_book/$', views.search_book, name='search_book'),
     url(r'^get_bookDetail/$', views.get_bookDetail, name='get_bookDetail'),

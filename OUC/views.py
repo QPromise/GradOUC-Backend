@@ -195,6 +195,13 @@ def update_avg_score(request):
     return response(res)
 
 
+def get_department_all_research(request):
+    openid, sno = request.GET.get('openid'), request.GET.get('sno')
+    res = score_rank.ScoreRank.get_department_all_research(openid, sno)
+    res = json.dumps(res)
+    return response(res)
+
+
 # =================================成绩订阅模块================================== #
 # 订阅出成绩通知
 def subscribe_score(request):
