@@ -5,12 +5,8 @@
 Author: qinchangshuai(cs_qin@qq.com) 
 Date: 2021/1/22 13:35 
 """
-import requests
-import json
 import time
-import threading
 import base64
-import re
 import django.utils.timezone as timezone
 from django.db.models import Q
 
@@ -19,10 +15,6 @@ from OUC.core import score
 from OUC import log
 
 logger = log.logger
-
-openid = ""
-sno = ""
-passwd = ""
 
 
 class ScoreRank(object):
@@ -36,10 +28,22 @@ class ScoreRank(object):
             if int(sno_prefix) in range(int(config.get_score_rank_nj_min), int(config.get_score_rank_nj_max) + 1):
                 student = models.StudentRank.objects.filter(openid=openid)
                 # 同年级 同选择研究方向的人数
-                query_research_list = models.StudentRank.objects.filter(Q(sno__startswith=sno_prefix) & Q(department=student[0].department)).values('research').distinct()
-                research_list = [cur_student["research"] for cur_student in query_research_list]
-                print(research_list)
-                return {"message": "success", "research_list": research_list}
+                research_list = cls.__str_to_list(str, student[0].rank_research)
+                unique_research = student[0].research
+                query_research_list = models.StudentRank.objects.filter(Q(sno__startswith=sno_prefix) & Q(department=student[0].department)).values('research', 'profession').distinct()
+                all_research_list = [{"name": (cur_student["profession"] + "(" + cur_student["research"] + ")"), "value": cur_student["research"]} for cur_student in query_research_list]
+                for research in all_research_list:
+                    if research["value"] in research_list:
+                        research["checked"] = True
+                    else:
+                        research["checked"] = False
+
+                    if research["value"] == unique_research:
+                        research["disabled"] = True
+                    else:
+                        research["disabled"] = False
+                all_research_list = sorted(all_research_list, key=lambda keys: keys['name'])
+                return {"message": "success", "all_research_list": all_research_list}
             else:
                 return {"message": "illegal"}
         except Exception as e:
@@ -52,7 +56,7 @@ class ScoreRank(object):
     def set_join_rank_research(cls, openid, research_list):
         try:
             rank_student = models.StudentRank.objects.filter(openid=openid)
-            rank_student.update(rank_research=cls.__list_to_str(research_list))
+            rank_student.update(rank_research=research_list)
             return {"message": "success"}
         except Exception as e:
             logger.error(
@@ -61,19 +65,15 @@ class ScoreRank(object):
             return {"message": "fault"}
 
     @classmethod
-    def update_my_score(cls, openid, sno, passwd):
-        res = cls.score_update(sno, passwd, openid, True)
-        return res
-
-    @classmethod
-    def get_my_score_rank(cls, openid, sno, passwd):
+    def get_my_score_rank(cls, openid, sno, passwd, type):
         # 判断是否存在 openid sno passwd
         try:
             config = models.Config.objects.all()[0]
             sno_prefix = sno[:4]
             # 找出已经订阅的student
             if int(sno_prefix) in range(int(config.get_score_rank_nj_min), int(config.get_score_rank_nj_max) + 1):
-                res = cls.score_update(sno, passwd, openid, False)
+                need_update = False if type == "0" else True
+                res = cls.score_update(sno, passwd, openid, need_update)
                 if res["message"] == "success":
                     student = models.StudentRank.objects.filter(openid=openid)
                     avg_score = student[0].avg_score
@@ -92,7 +92,8 @@ class ScoreRank(object):
                     add_same_rank_rate = round(add_same_rank / all_people, 4)
                     return {"message": "success", "avg_score": avg_score, "rank": rank, "rank_rate": rank_rate,
                             "add_same_rank": add_same_rank, "add_same_rank_rate": add_same_rank_rate,
-                            "same_people": same_people, "all_people": all_people}
+                            "same_people": same_people, "all_people": all_people,
+                            "research_string": student[0].rank_research, "research_list": research_list}
                 else:
                     return {"message": "fault"}
             else:
