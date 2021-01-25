@@ -76,11 +76,13 @@ class ScoreRank(object):
                 res = cls.score_update(sno, passwd, openid, False)
                 if res["message"] == "success":
                     student = models.StudentRank.objects.filter(openid=openid)
+                    avg_score = student[0].avg_score
                     research_list = cls.__str_to_list(str, student[0].rank_research)
                     # 同年级 同选择研究方向的人数
                     all_people = models.StudentRank.objects.filter(Q(sno__startswith=sno_prefix) & Q(research__in=research_list)).count()
                     # 同年级 选择研究方向范围内比自己分高的人数
                     rank_list = models.StudentRank.objects.filter(Q(sno__startswith=sno_prefix) & Q(research__in=research_list) & Q(avg_score__gte=student[0].avg_score)).exclude(openid=openid)
+                    # print(rank_list)
                     # 相同分数的人数
                     same_people_list = models.StudentRank.objects.filter(Q(sno__startswith=sno_prefix) & Q(research__in=research_list) & Q(avg_score=student[0].avg_score)).exclude(openid=openid)
                     same_people = len(same_people_list)
@@ -88,7 +90,9 @@ class ScoreRank(object):
                     rank_rate = round(rank / all_people, 4)
                     add_same_rank = rank + same_people
                     add_same_rank_rate = round(add_same_rank / all_people, 4)
-                    return {"message": "success", "rank": rank, "rank_rate": rank_rate, "add_same_rank": add_same_rank, "add_same_rank_rate": add_same_rank_rate, "same_people": same_people, "all_people": all_people}
+                    return {"message": "success", "avg_score": avg_score, "rank": rank, "rank_rate": rank_rate,
+                            "add_same_rank": add_same_rank, "add_same_rank_rate": add_same_rank_rate,
+                            "same_people": same_people, "all_people": all_people}
                 else:
                     return {"message": "fault"}
             else:
