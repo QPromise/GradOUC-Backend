@@ -30,15 +30,16 @@ class ScoreRank(object):
                 # 同年级 同选择研究方向的人数
                 research_list = cls.__str_to_list(str, student[0].rank_research)
                 unique_research = student[0].research
+                unique_profession = student[0].profession
                 query_research_list = models.StudentRank.objects.filter(Q(sno__startswith=sno_prefix) & Q(department=student[0].department)).values('research', 'profession').distinct()
-                all_research_list = [{"name": (cur_student["profession"] + "(" + cur_student["research"] + ")"), "value": cur_student["research"]} for cur_student in query_research_list]
+                all_research_list = [{"name": (cur_student["profession"] + "(" + cur_student["research"] + ")"), "value": cur_student["profession"] + "&&" + cur_student["research"]} for cur_student in query_research_list]
                 for research in all_research_list:
                     if research["value"] in research_list:
                         research["checked"] = True
                     else:
                         research["checked"] = False
 
-                    if research["value"] == unique_research:
+                    if research["value"] == unique_profession + "&&" + unique_research:
                         research["disabled"] = True
                     else:
                         research["disabled"] = False
@@ -48,8 +49,8 @@ class ScoreRank(object):
                 return {"message": "illegal"}
         except Exception as e:
             logger.error(
-                "[get my department profession]: [sno]: %s [passwd]: %s [Exception]: %s"
-                % (sno, passwd, e))
+                "[get my department profession]: [sno]: %s [Exception]: %s"
+                % (sno, e))
             return {"message": "fault"}
 
     @classmethod
@@ -60,8 +61,8 @@ class ScoreRank(object):
             return {"message": "success"}
         except Exception as e:
             logger.error(
-                "[get my department profession]: [sno]: %s [passwd]: %s [Exception]: %s"
-                % (sno, passwd, e))
+                "[get my department profession]: [openid]: %s [Exception]: %s"
+                % (openid, e))
             return {"message": "fault"}
 
     @classmethod
@@ -77,14 +78,14 @@ class ScoreRank(object):
                 if res["message"] == "success":
                     student = models.StudentRank.objects.filter(openid=openid)
                     avg_score = student[0].avg_score
-                    research_list = cls.__str_to_list(str, student[0].rank_research)
+                    rank_research_list = cls.__str_to_list(str, student[0].rank_research)
+                    processed_profession_list, processed_research_list = cls.__split_profession_and_research(rank_research_list)
                     # 同年级 同选择研究方向的人数
-                    all_people = models.StudentRank.objects.filter(Q(sno__startswith=sno_prefix) & Q(research__in=research_list)).count()
+                    all_people = models.StudentRank.objects.filter(Q(sno__startswith=sno_prefix) & Q(profession__in=processed_profession_list) & Q(research__in=processed_research_list)).count()
                     # 同年级 选择研究方向范围内比自己分高的人数
-                    rank_list = models.StudentRank.objects.filter(Q(sno__startswith=sno_prefix) & Q(research__in=research_list) & Q(avg_score__gte=student[0].avg_score)).exclude(openid=openid)
-                    # print(rank_list)
+                    rank_list = models.StudentRank.objects.filter(Q(sno__startswith=sno_prefix) & Q(profession__in=processed_profession_list) & Q(research__in=processed_research_list) & Q(avg_score__gte=student[0].avg_score)).exclude(openid=openid)
                     # 相同分数的人数
-                    same_people_list = models.StudentRank.objects.filter(Q(sno__startswith=sno_prefix) & Q(research__in=research_list) & Q(avg_score=student[0].avg_score)).exclude(openid=openid)
+                    same_people_list = models.StudentRank.objects.filter(Q(sno__startswith=sno_prefix) & Q(profession__in=processed_profession_list) & Q(research__in=processed_research_list) & Q(avg_score=student[0].avg_score)).exclude(openid=openid)
                     same_people = len(same_people_list)
                     rank = len(rank_list) + 1
                     rank_rate = round(rank / all_people, 4)
@@ -92,8 +93,7 @@ class ScoreRank(object):
                     add_same_rank_rate = round(add_same_rank / all_people, 4)
                     return {"message": "success", "avg_score": avg_score, "rank": rank, "rank_rate": rank_rate,
                             "add_same_rank": add_same_rank, "add_same_rank_rate": add_same_rank_rate,
-                            "same_people": same_people, "all_people": all_people,
-                            "research_string": student[0].rank_research, "research_list": research_list}
+                            "same_people": same_people, "all_people": all_people, "research_list": rank_research_list}
                 else:
                     return {"message": "fault"}
             else:
@@ -126,7 +126,7 @@ class ScoreRank(object):
                                                       avg_score=avg_score, department=login_student[0].department,
                                                       profession=login_student[0].profession,
                                                       research=login_student[0].research,
-                                                      rank_research=login_student[0].research)
+                                                      rank_research=login_student[0].profession + "&&" + login_student[0].research)
                 except Exception as e:
                     res["message"] = "fault"
                     logger.error(
@@ -150,7 +150,7 @@ class ScoreRank(object):
                                             department=login_student[0].department,
                                             profession=login_student[0].profession,
                                             research=login_student[0].research,
-                                            rank_research=login_student[0].research,
+                                            rank_research=login_student[0].profession + "&&" + login_student[0].research,
                                             avg_score_update_date=timezone.now())
                         res["times"] = 1
                     # 如果没有登陆其他号
@@ -169,7 +169,6 @@ class ScoreRank(object):
                                                 avg_score_update_date=timezone.now())
                             res["times"] = 2
                         else:
-                            pass
                             res["times"] = 3
                 except Exception as e:
                     res["message"] = "fault"
@@ -212,7 +211,7 @@ class ScoreRank(object):
                                                                   avg_score=avg_score, department=student.department,
                                                                   profession=student.profession,
                                                                   research=student.research,
-                                                                  rank_research=student.research)
+                                                                  rank_research=student.profession + "&&" + student.research)
                             except Exception as e:
                                 logger.error(
                                     "[student rank white info repeated]: [sno]: %s [passwd]: %s [Exception]: %s"
@@ -234,7 +233,7 @@ class ScoreRank(object):
                                                        department=student.department,
                                                        profession=student.profession,
                                                        research=student.research,
-                                                       rank_research=student.research,
+                                                       rank_research=student.profession + "&&" + student.research,
                                                        travel_times=0,
                                                        avg_score_update_date=timezone.now())
                                 # 如果没有登陆其他号
@@ -279,3 +278,13 @@ class ScoreRank(object):
         if string == "" or string == "-":
             return []
         return list(map(ele_type, string.split(",")))
+
+    @classmethod
+    def __split_profession_and_research(cls, rank_research_list):
+        processed_rank_profession = []
+        processed_rank_research = []
+        for rank_research in rank_research_list:
+            pair = rank_research.split("&&")
+            processed_rank_profession.append(pair[0])
+            processed_rank_research.append(pair[1])
+        return processed_rank_profession, processed_rank_research
