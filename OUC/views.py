@@ -182,8 +182,8 @@ def get_school_course(request):
 # =================================成绩排名模块================================== #
 # 查看成绩排名
 def get_score_rank(request):
-    openid, sno, passwd = request.GET.get('openid'), request.GET.get('sno'), request.GET.get('passwd')
-    res = score_rank.ScoreRank.get_my_score_rank(openid, sno, passwd)
+    openid, sno, passwd, type = request.GET.get('openid'), request.GET.get('sno'), request.GET.get('passwd'), request.GET.get('type')
+    res = score_rank.ScoreRank.get_my_score_rank(openid, sno, passwd, type)
     res = json.dumps(res)
     return response(res)
 
@@ -202,6 +202,12 @@ def get_department_all_research(request):
     res = json.dumps(res)
     return response(res)
 
+
+def set_join_rank_research(request):
+    openid, research_list = request.POST.get('openid'), request.POST.get('research_list')
+    res = score_rank.ScoreRank.set_join_rank_research(openid, research_list)
+    res = json.dumps(res)
+    return response(res)
 
 # =================================成绩订阅模块================================== #
 # 订阅出成绩通知
