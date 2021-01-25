@@ -37,7 +37,7 @@ class StudentRankAdmin(admin.ModelAdmin):
     list_display = ['id', 'openid', 'sno', 'avg_score', 'avg_score_update_date', 'department',
                     'profession', 'research', 'rank_research', 'travel_nums']
     search_fields = ['sno']
-    # list_per_page = 15
+    list_per_page = 60
 
 
 admin.site.register(Config, ConfigAdmin)
