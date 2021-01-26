@@ -93,9 +93,9 @@ class ScoreRank(object):
                         full_name = first_name + last_name
                         top_forty_percent_students.append({"sno": cur_student["sno"], "full_name": full_name, "avg_score": cur_student["avg_score"], "profession_research": cur_student["profession"] + "(" + cur_student["research"] + ")"})
                     # 同年级 选择研究方向范围内比自己分高的人数
-                    rank_list_len = models.StudentRank.objects.filter(Q(sno__startswith=sno_prefix) & Q(profession__in=processed_profession_list) & Q(research__in=processed_research_list) & Q(avg_score__gte=student[0].avg_score)).exclude(openid=openid).values('sno').distinct().count()
+                    rank_list_len = models.StudentRank.objects.filter(Q(sno__startswith=sno_prefix) & Q(profession__in=processed_profession_list) & Q(research__in=processed_research_list) & Q(avg_score__gt=student[0].avg_score)).exclude(openid=openid).exclude(sno=sno).values('sno').distinct().count()
                     # 相同分数的人数
-                    same_student_list_len = models.StudentRank.objects.filter(Q(sno__startswith=sno_prefix) & Q(profession__in=processed_profession_list) & Q(research__in=processed_research_list) & Q(avg_score=student[0].avg_score)).exclude(openid=openid).values('sno').distinct().count()
+                    same_student_list_len = models.StudentRank.objects.filter(Q(sno__startswith=sno_prefix) & Q(profession__in=processed_profession_list) & Q(research__in=processed_research_list) & Q(avg_score=student[0].avg_score)).exclude(openid=openid).exclude(sno=sno).values('sno').distinct().count()
                     same_student = same_student_list_len
                     rank = rank_list_len + 1
                     rank_rate = round(rank / all_student, 4)
