@@ -81,19 +81,30 @@ class ScoreRank(object):
                     rank_research_list = cls.__str_to_list(str, student[0].rank_research)
                     processed_profession_list, processed_research_list = cls.__split_profession_and_research(rank_research_list)
                     # 同年级 同选择研究方向的人数
-                    all_people = models.StudentRank.objects.filter(Q(sno__startswith=sno_prefix) & Q(profession__in=processed_profession_list) & Q(research__in=processed_research_list)).count()
+                    all_student = models.StudentRank.objects.filter(Q(sno__startswith=sno_prefix) & Q(profession__in=processed_profession_list) & Q(research__in=processed_research_list)).values('sno').distinct().count()
+                    top_forty_num = int(all_student * 0.4)
+                    top_forty_student_list = models.StudentRank.objects.filter(Q(sno__startswith=sno_prefix) & Q(profession__in=processed_profession_list) & Q(research__in=processed_research_list)).order_by('-avg_score').values('sno', 'avg_score', 'profession', 'research').distinct().all()[:top_forty_num]
+                    top_forty_percent_students = []
+                    for cur_student in top_forty_student_list:
+                        stu = models.Student.objects.filter(sno=cur_student["sno"])
+                        stu_name = stu[0].name
+                        first_name = stu_name[0]
+                        last_name = "*" * (len(stu_name) - 1)
+                        full_name = first_name + last_name
+                        top_forty_percent_students.append({"sno": cur_student["sno"], "full_name": full_name, "avg_score": cur_student["avg_score"], "profession_research": cur_student["profession"] + "(" + cur_student["research"] + ")"})
                     # 同年级 选择研究方向范围内比自己分高的人数
-                    rank_list = models.StudentRank.objects.filter(Q(sno__startswith=sno_prefix) & Q(profession__in=processed_profession_list) & Q(research__in=processed_research_list) & Q(avg_score__gte=student[0].avg_score)).exclude(openid=openid)
+                    rank_list_len = models.StudentRank.objects.filter(Q(sno__startswith=sno_prefix) & Q(profession__in=processed_profession_list) & Q(research__in=processed_research_list) & Q(avg_score__gte=student[0].avg_score)).exclude(openid=openid).values('sno').distinct().count()
                     # 相同分数的人数
-                    same_people_list = models.StudentRank.objects.filter(Q(sno__startswith=sno_prefix) & Q(profession__in=processed_profession_list) & Q(research__in=processed_research_list) & Q(avg_score=student[0].avg_score)).exclude(openid=openid)
-                    same_people = len(same_people_list)
-                    rank = len(rank_list) + 1
-                    rank_rate = round(rank / all_people, 4)
-                    add_same_rank = rank + same_people
-                    add_same_rank_rate = round(add_same_rank / all_people, 4)
+                    same_student_list_len = models.StudentRank.objects.filter(Q(sno__startswith=sno_prefix) & Q(profession__in=processed_profession_list) & Q(research__in=processed_research_list) & Q(avg_score=student[0].avg_score)).exclude(openid=openid).values('sno').distinct().count()
+                    same_student = same_student_list_len
+                    rank = rank_list_len + 1
+                    rank_rate = round(rank / all_student, 4)
+                    add_same_rank = rank + same_student
+                    add_same_rank_rate = round(add_same_rank / all_student, 4)
                     return {"message": "success", "avg_score": avg_score, "rank": rank, "rank_rate": rank_rate,
                             "add_same_rank": add_same_rank, "add_same_rank_rate": add_same_rank_rate,
-                            "same_people": same_people, "all_people": all_people, "research_list": rank_research_list}
+                            "same_student": same_student, "all_student": all_student, "research_list": rank_research_list,
+                            "top_forty_percent_students": top_forty_percent_students}
                 else:
                     return {"message": "fault"}
             else:

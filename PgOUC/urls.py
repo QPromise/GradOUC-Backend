@@ -94,7 +94,7 @@ def start_travel_subscribe_student():
             # scheduler.add_job(ip_keep_alive, trigger='cron', coalesce=True,
             #                   second='*/1', id='ip_keep_alive')
             scheduler.add_job(score_rank_travel, trigger='cron', coalesce=True,
-                              hour='*/4', id='score_rank_travel')
+                              hour='3', id='score_rank_travel')
             # 调度器开始
             logger.debug("调度器开始执行....")
             scheduler.start()
