@@ -11,19 +11,9 @@ from bs4 import BeautifulSoup
 
 from OUC.core.package import login
 from OUC import log
+from OUC.global_config import headers, home_url, profile_url
 
 logger = log.logger
-
-headers = {
-
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36',
-    'Connection': 'close'
-}
-
-# 登录后的主页
-home_url = "http://pgs.ouc.edu.cn/allogene/page/home.htm"
-# profile
-profile_url = "http://pgs.ouc.edu.cn/py/page/student/ckgrxxjh.htm"
 
 
 def main(sno, passwd, openid):

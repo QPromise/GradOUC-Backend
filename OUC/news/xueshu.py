@@ -20,10 +20,13 @@ logger = log.logger
 """
 网站新闻爬取
 """
+proxy_support = urllib.request.ProxyHandler(proxy.ProxyIP.get_ip())
+opener = urllib.request.build_opener(proxy_support)
+urllib.request.install_opener(opener)
 
 
 def get_news(page):
-    xuehsu_url = 'http://www.ouc.edu.cn/xshd/list' + str(page) + '.htm'
+    xueshu_url = 'http://www.ouc.edu.cn/xshd/list' + str(page) + '.htm'
     # 第一层循环，把url都导出来
     # 定义发送的请求
     head = {
@@ -31,10 +34,7 @@ def get_news(page):
     }
     # req = urllib.request.Request(xuehsu_url, headers=head)
     # 将服务器返回的页面放入rsp变量
-    proxy_support = urllib.request.ProxyHandler(proxy.ProxyIP.get_ip())
-    opener = urllib.request.build_opener(proxy_support)
-    urllib.request.install_opener(opener)
-    rsp = urllib.request.urlopen(xuehsu_url)
+    rsp = urllib.request.urlopen(xueshu_url)
     # 读取这个页面，并解码成utf-8格式，忽略错误,放入变量html中
     html = rsp.read().decode('utf-8', 'ignore')
     # 使用BeautifulSoup模块解析变量中的web内容
@@ -73,9 +73,6 @@ def get_newsDeatil(id):
         }
         # req = urllib.request.Request(newsDetail_url, headers=head)
         # 将服务器返回的页面放入rsp变量
-        proxy_support = urllib.request.ProxyHandler(proxy.ProxyIP.get_ip())
-        opener = urllib.request.build_opener(proxy_support)
-        urllib.request.install_opener(opener)
         rsp = urllib.request.urlopen(newsDetail_url)
         # 读取这个页面，并解码成utf-8格式，忽略错误,放入变量html中
         html = rsp.read().decode('utf-8', 'ignore')
