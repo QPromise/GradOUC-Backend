@@ -13,17 +13,9 @@ import time
 
 from OUC.core.package import login
 from OUC import log
+from OUC.global_config import headers, course_url
 
 logger = log.logger
-
-headers = {
-
-    'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36',
-    'Connection': 'close'
-}
-
-# 课程地址
-course_url = "http://pgs.ouc.edu.cn/py/page/student/grkcgl.htm"
 
 
 def calculate_score(score, credit):

@@ -15,22 +15,12 @@ import datetime
 from OUC import models
 from OUC import log
 from OUC.core.package import proxy
+from OUC.global_config import headers, home_url, login_url, profile_url
 
 logger = log.logger
 
 
 class Login(object):
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36',
-        'Connection': 'close'
-    }
-    # 登录地址
-    login_url = "http://id.ouc.edu.cn:8071/sso/login?service=http%3A%2F%2Fpgs.ouc.edu.cn%2Fallogene%2Fpage%2Fhome.htm"
-    new_login_url = "http://pgs.ouc.edu.cn/sso/login?service=http%3A%2F%2Fpgs.ouc.edu.cn%2Fallogene%2Fpage%2Fhome.htm"
-    # 登录后主页
-    home_url = "http://pgs.ouc.edu.cn/allogene/page/home.htm"
-    # profile
-    profile_url = "http://pgs.ouc.edu.cn/py/page/student/ckgrxxjh.htm"
 
     def __init__(self):
         pass
@@ -38,7 +28,7 @@ class Login(object):
     @classmethod
     def get_student_info(cls, session):
         try:
-            profile_page = session.get(cls.profile_url, headers=cls.headers, timeout=8)
+            profile_page = session.get(profile_url, headers=headers, timeout=8)
             profile_soup = BeautifulSoup(profile_page.text, 'lxml')
             name = profile_soup.findAll(name="dt", attrs={"class": "title cblue"})[0].text
             need_list = profile_soup.findAll(name="dd", attrs={"class": "ml10 content w300"})
@@ -110,17 +100,17 @@ class Login(object):
     def login(cls, sno, passwd, openid):
         """登录研究生系统主页"""
         try:
-            # 创建一个回话
-            session = requests.Session()
-            session.verify = False
             # cur_hour = datetime.datetime.now().strftime('%H:%M')
             # if cur_hour <= '01:30' or cur_hour >= '06:00':
             #     session.proxies = proxy.ProxyIP.get_ip()
             # else:
             #     proxy.ProxyIP.checkout_ip()
+            # 创建一个回话
+            session = requests.Session()
+            session.verify = False
             session.proxies = proxy.ProxyIP.get_ip()
             # 获得登录页面
-            response = session.get(cls.login_url, headers=cls.headers, timeout=8)
+            response = session.get(login_url, headers=headers, timeout=8)
             login_soup = BeautifulSoup(response.text, 'lxml')
             # 获取隐藏字段
             lt = login_soup.form.find("input", {"name": "lt"})["value"]
@@ -133,17 +123,15 @@ class Login(object):
                 "_eventId": eventId
             }
         except Exception as e:
-            proxy.ProxyIP.fail_times += 1
             session.close()
             logger.error("[sno]: %s [passwd]: %s [Exception]: %s" % (sno, passwd, e))
             return {"message": "fault"}
         # 提交登录表单
         try:
-            post_form = session.post(url=cls.login_url, headers=cls.headers, timeout=8, data=values)
-            home_page = session.get(url=cls.home_url, headers=cls.headers, timeout=8)
+            post_form = session.post(url=login_url, headers=headers, timeout=8, data=values)
+            home_page = session.get(url=home_url, headers=headers, timeout=8)
 
         except Exception as e:
-            proxy.ProxyIP.fail_times += 1
             session.close()
             logger.error("[sno]: %s [passwd]: %s [Exception]: %s" % (sno, passwd, e))
             return {"message": "timeout"}

@@ -13,16 +13,10 @@ import collections
 
 from OUC.core.package import login
 from OUC import log
+from OUC.global_config import headers, schedule_url
 
 logger = log.logger
 
-headers = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36',
-    'Connection': 'close'
-}
-
-# 课表地址
-schedule_url = "http://pgs.ouc.edu.cn/py/page/student/grkcb.htm"
 days = {'0': "星期一", '1': "星期二", '2': "星期三", '3': "星期四", '4': "星期五", '5': "星期六", '6': "星期日"}
 courses_time = ["08:00-08:50", "09:00-09:50", "10:10-11:00", "11:10-12:00",
                 "13:30-14:20", "14:30-15:20", "15:30-16:20", "16:30-17:20",

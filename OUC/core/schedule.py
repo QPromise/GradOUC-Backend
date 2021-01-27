@@ -12,16 +12,9 @@ import re
 
 from OUC.core.package import login
 from OUC import log
+from OUC.global_config import headers, schedule_url
 
 logger = log.logger
-
-headers = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36',
-    'Connection': 'close'
-}
-
-# 课表地址
-schedule_url = "http://pgs.ouc.edu.cn/py/page/student/grkcb.htm"
 
 
 def main(sno, passwd, openid, zc, xj, xn):
