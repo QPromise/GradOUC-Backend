@@ -8,6 +8,7 @@ expire_time = time.strptime("2021-01-20 15:32:08", "%Y-%m-%d %H:%M:%S")
 expire_time = int(time.mktime(expire_time))
 print(2020 in range(2020, 2020))
 print(",".join(list(map(str, ["计算机科学"]))))
+print("http://grad.ouc.edu.cn/"[:-1])
 # print(begin_day)
 #
 # import requests

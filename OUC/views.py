@@ -13,7 +13,7 @@ from django.http import HttpResponse as response
 
 from .core import login, schedule, today_course, course, score, library,\
     profile, school_course, score_subscribe, exam, recently_use, score_rank
-from .news import yanzhao, xueshu, houqin, school, yanyuan
+from .news import yanzhao, xueshu, houqin, school, yanyuan, school_news
 from .models import Config, News, Swiper
 
 
@@ -252,55 +252,61 @@ def get_bookDetail(request):
     return response(res)
 
 
+# =================================校园资讯模块================================== #
 # 获取资讯
 def get_schoolNews(request):
     type, page = request.POST.get('type'), request.POST.get('page')
-    # 1001代表研招网
-    if type == '1001':
-        temp = yanzhao.get_news(page)
-        res = {"pages_count": temp["pages_count"], "news": temp["total_news"]}
-        res = json.dumps(res)
-        return response(res)
-    # 1002代表学术资讯
-    elif type == '1002':
-        temp = xueshu.get_news(page)
-        res = {"pages_count": temp["pages_count"], "news": temp["total_news"]}
-        res = json.dumps(res)
-        return response(res)
-    # 1003 代表后勤公告
-    elif type == '1003':
-        temp = houqin.get_news(page)
-        res = {"pages_count": temp["pages_count"], "news": temp["total_news"]}
-        res = json.dumps(res)
-        return response(res)
-    # 1004 代表学校新闻
-    elif type == '1004':
-        temp = school.get_news(page)
-        res = {"pages_count": temp["pages_count"], "news": temp["total_news"]}
-        res = json.dumps(res)
-        return response(res)
-    # 1005 代表研究生院新闻
-    elif type == '1005':
-        temp = yanyuan.get_news(page)
-        res = {"pages_count": temp["pages_count"], "news": temp["total_news"]}
-        res = json.dumps(res)
-        return response(res)
+    temp = school_news.SchoolNews.get_news(str(type), str(page))
+    res = {"pages_count": temp["pages_count"], "news": temp["total_news"]}
+    res = json.dumps(res)
+    return response(res)
+    # # 1001代表研招网
+    # if type == '1001':
+    #     temp = yanzhao.get_news(page)
+    #     res = {"pages_count": temp["pages_count"], "news": temp["total_news"]}
+    #     res = json.dumps(res)
+    #     return response(res)
+    # # 1002代表学术资讯
+    # elif type == '1002':
+    #     temp = xueshu.get_news(page)
+    #     res = {"pages_count": temp["pages_count"], "news": temp["total_news"]}
+    #     res = json.dumps(res)
+    #     return response(res)
+    # # 1003 代表后勤公告
+    # elif type == '1003':
+    #     temp = houqin.get_news(page)
+    #     res = {"pages_count": temp["pages_count"], "news": temp["total_news"]}
+    #     res = json.dumps(res)
+    #     return response(res)
+    # # 1004 代表学校新闻
+    # elif type == '1004':
+    #     temp = school.get_news(page)
+    #     res = {"pages_count": temp["pages_count"], "news": temp["total_news"]}
+    #     res = json.dumps(res)
+    #     return response(res)
+    # # 1005 代表研究生院新闻
+    # elif type == '1005':
+    #     temp = yanyuan.get_news(page)
+    #     res = {"pages_count": temp["pages_count"], "news": temp["total_news"]}
+    #     res = json.dumps(res)
+    #     return response(res)
 
 
 # 获取资讯详细内容
 def get_schoolNewsDetail(request):
     type, id = request.POST.get('type'), request.POST.get('id')
-    res = None
-    if type == '1001':
-        res = yanzhao.get_newsDeatil(id)
-    elif type == '1002':
-        res = xueshu.get_newsDeatil(id)
-    elif type == '1003':
-        res = houqin.get_newsDeatil(id)
-    elif type == '1004':
-        res = school.get_newsDeatil(id)
-    elif type == '1005':
-        res = yanyuan.get_newsDeatil(id)
+    res = school_news.SchoolNews.get_news_detail(str(type), str(id))
+    # res = None
+    # if type == '1001':
+    #     res = yanzhao.get_newsDeatil(id)
+    # elif type == '1002':
+    #     res = xueshu.get_newsDeatil(id)
+    # elif type == '1003':
+    #     res = houqin.get_newsDeatil(id)
+    # elif type == '1004':
+    #     res = school.get_newsDeatil(id)
+    # elif type == '1005':
+    #     res = yanyuan.get_newsDeatil(id)
     return response(res)
 
 

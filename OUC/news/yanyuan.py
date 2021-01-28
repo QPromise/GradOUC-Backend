@@ -20,9 +20,6 @@ logger = log.logger
 """
 网站新闻爬取
 """
-proxy_support = urllib.request.ProxyHandler(proxy.ProxyIP.get_ip())
-opener = urllib.request.build_opener(proxy_support)
-urllib.request.install_opener(opener)
 
 
 def get_news(page):
@@ -34,6 +31,9 @@ def get_news(page):
     }
     # req = urllib.request.Request(yanyuan_url, headers=head)
     # 将服务器返回的页面放入rsp变量
+    proxy_support = urllib.request.ProxyHandler(proxy.ProxyIP.get_ip())
+    opener = urllib.request.build_opener(proxy_support)
+    urllib.request.install_opener(opener)
     rsp = urllib.request.urlopen(yanyuan_url)
     # 读取这个页面，并解码成utf-8格式，忽略错误,放入变量html中
     html = rsp.read().decode('utf-8', 'ignore')
@@ -73,6 +73,9 @@ def get_newsDeatil(id):
         }
         # req = urllib.request.Request(newsDetail_url, headers=head)
         # 将服务器返回的页面放入rsp变量
+        proxy_support = urllib.request.ProxyHandler(proxy.ProxyIP.get_ip())
+        opener = urllib.request.build_opener(proxy_support)
+        urllib.request.install_opener(opener)
         rsp = urllib.request.urlopen(newsDetail_url)
         # 读取这个页面，并解码成utf-8格式，忽略错误,放入变量html中
         html = rsp.read().decode('utf-8', 'ignore')
@@ -86,11 +89,7 @@ def get_newsDeatil(id):
             image_url = re.findall(r'<img[^>]*src="([^"]*)"', content)
             link_url = re.findall(r'<a[^>]*href="([^"]*)"', content)
             pdf_url = re.findall(r'<div[^>]*pdfsrc="([^"]*)"', content)
-            # print(pdf_url)
             pdf_div = re.findall(r'<div[^>]*pdfsrc=.*"></div>', content)
-            # print(image_url)
-            # print(link_url)
-            # print(pdf_div)  # class="wp_pdf_player"
             # 如果页面中有图片链接 则替换为相对路径
             if len(image_url) != 0:
                 for url in image_url:
@@ -98,17 +97,11 @@ def get_newsDeatil(id):
                         content = content.replace(url, 'http://grad.ouc.edu.cn' + url)
                     else:
                         content = content.replace(url, "")
-            else:
-                pass
             # 如果页面中有地址链接 则替换为相对路径
             if len(link_url) != 0:
                 for url in link_url:
                     if url.find('http') == -1:
                         content = content.replace(url, 'http://grad.ouc.edu.cn' + url)
-                    else:
-                        pass
-            else:
-                pass
             # pdf路径替换
             if len(pdf_div) != 0:
                 for i, pdf in enumerate(pdf_div):
@@ -117,13 +110,6 @@ def get_newsDeatil(id):
                         if pdf_url != []:
                             content = content.replace(pdf, '<a href = "http://grad.ouc.edu.cn' + pdf_url[0] + '">附件' + str(
                                 i + 1) + '地址，点击复制去浏览器下载</a>')
-
-                        else:
-                            pass
-                    else:
-                        pass
-            else:
-                pass
             # print(content)
             text_maker = html2text.HTML2Text()
             text_maker.bypass_tables = True
