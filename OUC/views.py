@@ -84,7 +84,7 @@ def get_recently_use(request):
 def do_login(request):
     sno, passwd = request.POST.get('sno'), request.POST.get('passwd')
     openid = request.POST.get('openid')
-    print(openid)
+    # print(openid)
     # print(request.POST.get('sno'))
     # print(request.POST.get('passwd'))
     temp = login.main(sno, passwd, openid)

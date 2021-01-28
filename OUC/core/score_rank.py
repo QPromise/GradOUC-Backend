@@ -106,7 +106,7 @@ class ScoreRank(object):
                             "same_student": same_student, "all_student": all_student, "research_list": rank_research_list,
                             "top_forty_percent_students": top_forty_percent_students}
                 else:
-                    return {"message": "fault"}
+                    return {"message": res["message"]}
             else:
                 return {"message": "illegal"}
         except Exception as e:
@@ -130,7 +130,7 @@ class ScoreRank(object):
                     logger.error(
                         "[student avg_score update fail]: [sno]: %s [passwd]: %s"
                         % (sno, passwd))
-                    res["message"] = "fault"
+                    res["message"] = get_score["message"]
                     return res
                 try:
                     models.StudentRank.objects.create(openid=openid, sno=sno,
@@ -155,7 +155,7 @@ class ScoreRank(object):
                             logger.error(
                                 "[student avg_score update fail]: [sno]: %s [passwd]: %s"
                                 % (sno, passwd))
-                            res["message"] = "fault"
+                            res["message"] = get_score["message"]
                             return res
                         rank_student.update(sno=sno, avg_score=avg_score,
                                             department=login_student[0].department,
@@ -174,7 +174,7 @@ class ScoreRank(object):
                                 logger.error(
                                     "[student avg_score update fail]: [sno]: %s [passwd]: %s"
                                     % (sno, passwd))
-                                res["message"] = "fault"
+                                res["message"] = get_score["message"]
                                 return res
                             rank_student.update(avg_score=avg_score,
                                                 avg_score_update_date=timezone.now())

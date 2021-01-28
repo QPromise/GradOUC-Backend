@@ -139,8 +139,8 @@ class Login(object):
             home_soup = BeautifulSoup(home_page.text, 'lxml')
             if home_soup.findAll(name="div", attrs={"class": "panel_password"}):
                 session.close()
-                logger.error("[sno]: %s [passwd]: %s [Exception]: %s" % (sno, passwd, "登录失败！"))
-                return {"message": "fault"}
+                logger.info("[sno]: %s [passwd]: %s [Exception]: %s" % (sno, passwd, "登录失败！"))
+                return {"message": "incorrect"}
             else:
                 if openid is not None and openid != "null":
                     cls.write_student_info(sno, passwd, openid, session)
