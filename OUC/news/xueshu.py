@@ -20,9 +20,7 @@ logger = log.logger
 """
 网站新闻爬取
 """
-proxy_support = urllib.request.ProxyHandler(proxy.ProxyIP.get_ip())
-opener = urllib.request.build_opener(proxy_support)
-urllib.request.install_opener(opener)
+
 
 
 def get_news(page):
@@ -34,6 +32,9 @@ def get_news(page):
     }
     # req = urllib.request.Request(xuehsu_url, headers=head)
     # 将服务器返回的页面放入rsp变量
+    proxy_support = urllib.request.ProxyHandler(proxy.ProxyIP.get_ip())
+    opener = urllib.request.build_opener(proxy_support)
+    urllib.request.install_opener(opener)
     rsp = urllib.request.urlopen(xueshu_url)
     # 读取这个页面，并解码成utf-8格式，忽略错误,放入变量html中
     html = rsp.read().decode('utf-8', 'ignore')
@@ -73,6 +74,9 @@ def get_newsDeatil(id):
         }
         # req = urllib.request.Request(newsDetail_url, headers=head)
         # 将服务器返回的页面放入rsp变量
+        proxy_support = urllib.request.ProxyHandler(proxy.ProxyIP.get_ip())
+        opener = urllib.request.build_opener(proxy_support)
+        urllib.request.install_opener(opener)
         rsp = urllib.request.urlopen(newsDetail_url)
         # 读取这个页面，并解码成utf-8格式，忽略错误,放入变量html中
         html = rsp.read().decode('utf-8', 'ignore')
@@ -88,8 +92,6 @@ def get_newsDeatil(id):
                 for url in image_url:
                     if url.find('http') == -1:
                         content = content.replace(url, 'http://www.ouc.edu.cn' + url)
-            else:
-                pass
             text_maker = html2text.HTML2Text()
             text_maker.ignore_links = True
             text_maker.bypass_tables = False
