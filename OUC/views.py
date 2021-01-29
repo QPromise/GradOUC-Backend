@@ -13,7 +13,7 @@ from django.http import HttpResponse as response
 
 from .core import login, schedule, today_course, course, score, library,\
     profile, school_course, score_subscribe, exam, recently_use, score_rank
-from .news import yanzhao, xueshu, houqin, school, yanyuan, school_news
+from OUC.core import school_news
 from .models import Config, News, Swiper
 
 
@@ -206,6 +206,20 @@ def get_department_all_research(request):
 def set_join_rank_research(request):
     openid, research_list = request.POST.get('openid'), request.POST.get('research_list')
     res = score_rank.ScoreRank.set_join_rank_research(openid, research_list)
+    res = json.dumps(res)
+    return response(res)
+
+
+def get_common_courses(request):
+    openid, sno = request.GET.get('openid'), request.GET.get('sno')
+    res = score_rank.ScoreRank.get_commom_courses(openid, sno)
+    res = json.dumps(res)
+    return response(res)
+
+
+def set_exclude_courses(request):
+    openid, select_common_courses = request.POST.get('openid'), request.POST.get('select_common_courses')
+    res = score_rank.ScoreRank.set_exclude_courses(openid, select_common_courses)
     res = json.dumps(res)
     return response(res)
 
