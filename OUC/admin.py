@@ -35,7 +35,7 @@ class SubscribeStudentAdmin(admin.ModelAdmin):
 
 class StudentRankAdmin(admin.ModelAdmin):
     list_display = ['id', 'openid', 'sno', 'avg_score', 'avg_score_update_date', 'department',
-                    'profession', 'research', 'rank_research', 'travel_nums']
+                    'profession', 'research', 'rank_research', 'exclude_courses', 'courses_name', 'courses_info', 'travel_nums']
     search_fields = ['sno']
     list_per_page = 15
 

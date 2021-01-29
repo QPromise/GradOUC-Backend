@@ -13,6 +13,9 @@ class StudentRank(models.Model):
     profession = models.CharField('专业', max_length=40, db_index=True, default="-")
     research = models.CharField('研究方向', max_length=40, db_index=True, default="-")
     rank_research = models.CharField('参与排名的研究方向', max_length=1024, default="-")
+    exclude_courses = models.CharField('不参与排名的科目', max_length=256, default="-")
+    courses_name = models.CharField('课程名称', max_length=1024, default="-")
+    courses_info = models.TextField('课程信息', default="-")
     travel_nums = models.IntegerField('遍历次数', default=0)
 
     # def save(self, *args, **kwargs):
