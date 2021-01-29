@@ -89,8 +89,8 @@ class ScoreRank(object):
                         stu = models.Student.objects.filter(sno=cur_student["sno"])
                         stu_name = stu[0].name
                         first_name = stu_name[0]
-                        last_name = "*" * (len(stu_name) - 1)
-                        full_name = first_name + last_name
+                        last_name = "*" * (len(stu_name))
+                        full_name = last_name
                         top_forty_percent_students.append({"sno": cur_student["sno"], "full_name": full_name, "avg_score": cur_student["avg_score"], "profession_research": cur_student["profession"] + "(" + cur_student["research"] + ")"})
                     # 同年级 选择研究方向范围内比自己分高的人数
                     rank_list_len = models.StudentRank.objects.filter(Q(sno__startswith=sno_prefix) & Q(profession__in=processed_profession_list) & Q(research__in=processed_research_list) & Q(avg_score__gt=student[0].avg_score)).exclude(openid=openid).exclude(sno=sno).values('sno').distinct().count()
