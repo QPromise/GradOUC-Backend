@@ -158,9 +158,9 @@ class ScoreRank(object):
                             stu = models.Student.objects.filter(sno=cur_student["sno"])
                             stu_name = stu[0].name if len(stu) >= 1 else "***"
                             first_name = stu_name[0]
-                            last_name = "*" * (len(stu_name))
+                            last_name = "*" * (len(stu_name) - 1)
                             stu_sno = cur_student["sno"]
-                            full_name = last_name
+                            full_name = first_name + last_name
                             top_forty_percent_students.append(
                                 {"sno": stu_sno, "full_name": full_name, "avg_score": cur_student["avg_score"],
                                  "profession_research": cur_student["profession"] + "(" + cur_student["research"] + ")"})
@@ -203,8 +203,8 @@ class ScoreRank(object):
                                 stu = models.Student.objects.filter(sno=cur_sno)
                                 stu_name = stu[0].name if len(stu) >= 1 else "***"
                                 first_name = stu_name[0]
-                                last_name = "*" * (len(stu_name))
-                                full_name = last_name
+                                last_name = "*" * (len(stu_name) - 1)
+                                full_name = first_name + last_name
                                 in_research_students_info.append({
                                     "sno": cur_sno,
                                     "full_name": full_name,
@@ -265,7 +265,12 @@ class ScoreRank(object):
             login_student = models.Student.objects.filter(openid=openid)
             # 如果当前登录的学生没有计算平均学分绩
             if len(rank_student) == 0:
-                get_score = score.main(sno, passwd, "null")
+                # 如果之前登录信息没有存储数据库
+                if len(login_student) == 0:
+                    get_score = score.main(sno, passwd, openid)
+                    login_student = models.Student.objects.filter(openid=openid)
+                else:
+                    get_score = score.main(sno, passwd, "null")
                 if get_score["message"] == "success" and get_score["have_class"] == 1:
                     avg_score = get_score["mean"]
                     courses = get_score["courses"]
@@ -440,7 +445,8 @@ class ScoreRank(object):
                                                        courses_info=courses,
                                                        courses_name=cls.__list_to_str(courses_name),
                                                        avg_score_update_date=timezone.now())
-                                    cur_student.travel_nums += 1
+                                    cur_student[0].travel_nums += 1
+                                    cur_student[0].save()
                             except Exception as e:
                                 logger.error(
                                     "[student rank white info repeated]: [sno]: %s [passwd]: %s [Exception]: %s"
