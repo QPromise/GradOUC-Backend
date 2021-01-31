@@ -158,7 +158,7 @@ class ScoreRank(object):
                             stu = models.Student.objects.filter(sno=cur_student["sno"])
                             stu_name = stu[0].name if len(stu) >= 1 else "***"
                             first_name = stu_name[0]
-                            last_name = "*" * (len(stu_name) - 1)
+                            last_name = "*"
                             stu_sno = cur_student["sno"]
                             full_name = first_name + last_name
                             top_forty_percent_students.append(
@@ -203,7 +203,7 @@ class ScoreRank(object):
                                 stu = models.Student.objects.filter(sno=cur_sno)
                                 stu_name = stu[0].name if len(stu) >= 1 else "***"
                                 first_name = stu_name[0]
-                                last_name = "*" * (len(stu_name) - 1)
+                                last_name = "*"
                                 full_name = first_name + last_name
                                 in_research_students_info.append({
                                     "sno": cur_sno,
