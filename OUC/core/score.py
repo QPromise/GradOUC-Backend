@@ -23,7 +23,7 @@ def calculate_score(score, credit):
 
 
 def main(sno, passwd, openid):
-    res = {"message": "", "courses": "", "mean": "", "have_class": 0}
+    res = {"message": "", "courses": "", "mean": "", "can_join_rank": 1, "have_class": 0}
     login_info = login.Login.login(sno, passwd, openid)
     if login_info["message"] == "success":
         session = login_info["session"]
@@ -38,6 +38,7 @@ def main(sno, passwd, openid):
             planned_courses = []
             scores = []
             credits = []
+            can_join_rank = 1
             if len(planned_table) != 0:
                 for i in range(len(planned_table.values)):
                     planned_course = {"name": "", "type": "", "credit": None, "score": None, "selected": False, "disabled": True}
@@ -50,6 +51,7 @@ def main(sno, passwd, openid):
                     if re.search(r"(\d+)", process):
                         # 判断是否重修
                         if process.find("重修") != -1:
+                            can_join_rank = 0
                             score = float(process.split()[1][1:])
                         else:
                             score = float(process.split()[2])
@@ -59,11 +61,16 @@ def main(sno, passwd, openid):
                             credits.append(planned_course["credit"])
                             planned_course["selected"] = True
                             planned_course["disabled"] = False
+                        else:
+                            can_join_rank = 0
                     # 成绩没有分数
                     else:
                         # 选了的课
                         if process.find("未选") != -1:
                             score = "未选"
+                        elif process.find("重修") != -1:
+                            score = "重修"
+                            can_join_rank = 0
                         elif process.find("免修") != -1:
                             score = "免修"
                         elif process.find("通过") != -1:
@@ -79,6 +86,7 @@ def main(sno, passwd, openid):
                     # print("当前没有可计算的课程")
                 res['courses'] = planned_courses
                 res['have_class'] = 1
+                res['can_join_rank'] = can_join_rank
             return res
         except Exception as e:
             session.close()

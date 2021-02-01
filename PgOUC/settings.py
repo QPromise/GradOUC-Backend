@@ -121,4 +121,3 @@ USE_TZ = True
 STATIC_URL = '/static/'
 # 加入下面的配置
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-

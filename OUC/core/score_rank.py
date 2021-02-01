@@ -138,21 +138,35 @@ class ScoreRank(object):
                 if res["message"] == "success":
                     student = models.StudentRank.objects.filter(openid=openid)
                     avg_score = student[0].avg_score
+                    # 不及格或者重修不参与排名
+                    if str(student[0].can_join_rank) == "0":
+                        return {"message": "success", "avg_score": avg_score,
+                                "not_in_exclude_course_avg_score": "--",
+                                "rank": "--", "rank_rate": 0, "add_same_rank": "--",
+                                "add_same_rank_rate": 0, "same_student": "--",
+                                "all_student": "--", "research_list": [],
+                                "top_forty_percent_students": [],
+                                "exclude_courses": []}
+                    # 及格
                     rank_research_list = cls.__str_to_list(str, student[0].rank_research)
                     processed_profession_list, processed_research_list = cls.__split_profession_and_research(
                         rank_research_list)
+                    all_student = models.StudentRank.objects.filter(
+                        Q(sno__startswith=sno_prefix)
+                        & Q(profession__in=processed_profession_list)
+                        & Q(research__in=processed_research_list)).values('sno').distinct().count()
                     # 如果没设置不参评的科目
                     if student[0].exclude_courses == "-":
                         # 同年级 同选择研究方向的人数
-                        all_student = models.StudentRank.objects.filter(
-                            Q(sno__startswith=sno_prefix) & Q(profession__in=processed_profession_list) & Q(
-                                research__in=processed_research_list)).values('sno').distinct().count()
                         top_forty_num = int(all_student * 0.4)
                         top_forty_student_list = models.StudentRank.objects.filter(
-                            Q(sno__startswith=sno_prefix) & Q(profession__in=processed_profession_list) & Q(
-                                research__in=processed_research_list)).order_by('-avg_score').values('sno', 'avg_score',
-                                                                                                     'profession',
-                                                                                                     'research').distinct().all()[:top_forty_num]
+                            Q(sno__startswith=sno_prefix)
+                            & Q(profession__in=processed_profession_list)
+                            & Q(research__in=processed_research_list)
+                            & Q(can_join_rank=1)).order_by('-avg_score').values('sno',
+                                                                                'avg_score',
+                                                                                'profession',
+                                                                                'research').distinct().all()[:top_forty_num]
                         top_forty_percent_students = []
                         for cur_student in top_forty_student_list:
                             stu = models.Student.objects.filter(sno=cur_student["sno"])
@@ -166,14 +180,14 @@ class ScoreRank(object):
                                  "profession_research": cur_student["profession"] + "(" + cur_student["research"] + ")"})
                         # 同年级 选择研究方向范围内比自己分高的人数
                         rank_list_len = models.StudentRank.objects.filter(
-                            Q(sno__startswith=sno_prefix) & Q(profession__in=processed_profession_list) & Q(
-                                research__in=processed_research_list) & Q(avg_score__gt=student[0].avg_score)).exclude(
-                            openid=openid).exclude(sno=sno).values('sno').distinct().count()
+                            Q(sno__startswith=sno_prefix) & Q(profession__in=processed_profession_list)
+                            & Q(research__in=processed_research_list) & Q(avg_score__gt=student[0].avg_score)
+                            & Q(can_join_rank=1)).exclude(openid=openid).exclude(sno=sno).values('sno').distinct().count()
                         # 相同分数的人数
                         same_student_list_len = models.StudentRank.objects.filter(
-                            Q(sno__startswith=sno_prefix) & Q(profession__in=processed_profession_list) & Q(
-                                research__in=processed_research_list) & Q(avg_score=student[0].avg_score)).exclude(
-                            openid=openid).exclude(sno=sno).values('sno').distinct().count()
+                            Q(sno__startswith=sno_prefix) & Q(profession__in=processed_profession_list)
+                            & Q(research__in=processed_research_list) & Q(avg_score=student[0].avg_score)
+                            & Q(can_join_rank=1)).exclude(openid=openid).exclude(sno=sno).values('sno').distinct().count()
                         same_student = same_student_list_len
                         rank = rank_list_len + 1
                         rank_rate = round(rank / all_student, 4)
@@ -191,7 +205,8 @@ class ScoreRank(object):
                         not_in_exclude_course_avg_score = cls.__count_not_in_exclude_courses_avg_score(exclude_courses_list, eval(student[0].courses_info))
                         in_research_students = models.StudentRank.objects.filter(Q(sno__startswith=sno_prefix)
                                                                                  & Q(profession__in=processed_profession_list)
-                                                                                 & Q(research__in=processed_research_list)).all()
+                                                                                 & Q(research__in=processed_research_list)
+                                                                                 & Q(can_join_rank=1)).all()
                         in_research_students_info = []
                         sno_set = set()
                         for in_research_student in in_research_students:
@@ -212,7 +227,6 @@ class ScoreRank(object):
                                     "profession_research": in_research_student.profession + "(" + in_research_student.research + ")"
                                 })
                         sorted_in_research_students_info = sorted(in_research_students_info, key=lambda in_research_students_info: in_research_students_info['avg_score'], reverse=True)
-                        all_student = len(sorted_in_research_students_info)
                         top_forty_num = int(all_student * 0.4)
                         top_forty_percent_students = sorted_in_research_students_info[:top_forty_num]
                         same_student = 0
@@ -274,6 +288,7 @@ class ScoreRank(object):
                 if get_score["message"] == "success" and get_score["have_class"] == 1:
                     avg_score = get_score["mean"]
                     courses = get_score["courses"]
+                    can_join_rank = get_score["can_join_rank"]
                     courses_name = []
                     # 添加可以计算平均学分绩的课程
                     for i in range(len(courses)):
@@ -292,8 +307,8 @@ class ScoreRank(object):
                                                       research=login_student[0].research,
                                                       rank_research=login_student[0].profession + "&&" + login_student[0].research,
                                                       courses_info=courses,
-                                                      courses_name=cls.__list_to_str(courses_name)
-                                                      )
+                                                      can_join_rank=can_join_rank,
+                                                      courses_name=cls.__list_to_str(courses_name))
                 except Exception as e:
                     res["message"] = "fault"
                     logger.error(
@@ -308,6 +323,7 @@ class ScoreRank(object):
                         if get_score["message"] == "success" and get_score["have_class"] == 1:
                             avg_score = get_score["mean"]
                             courses = get_score["courses"]
+                            can_join_rank = get_score["can_join_rank"]
                             courses_name = []
                             # 添加可以计算平均学分绩的课程
                             for i in range(len(courses)):
@@ -323,10 +339,10 @@ class ScoreRank(object):
                                             department=login_student[0].department,
                                             profession=login_student[0].profession,
                                             research=login_student[0].research,
-                                            rank_research=login_student[0].profession + "&&" + login_student[
-                                                0].research,
+                                            rank_research=login_student[0].profession + "&&" + login_student[0].research,
                                             courses_info=courses,
                                             exclude_courses="-",
+                                            can_join_rank=can_join_rank,
                                             courses_name=cls.__list_to_str(courses_name),
                                             avg_score_update_date=timezone.now())
                         res["times"] = 1
@@ -337,6 +353,7 @@ class ScoreRank(object):
                             if get_score["message"] == "success" and get_score["have_class"] == 1:
                                 avg_score = get_score["mean"]
                                 courses = get_score["courses"]
+                                can_join_rank = get_score["can_join_rank"]
                                 courses_name = []
                                 # 添加可以计算平均学分绩的课程
                                 for i in range(len(courses)):
@@ -350,6 +367,7 @@ class ScoreRank(object):
                                 return res
                             rank_student.update(avg_score=avg_score,
                                                 courses_info=courses,
+                                                can_join_rank=can_join_rank,
                                                 courses_name=cls.__list_to_str(courses_name),
                                                 avg_score_update_date=timezone.now())
                             res["times"] = 2
@@ -383,10 +401,11 @@ class ScoreRank(object):
                         cur_student = models.StudentRank.objects.filter(openid=student.openid)
                         # 如果当前登录的学生没有计算平均学分绩
                         if len(cur_student) == 0:
-                            res = score.main(student.sno, cls.base64decode(student.passwd), "null")
-                            if res["message"] == "success" and res["have_class"] == 1:
-                                avg_score = res["mean"]
-                                courses = res["courses"]
+                            get_score = score.main(student.sno, cls.base64decode(student.passwd), "null")
+                            if get_score["message"] == "success" and get_score["have_class"] == 1:
+                                avg_score = get_score["mean"]
+                                courses = get_score["courses"]
+                                can_join_rank = get_score["can_join_rank"]
                                 courses_name = []
                                 # 添加可以计算平均学分绩的课程
                                 for i in range(len(courses)):
@@ -404,6 +423,7 @@ class ScoreRank(object):
                                                                   research=student.research,
                                                                   rank_research=student.profession + "&&" + student.research,
                                                                   courses_info=courses,
+                                                                  can_join_rank=can_join_rank,
                                                                   courses_name=cls.__list_to_str(courses_name))
                             except Exception as e:
                                 logger.error(
@@ -411,10 +431,11 @@ class ScoreRank(object):
                                     % (student.sno, student.passwd, e))
                         # 如果当前登录的学生已经计算平均学分绩
                         else:
-                            res = score.main(student.sno, cls.base64decode(student.passwd), "null")
-                            if res["message"] == "success" and res["have_class"] == 1:
-                                avg_score = res["mean"]
-                                courses = res["courses"]
+                            get_score = score.main(student.sno, cls.base64decode(student.passwd), "null")
+                            if get_score["message"] == "success" and get_score["have_class"] == 1:
+                                avg_score = get_score["mean"]
+                                courses = get_score["courses"]
+                                can_join_rank = get_score["can_join_rank"]
                                 courses_name = []
                                 # 添加可以计算平均学分绩的课程
                                 for i in range(len(courses)):
@@ -435,6 +456,7 @@ class ScoreRank(object):
                                                        rank_research=student.profession + "&&" + student.research,
                                                        travel_nums=0,
                                                        exclude_courses="-",
+                                                       can_join_rank=can_join_rank,
                                                        avg_score_update_date=timezone.now(),
                                                        courses_info=courses,
                                                        courses_name=cls.__list_to_str(courses_name)
@@ -443,10 +465,10 @@ class ScoreRank(object):
                                 else:
                                     cur_student.update(avg_score=avg_score,
                                                        courses_info=courses,
+                                                       can_join_rank=can_join_rank,
                                                        courses_name=cls.__list_to_str(courses_name),
+                                                       travel_nums=cur_student[0].travel_nums + 1,
                                                        avg_score_update_date=timezone.now())
-                                    cur_student[0].travel_nums += 1
-                                    cur_student[0].save()
                             except Exception as e:
                                 logger.error(
                                     "[student rank white info repeated]: [sno]: %s [passwd]: %s [Exception]: %s"

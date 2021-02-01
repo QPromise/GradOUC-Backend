@@ -63,10 +63,8 @@ def get_swiper(request):
         temp = dict()
         temp["url"] = swiper.url
         temp["image"] = swiper.get_img_url()
-        # print(swiper.url)
-        # print(swiper.get_img_url())
         res.append(temp)
-    res = json.dumps(res)
+    res = json.dumps(res[::-1])
     # print(res)
     return response(res)
 
