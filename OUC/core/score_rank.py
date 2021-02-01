@@ -138,16 +138,6 @@ class ScoreRank(object):
                 if res["message"] == "success":
                     student = models.StudentRank.objects.filter(openid=openid)
                     avg_score = student[0].avg_score
-                    # 不及格或者重修不参与排名
-                    if str(student[0].can_join_rank) == "0":
-                        return {"message": "success", "avg_score": avg_score,
-                                "not_in_exclude_course_avg_score": "--",
-                                "rank": "--", "rank_rate": 0, "add_same_rank": "--",
-                                "add_same_rank_rate": 0, "same_student": "--",
-                                "all_student": "--", "research_list": [],
-                                "top_forty_percent_students": [],
-                                "exclude_courses": []}
-                    # 及格
                     rank_research_list = cls.__str_to_list(str, student[0].rank_research)
                     processed_profession_list, processed_research_list = cls.__split_profession_and_research(
                         rank_research_list)
@@ -178,6 +168,15 @@ class ScoreRank(object):
                             top_forty_percent_students.append(
                                 {"sno": stu_sno, "full_name": full_name, "avg_score": cur_student["avg_score"],
                                  "profession_research": cur_student["profession"] + "(" + cur_student["research"] + ")"})
+                        # 不及格或者重修不参与排名
+                        if str(student[0].can_join_rank) == "0":
+                            return {"message": "success", "avg_score": avg_score,
+                                    "not_in_exclude_course_avg_score": "--",
+                                    "rank": "--", "rank_rate": 0, "add_same_rank": "--",
+                                    "add_same_rank_rate": 0, "same_student": "--",
+                                    "all_student": all_student, "research_list": rank_research_list,
+                                    "top_forty_percent_students": top_forty_percent_students,
+                                    "exclude_courses": []}
                         # 同年级 选择研究方向范围内比自己分高的人数
                         rank_list_len = models.StudentRank.objects.filter(
                             Q(sno__startswith=sno_prefix) & Q(profession__in=processed_profession_list)
@@ -229,6 +228,15 @@ class ScoreRank(object):
                         sorted_in_research_students_info = sorted(in_research_students_info, key=lambda in_research_students_info: in_research_students_info['avg_score'], reverse=True)
                         top_forty_num = int(all_student * 0.4)
                         top_forty_percent_students = sorted_in_research_students_info[:top_forty_num]
+                        # 不及格或者重修不参与排名
+                        if str(student[0].can_join_rank) == "0":
+                            return {"message": "success", "avg_score": avg_score,
+                                    "not_in_exclude_course_avg_score": "--",
+                                    "rank": "--", "rank_rate": 0, "add_same_rank": "--",
+                                    "add_same_rank_rate": 0, "same_student": "--",
+                                    "all_student": all_student, "research_list": rank_research_list,
+                                    "top_forty_percent_students": top_forty_percent_students,
+                                    "exclude_courses": exclude_courses_list}
                         same_student = 0
                         flag = 0
                         for i in range(len(sorted_in_research_students_info)):
