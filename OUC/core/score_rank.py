@@ -156,18 +156,22 @@ class ScoreRank(object):
                             & Q(can_join_rank=1)).order_by('-avg_score').values('sno',
                                                                                 'avg_score',
                                                                                 'profession',
-                                                                                'research').distinct().all()[:top_forty_num]
+                                                                                'research').distinct().all()
                         top_forty_percent_students = []
-                        for cur_student in top_forty_student_list:
-                            stu = models.Student.objects.filter(sno=cur_student["sno"])
-                            stu_name = stu[0].name if len(stu) >= 1 else "***"
+                        for i in range(len(top_forty_student_list)):
+                            stu = models.Student.objects.filter(sno=top_forty_student_list[i]["sno"])
+                            stu_name = stu[0].name if len(stu) >= 1 else "**"
                             first_name = stu_name[0]
                             last_name = "*"
-                            stu_sno = cur_student["sno"]
-                            full_name = first_name + last_name
+                            stu_sno = top_forty_student_list[i]["sno"]
+                            if i <= top_forty_num:
+                                full_name = first_name + last_name
+                            else:
+                                full_name = "**"
                             top_forty_percent_students.append(
-                                {"sno": stu_sno, "full_name": full_name, "avg_score": cur_student["avg_score"],
-                                 "profession_research": cur_student["profession"] + "(" + cur_student["research"] + ")"})
+                                {"sno": stu_sno, "full_name": full_name, "avg_score": top_forty_student_list[i]["avg_score"],
+                                 "profession_research": top_forty_student_list[i]["profession"] + "(" + top_forty_student_list[i][
+                                     "research"] + ")"})
                         # 不及格或者重修不参与排名
                         if str(student[0].can_join_rank) == "0":
                             return {"message": "success", "avg_score": avg_score,
@@ -206,16 +210,17 @@ class ScoreRank(object):
                                                                                  & Q(profession__in=processed_profession_list)
                                                                                  & Q(research__in=processed_research_list)
                                                                                  & Q(can_join_rank=1)).all()
+                        top_forty_num = int(all_student * 0.4)
                         in_research_students_info = []
                         sno_set = set()
-                        for in_research_student in in_research_students:
-                            cur_sno = in_research_student.sno
+                        for i in range(len(in_research_students)):
+                            cur_sno = in_research_students[i].sno
                             if cur_sno not in sno_set:
                                 sno_set.add(cur_sno)
                                 # 计算平均学分绩
-                                cur_avg_score = cls.__count_not_in_exclude_courses_avg_score(exclude_courses_list, eval(in_research_student.courses_info))
+                                cur_avg_score = cls.__count_not_in_exclude_courses_avg_score(exclude_courses_list, eval(in_research_students[i].courses_info))
                                 stu = models.Student.objects.filter(sno=cur_sno)
-                                stu_name = stu[0].name if len(stu) >= 1 else "***"
+                                stu_name = stu[0].name if len(stu) >= 1 else "**"
                                 first_name = stu_name[0]
                                 last_name = "*"
                                 full_name = first_name + last_name
@@ -223,11 +228,13 @@ class ScoreRank(object):
                                     "sno": cur_sno,
                                     "full_name": full_name,
                                     "avg_score": cur_avg_score,
-                                    "profession_research": in_research_student.profession + "(" + in_research_student.research + ")"
+                                    "profession_research": in_research_students[i].profession + "(" + in_research_students[i].research + ")"
                                 })
                         sorted_in_research_students_info = sorted(in_research_students_info, key=lambda in_research_students_info: in_research_students_info['avg_score'], reverse=True)
-                        top_forty_num = int(all_student * 0.4)
-                        top_forty_percent_students = sorted_in_research_students_info[:top_forty_num]
+                        for i in range(len(sorted_in_research_students_info)):
+                            if i > top_forty_num:
+                                sorted_in_research_students_info[i]["full_name"] = "**"
+                        top_forty_percent_students = sorted_in_research_students_info
                         # 不及格或者重修不参与排名
                         if str(student[0].can_join_rank) == "0":
                             return {"message": "success", "avg_score": avg_score,
