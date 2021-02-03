@@ -148,7 +148,6 @@ class ScoreRank(object):
                     # 如果没设置不参评的科目
                     if student[0].exclude_courses == "-":
                         # 同年级 同选择研究方向的人数
-                        top_forty_num = int(all_student * 0.4)
                         top_forty_student_list = models.StudentRank.objects.filter(
                             Q(sno__startswith=sno_prefix)
                             & Q(profession__in=processed_profession_list)
@@ -161,11 +160,9 @@ class ScoreRank(object):
                         for i in range(len(top_forty_student_list)):
                             stu = models.Student.objects.filter(sno=top_forty_student_list[i]["sno"])
                             stu_name = stu[0].name if len(stu) >= 1 else "**"
-                            first_name = stu_name[0]
-                            last_name = "*"
                             stu_sno = top_forty_student_list[i]["sno"]
-                            if i <= top_forty_num:
-                                full_name = first_name + last_name
+                            if stu_sno == sno:
+                                full_name = stu_name
                             else:
                                 full_name = "**"
                             top_forty_percent_students.append(
@@ -210,7 +207,6 @@ class ScoreRank(object):
                                                                                  & Q(profession__in=processed_profession_list)
                                                                                  & Q(research__in=processed_research_list)
                                                                                  & Q(can_join_rank=1)).all()
-                        top_forty_num = int(all_student * 0.4)
                         in_research_students_info = []
                         sno_set = set()
                         for i in range(len(in_research_students)):
@@ -221,9 +217,10 @@ class ScoreRank(object):
                                 cur_avg_score = cls.__count_not_in_exclude_courses_avg_score(exclude_courses_list, eval(in_research_students[i].courses_info))
                                 stu = models.Student.objects.filter(sno=cur_sno)
                                 stu_name = stu[0].name if len(stu) >= 1 else "**"
-                                first_name = stu_name[0]
-                                last_name = "*"
-                                full_name = first_name + last_name
+                                if cur_sno == sno:
+                                    full_name = stu_name
+                                else:
+                                    full_name = "**"
                                 in_research_students_info.append({
                                     "sno": cur_sno,
                                     "full_name": full_name,
@@ -231,9 +228,6 @@ class ScoreRank(object):
                                     "profession_research": in_research_students[i].profession + "(" + in_research_students[i].research + ")"
                                 })
                         sorted_in_research_students_info = sorted(in_research_students_info, key=lambda in_research_students_info: in_research_students_info['avg_score'], reverse=True)
-                        for i in range(len(sorted_in_research_students_info)):
-                            if i > top_forty_num:
-                                sorted_in_research_students_info[i]["full_name"] = "**"
                         top_forty_percent_students = sorted_in_research_students_info
                         # 不及格或者重修不参与排名
                         if str(student[0].can_join_rank) == "0":
