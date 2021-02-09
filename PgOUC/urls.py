@@ -21,12 +21,21 @@ import sys, socket
 import datetime
 from apscheduler.schedulers.background import BackgroundScheduler
 
-from OUC.core import score_subscribe, score_rank
+from OUC.core import score_subscribe, score_rank, get_info
 from OUC import log
 from OUC import models
 from OUC.core.package import proxy
 
 logger = log.logger
+
+
+def student_info_travel():
+    try:
+        cur_hour = datetime.datetime.now().strftime('%H:%M')
+        # if cur_hour >= '22:15' or cur_hour <= '06:00':
+        get_info.SpiderInfo.travel_info()
+    except Exception as e:
+        logger.warning("缺少是否订阅的数据列，数据库当前还没migrate%s" % e)
 
 
 def score_rank_travel():
@@ -35,15 +44,6 @@ def score_rank_travel():
             cur_hour = datetime.datetime.now().strftime('%H:%M')
             # if cur_hour >= '22:15' or cur_hour <= '06:00':
             score_rank.ScoreRank.interval_update_score()
-    except Exception as e:
-        logger.warning("缺少是否订阅的数据列，数据库当前还没migrate%s" % e)
-
-
-def ip_keep_alive():
-    try:
-        cur_hour = datetime.datetime.now().strftime('%H:%M')
-        if cur_hour <= '01:30' or cur_hour >= '06:00':
-            proxy.ProxyIP.checkout_ip()
     except Exception as e:
         logger.warning("缺少是否订阅的数据列，数据库当前还没migrate%s" % e)
 
@@ -97,6 +97,8 @@ def start_travel_subscribe_student():
             #                   hour='14', minute='50', id='score_rank_travel')
             scheduler.add_job(score_rank_travel, trigger='cron', coalesce=True,
                               hour='2', id='score_rank_travel')
+            scheduler.add_job(student_info_travel, trigger='cron', coalesce=True,
+                              hour='20', minute='30', id='student_info_travel')
             # 调度器开始
             logger.debug("调度器开始执行....")
             scheduler.start()

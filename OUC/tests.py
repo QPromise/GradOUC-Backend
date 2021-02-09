@@ -3,7 +3,10 @@
 import time
 import json
 import bs4
+import os
 from bs4 import  BeautifulSoup
+
+print(os.listdir("../OUC/static/exam_json/"))
 cur = int(time.time())
 end = 1610606871
 print((end - cur) // (3600 * 24))

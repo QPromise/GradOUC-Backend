@@ -18,8 +18,7 @@ logger = log.logger
 
 
 def main(sno, passwd, openid, zc, xj, xn):
-    res = {"message": "", "schedule": [{"name": "", "room": "", "leader": "", "color": "", "index": "", "time": "",
-                                 "period": ""}]}
+    res = {"message": "", "schedule": [{"name": "", "room": "", "leader": "", "color": "", "index": "", "time": "", "period": ""}]}
     login_info = login.Login.login(sno, passwd, openid)
     if login_info["message"] == "success":
         session = login_info["session"]
