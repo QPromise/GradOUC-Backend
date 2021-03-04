@@ -44,7 +44,7 @@ class SwiperAdmin(admin.ModelAdmin):
 class StudentAdmin(admin.ModelAdmin):
     list_display = ['id', 'openid', 'sno', 'name', 'passwd', 'department', 'profession',
                     'research', 'supervisor', 'update_date', 'login_date', 'status', 'lock_date']
-    search_fields = ['name', 'department', 'supervisor', 'sno']
+    search_fields = ['name', 'department', 'profession', 'supervisor', 'sno']
     # list_filter = ['department']
     list_per_page = 15
 
@@ -58,7 +58,8 @@ class SubscribeStudentAdmin(admin.ModelAdmin):
 
 class StudentRankAdmin(admin.ModelAdmin):
     list_display = ['id', 'openid', 'sno', 'avg_score', 'can_join_rank', 'avg_score_update_date', 'department',
-                    'profession', 'research', 'rank_research', 'exclude_courses', 'courses_name', 'courses_info', 'travel_nums']
+                    'profession', 'research', 'rank_research', 'exclude_courses', 'courses_name', 'courses_type',
+                    'courses_info', 'travel_nums']
     search_fields = ['sno']
     list_per_page = 15
 

@@ -71,8 +71,9 @@ class StudentRank(models.Model):
     research = models.CharField('研究方向', max_length=40, db_index=True, default="-")
     can_join_rank = models.IntegerField('是否可以参与排名(0:不及格或重修,1:正常)', default=1)
     rank_research = models.CharField('参与排名的研究方向', max_length=1024, default="-")
-    exclude_courses = models.CharField('不参与排名的科目', max_length=256, default="-")
+    exclude_courses = models.CharField('不参与排名的课程名称及类型', max_length=256, default="-")
     courses_name = models.CharField('课程名称', max_length=1024, default="-")
+    courses_type = models.CharField('课程类型', max_length=1024, default="-")
     courses_info = models.TextField('课程信息', default="-")
     travel_nums = models.IntegerField('遍历次数', default=0)
 

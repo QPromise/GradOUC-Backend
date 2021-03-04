@@ -79,30 +79,33 @@ class ScoreRank(object):
             # 找出已经订阅的student
             if int(sno_prefix) in range(int(config.get_score_rank_nj_min), int(config.get_score_rank_nj_max) + 1):
                 student = models.StudentRank.objects.filter(openid=openid)
+                # 同年级 同选择研究方向的人数
+                # rank_research_list = cls.__str_to_list(str, student[0].rank_research)
+                # processed_profession_list, processed_research_list = cls.__split_profession_and_research(
+                #     rank_research_list)
+                # # 同年级 同选择研究方向的人数
+                # common_rank_students = models.StudentRank.objects.filter(Q(sno__startswith=sno_prefix)
+                #                                                          & Q(profession__in=processed_profession_list)
+                #                                                          & Q(
+                #     research__in=processed_research_list)).all()
+                # intersection_courses_name = set(cls.__str_to_list(str, student[0].courses_name))
+
+                # for cur_student in common_rank_students:
+                #     intersection_courses_name = intersection_courses_name.intersection(
+                #         set(cls.__str_to_list(str, cur_student.courses_name)))
+                # common_courses_list = list(intersection_courses_name)
                 exclude_courses_list = cls.__str_to_list(str, student[0].exclude_courses)
-                common_courses_name_list = cls.__str_to_list(str, student[0].courses_name)
-                common_courses_type_list = cls.__str_to_list(str, student[0].courses_type)
+                common_courses_list = cls.__str_to_list(str, student[0].courses_name)
                 common_courses = []
-                for course in common_courses_name_list:
+                for course in common_courses_list:
                     cur_course = dict()
                     cur_course["value"] = course
-                    cur_course["type"] = "name"
                     if course in exclude_courses_list:
                         cur_course["checked"] = True
                     else:
                         cur_course["checked"] = False
                     common_courses.append(cur_course)
-                common_courses_type = []
-                for course_type in common_courses_type_list:
-                    cur_course = dict()
-                    cur_course["value"] = course_type
-                    cur_course["type"] = "type"
-                    if course_type in exclude_courses_list:
-                        cur_course["checked"] = True
-                    else:
-                        cur_course["checked"] = False
-                    common_courses_type.append(cur_course)
-                return {"message": "success", "common_courses": common_courses, "common_courses_type": common_courses_type}
+                return {"message": "success", "common_courses": common_courses}
             else:
                 return {"message": "illegal"}
         except Exception as e:
@@ -269,7 +272,7 @@ class ScoreRank(object):
         total_score = 0.0
         avg_score = 0.0
         for i in range(len(courses)):
-            if courses[i]["name"] not in exclude_courses and courses[i]["type"] not in exclude_courses:
+            if courses[i]["name"] not in exclude_courses:
                 if courses[i]["selected"] and courses[i]["credit"]:
                     total_credit += float(courses[i]["credit"])
                     total_score += float(courses[i]["score"]) * float(courses[i]["credit"])
@@ -296,13 +299,10 @@ class ScoreRank(object):
                     courses = get_score["courses"]
                     can_join_rank = get_score["can_join_rank"]
                     courses_name = []
-                    courses_type = set()
                     # 添加可以计算平均学分绩的课程
                     for i in range(len(courses)):
                         if courses[i]["selected"]:
                             courses_name.append(courses[i]["name"])
-                        courses_type.add(courses[i]["type"])
-                    courses_type = list(courses_type)
                 else:
                     logger.error(
                         "[student avg_score update fail]: [sno]: %s [passwd]: %s"
@@ -317,9 +317,7 @@ class ScoreRank(object):
                                                       rank_research=login_student[0].profession + "&&" + login_student[0].research,
                                                       courses_info=courses,
                                                       can_join_rank=can_join_rank,
-                                                      courses_name=cls.__list_to_str(courses_name),
-                                                      courses_type=cls.__list_to_str(courses_type)
-                                                      )
+                                                      courses_name=cls.__list_to_str(courses_name))
                 except Exception as e:
                     res["message"] = "fault"
                     logger.error(
@@ -336,13 +334,10 @@ class ScoreRank(object):
                             courses = get_score["courses"]
                             can_join_rank = get_score["can_join_rank"]
                             courses_name = []
-                            courses_type = set()
                             # 添加可以计算平均学分绩的课程
                             for i in range(len(courses)):
                                 if courses[i]["selected"]:
                                     courses_name.append(courses[i]["name"])
-                                courses_type.add(courses[i]["type"])
-                            courses_type = list(courses_type)
                         else:
                             logger.error(
                                 "[student avg_score update fail]: [sno]: %s [passwd]: %s"
@@ -358,7 +353,6 @@ class ScoreRank(object):
                                             exclude_courses="-",
                                             can_join_rank=can_join_rank,
                                             courses_name=cls.__list_to_str(courses_name),
-                                            courses_type=cls.__list_to_str(courses_type),
                                             avg_score_update_date=timezone.now())
                         res["times"] = 1
                     # 如果没有登陆其他号
@@ -370,13 +364,10 @@ class ScoreRank(object):
                                 courses = get_score["courses"]
                                 can_join_rank = get_score["can_join_rank"]
                                 courses_name = []
-                                courses_type = set()
                                 # 添加可以计算平均学分绩的课程
                                 for i in range(len(courses)):
                                     if courses[i]["selected"]:
                                         courses_name.append(courses[i]["name"])
-                                    courses_type.add(courses[i]["type"])
-                                courses_type = list(courses_type)
                             else:
                                 logger.error(
                                     "[student avg_score update fail]: [sno]: %s [passwd]: %s"
@@ -387,7 +378,6 @@ class ScoreRank(object):
                                                 courses_info=courses,
                                                 can_join_rank=can_join_rank,
                                                 courses_name=cls.__list_to_str(courses_name),
-                                                courses_type=cls.__list_to_str(courses_type),
                                                 avg_score_update_date=timezone.now())
                             res["times"] = 2
                         else:
@@ -426,13 +416,10 @@ class ScoreRank(object):
                                 courses = get_score["courses"]
                                 can_join_rank = get_score["can_join_rank"]
                                 courses_name = []
-                                courses_type = set()
                                 # 添加可以计算平均学分绩的课程
                                 for i in range(len(courses)):
                                     if courses[i]["selected"]:
                                         courses_name.append(courses[i]["name"])
-                                    courses_type.add(courses[i]["type"])
-                                courses_type = list(courses_type)
                             else:
                                 logger.error(
                                     "[student avg_score update fail]: [sno]: %s [passwd]: %s"
@@ -446,9 +433,7 @@ class ScoreRank(object):
                                                                   rank_research=student.profession + "&&" + student.research,
                                                                   courses_info=courses,
                                                                   can_join_rank=can_join_rank,
-                                                                  courses_name=cls.__list_to_str(courses_name),
-                                                                  courses_type=cls.__list_to_str(courses_type)
-                                                                  )
+                                                                  courses_name=cls.__list_to_str(courses_name))
                             except Exception as e:
                                 logger.error(
                                     "[student rank white info repeated]: [sno]: %s [passwd]: %s [Exception]: %s"
@@ -461,13 +446,10 @@ class ScoreRank(object):
                                 courses = get_score["courses"]
                                 can_join_rank = get_score["can_join_rank"]
                                 courses_name = []
-                                courses_type = set()
                                 # 添加可以计算平均学分绩的课程
                                 for i in range(len(courses)):
                                     if courses[i]["selected"]:
                                         courses_name.append(courses[i]["name"])
-                                    courses_type.add(courses[i]["type"])
-                                courses_type = list(courses_type)
                             else:
                                 logger.error(
                                     "[student avg_score update fail]: [sno]: %s [passwd]: %s"
@@ -486,8 +468,7 @@ class ScoreRank(object):
                                                        can_join_rank=can_join_rank,
                                                        avg_score_update_date=timezone.now(),
                                                        courses_info=courses,
-                                                       courses_name=cls.__list_to_str(courses_name),
-                                                       courses_type=cls.__list_to_str(courses_type)
+                                                       courses_name=cls.__list_to_str(courses_name)
                                                        )
                                 # 如果没有登陆其他号
                                 else:
@@ -495,7 +476,6 @@ class ScoreRank(object):
                                                        courses_info=courses,
                                                        can_join_rank=can_join_rank,
                                                        courses_name=cls.__list_to_str(courses_name),
-                                                       courses_type=cls.__list_to_str(courses_type),
                                                        travel_nums=cur_student[0].travel_nums + 1,
                                                        avg_score_update_date=timezone.now())
                             except Exception as e:
