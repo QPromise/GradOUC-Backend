@@ -1,10 +1,30 @@
 #!/usr/bin/python3
 # _*_coding:utf-8 _*_
-a = set()
-a.add("a")
-a.add("a")
-a = list(a)
-print(a)
+# 第五次
+import pandas as pd
+# img2
+def calculate_common(dataset, column):
+    items_count = dataset[column].value_counts()
+    max_ele = items_count.idxmax()
+    max_count = items_count.max()
+    return (max_ele, max_count)
+res = calculate_common(pd.DataFrame({'ID': [1, 2, 3, 4, 5, 6, 7], 're': ['a', 'a', 'b', 'c', 'd', 'd', 'e']}), 're')
+print(res)
+# img4
+import numpy as np
+def split_dataset(dataset, n_split=3):
+    shuffled = dataset.sample(frac=1, replace=False)
+    result = np.array_split(shuffled, n_split)
+    return result
+print(split_dataset(pd.DataFrame({'ID': [1, 2, 3, 4, 5, 6, 7], 're': ['a', 'a', 'b', 'c', 'd', 'd', 'e']}), 2))
+
+# img5
+humans_random = True
+
+most_common = 2
+
+proportion_unique = 20
+exit()
 # 第四次 2 hour
 # img1
 import pandas as pd

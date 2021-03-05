@@ -49,9 +49,8 @@ def main(sno, passwd, openid):
                     process = planned_table[i:i + 1].values[0][8]
                     # 成绩出了
                     if re.search(r"(\d+)", process):
-                        # 判断是否重修
+                        # 判断是否重修，有成绩的话是可以参与排名的
                         if process.find("重修") != -1:
-                            can_join_rank = 0
                             score = float(process.split()[1][1:])
                         else:
                             score = float(process.split()[2])
@@ -69,6 +68,7 @@ def main(sno, passwd, openid):
                         if process.find("未选") != -1:
                             score = "未选"
                         elif process.find("重修") != -1:
+                            # 存在没出成绩的重修科目是不能参与排名的
                             score = "重修"
                             can_join_rank = 0
                         elif process.find("免修") != -1:
