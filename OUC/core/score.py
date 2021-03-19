@@ -54,8 +54,9 @@ def main(sno, passwd, openid):
                             score = float(process.split()[1][1:])
                         else:
                             score = float(process.split()[2])
-                        # 如果成绩大于70才计算Mean
-                        if score >= 70:
+
+                        # 如果成绩大于70或者是低于70已经获得学分才计算Mean
+                        if score >= 70 or process.find("已获得学分") != -1:
                             scores.append(score)
                             credits.append(planned_course["credit"])
                             planned_course["selected"] = True
@@ -73,6 +74,12 @@ def main(sno, passwd, openid):
                             can_join_rank = 0
                         elif process.find("免修") != -1:
                             score = "免修"
+                        elif process.find("优秀") != -1:
+                            score = "优秀"
+                        elif process.find("良好") != -1:
+                            score = "良好"
+                        elif process.find("及格") != -1:
+                            score = "及格"
                         elif process.find("通过") != -1:
                             score = "通过"
                         else:
@@ -101,6 +108,6 @@ def main(sno, passwd, openid):
 
 if __name__ == '__main__':
     start = time.time()
-    print(main("21200231213", "", "null"))
+    print(main("21200711145", "", "null"))
     end = time.time()
     print(end - start)

@@ -272,53 +272,12 @@ def get_schoolNews(request):
     res = {"pages_count": temp["pages_count"], "news": temp["total_news"]}
     res = json.dumps(res)
     return response(res)
-    # # 1001代表研招网
-    # if type == '1001':
-    #     temp = yanzhao.get_news(page)
-    #     res = {"pages_count": temp["pages_count"], "news": temp["total_news"]}
-    #     res = json.dumps(res)
-    #     return response(res)
-    # # 1002代表学术资讯
-    # elif type == '1002':
-    #     temp = xueshu.get_news(page)
-    #     res = {"pages_count": temp["pages_count"], "news": temp["total_news"]}
-    #     res = json.dumps(res)
-    #     return response(res)
-    # # 1003 代表后勤公告
-    # elif type == '1003':
-    #     temp = houqin.get_news(page)
-    #     res = {"pages_count": temp["pages_count"], "news": temp["total_news"]}
-    #     res = json.dumps(res)
-    #     return response(res)
-    # # 1004 代表学校新闻
-    # elif type == '1004':
-    #     temp = school.get_news(page)
-    #     res = {"pages_count": temp["pages_count"], "news": temp["total_news"]}
-    #     res = json.dumps(res)
-    #     return response(res)
-    # # 1005 代表研究生院新闻
-    # elif type == '1005':
-    #     temp = yanyuan.get_news(page)
-    #     res = {"pages_count": temp["pages_count"], "news": temp["total_news"]}
-    #     res = json.dumps(res)
-    #     return response(res)
 
 
 # 获取资讯详细内容
 def get_schoolNewsDetail(request):
     type, id = request.POST.get('type'), request.POST.get('id')
     res = school_news.SchoolNews.get_news_detail(str(type), str(id))
-    # res = None
-    # if type == '1001':
-    #     res = yanzhao.get_newsDeatil(id)
-    # elif type == '1002':
-    #     res = xueshu.get_newsDeatil(id)
-    # elif type == '1003':
-    #     res = houqin.get_newsDeatil(id)
-    # elif type == '1004':
-    #     res = school.get_newsDeatil(id)
-    # elif type == '1005':
-    #     res = yanyuan.get_newsDeatil(id)
     return response(res)
 
 

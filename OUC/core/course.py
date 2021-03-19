@@ -39,6 +39,8 @@ def main(sno, passwd, openid):
             except Exception as e:
                 school_require_credit, select_credit, get_credit = "--", "--", "--"
                 logger.error("[sno]: %s [passwd]: %s [Exception]: %s" % (sno, passwd, e))
+            # class_name = course_soup.findAll(attrs={"class": "white", "target": "_blank"})
+            # print(class_name)
             # 计划内的课程
             planned_table = course_table[0]
             planned_table = pd.DataFrame(planned_table)
@@ -97,5 +99,5 @@ def main(sno, passwd, openid):
 
 
 if __name__ == '__main__':
-    print(main("21201631055", "", None))
-    print(main("21200231213", "", None))
+    # print(main("21201631055", "", None))
+    print(main("21200231213", "2020wangjie", None))
