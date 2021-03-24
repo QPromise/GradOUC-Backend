@@ -72,7 +72,8 @@ def get_swiper(request):
 # =================================最近使用同学展示模块================================== #
 # 获取最近使用的同学
 def get_recently_use(request):
-    res = recently_use.main()
+    openid = request.GET.get('openid')
+    res = recently_use.main(openid)
     res = json.dumps(res)
     return response(res)
 

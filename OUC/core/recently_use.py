@@ -6,6 +6,7 @@ Author: qinchangshuai(cs_qin@qq.com)
 Date: 2021/1/17 11:11 
 """
 import time
+import django.utils.timezone as timezone
 
 from OUC import models
 from OUC import log
@@ -29,8 +30,12 @@ def get_time_gap(before):
     return res
 
 
-def main():
+def main(openid=None):
     try:
+        if openid is not None and openid != "null":
+            student = models.Student.objects.filter(openid=openid)
+            if len(student) == 1:
+                student.update(update_date=timezone.now())
         students = models.Student.objects.all()[:15]
         res = []
         for student in students:
