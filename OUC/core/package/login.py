@@ -111,8 +111,10 @@ class Login(object):
             session.proxies = proxy.ProxyIP.get_ip()
             # 获得登录页面
             response = session.get(login_url, headers=headers, timeout=8)
+            # print(response)
             login_soup = BeautifulSoup(response.text, 'lxml')
             # 获取隐藏字段
+            # print(login_soup, login_soup.form)
             lt = login_soup.form.find("input", {"name": "lt"})["value"]
             eventId = login_soup.form.find("input", {"name": "_eventId"})["value"]
             # 填写post信息

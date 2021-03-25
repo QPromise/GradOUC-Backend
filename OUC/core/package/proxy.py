@@ -59,6 +59,10 @@ class ProxyIP(object):
             "http": "http://%s:%s@%s/" % (username, password, cls.proxy_ip),
             "https": "http://%s:%s@%s/" % (username, password, cls.proxy_ip)
         }
+        proxies = {
+            "http": "http://%s:%s@%s/" % ("csqin", "lichengjiahua423", "223.247.214.61:28803"),
+            "https": "http://%s:%s@%s/" % ("csqin", "lichengjiahua423", "223.247.214.61:28803")
+        }
         return proxies
 
     # @classmethod
