@@ -18,7 +18,8 @@ logger = log.logger
 class ProxyIP(object):
     _instance_lock = threading.Lock()
     # https://kps.kdlapi.com/api/getkps/?orderid=911173601436870&num=1&pt=1&f_et=1&format=json&sep=1
-    api_url = "https://kps.kdlapi.com/api/getkps/?orderid=921672330375766&num=1&pt=1&f_et=1&format=json&sep=1"
+    api_url = "http://ip.ipjldl.com/index.php/api/entry?method=proxyServer.generate_api_url&packid=7&fa=1&fetch_key=&groupid=0&qty=1&time=1&pro=&city=&port=1&format=json&ss=5&css=&ipport=1&dt=1&auth=1&ipnum=5&specialTxt=3&specialJson=&auth_key=fnp63K6ncap_p3XYhHiysZSPoKecf6jVvWmZpcPTmqWSjX_Uxbp1Y3_NgZ4&usertype=16"
+    # api_url1 = "http://csqin666.v4.dailiyun.com/query.txt?key=NP10D7BC2A&word=&count=1&rand=false&ltime=0&norepeat=true&detail=false"
     proxy_ip = None
     get_ip_time = None
     rest_time = None
@@ -38,33 +39,57 @@ class ProxyIP(object):
 
     @classmethod
     def update_proxy_ip(cls):
-        get_result = requests.get(cls.api_url).json()['data']['proxy_list'][0].split(",")
-        proxy_ip, rest_time = get_result[0], get_result[1]
+        get_result = requests.get(cls.api_url).json()['data'][0]['IP']
+        # get_result = requests.get(cls.api_url1).text.replace("\n", "").replace("\r", "")
+        proxy_ip, rest_time = get_result, 59
         get_ip_time = int(time.time())
         cls.proxy_ip = proxy_ip
         cls.rest_time = int(rest_time)
         cls.get_ip_time = get_ip_time
-        logger.warning("使用了持久性个IP[%s]，获取时间%ss, 剩余时间%ss" % (proxy_ip, get_ip_time, rest_time))
+        logger.warning("使用了IP[%s]，获取时间%ss, 剩余时间%ss" % (proxy_ip, get_ip_time, rest_time))
 
     @classmethod
     def get_ip(cls):
         if cls.proxy_ip is None:
             cls.update_proxy_ip()
-        # else:
-        #     cur_time = int(time.time())
-        #     if cur_time - cls.get_ip_time >= cls.rest_time:
-        #         cls.update_proxy_ip()
-        username = "cs_qin"
-        password = "7wl4jvhz"
+        else:
+            cur_time = int(time.time())
+            if cur_time - cls.get_ip_time >= cls.rest_time:
+                cls.update_proxy_ip()
+        username = "csqin"
+        password = "lichengjiahua423"
         proxies = {
             "http": "http://%s:%s@%s/" % (username, password, cls.proxy_ip),
             "https": "http://%s:%s@%s/" % (username, password, cls.proxy_ip)
         }
-        # proxies = {
-        #     "http": "http://%s:%s@%s/" % ("csqin", "lichengjiahua423", "223.247.214.61:28803"),
-        #     "https": "http://%s:%s@%s/" % ("csqin", "lichengjiahua423", "223.247.214.61:28803")
-        # }
+        # print(proxies)
         return proxies
+
+    # @classmethod
+    # def update_proxy_ip(cls):
+    #     get_result = requests.get(cls.api_url).json()['data']['proxy_list'][0].split(",")
+    #     proxy_ip, rest_time = get_result[0], get_result[1]
+    #     get_ip_time = int(time.time())
+    #     cls.proxy_ip = proxy_ip
+    #     cls.rest_time = int(rest_time)
+    #     cls.get_ip_time = get_ip_time
+    #     logger.warning("使用了持久性个IP[%s]，获取时间%ss, 剩余时间%ss" % (proxy_ip, get_ip_time, rest_time))
+    #
+    # @classmethod
+    # def get_ip(cls):
+    #     if cls.proxy_ip is None:
+    #         cls.update_proxy_ip()
+    #     else:
+    #         cur_time = int(time.time())
+    #         if cur_time - cls.get_ip_time >= cls.rest_time:
+    #             cls.update_proxy_ip()
+    #     username = "cs_qin"
+    #     password = "7wl4jvhz"
+    #     proxies = {
+    #         "http": "http://%s:%s@%s/" % (username, password, cls.proxy_ip),
+    #         "https": "http://%s:%s@%s/" % (username, password, cls.proxy_ip)
+    #     }
+    #     return proxies
 
     # @classmethod
     # def update_proxy_ip(cls):

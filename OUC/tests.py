@@ -6,6 +6,18 @@ import json
 import bs4
 import os
 from bs4 import  BeautifulSoup
+import requests
+from OUC.core.package import proxy
+from OUC.global_config import *
+
+session = requests.Session()
+session.verify = False
+session.proxies = proxy.ProxyIP.get_ip()
+# 获得登录页面
+while(1):
+    response = session.get(login_url, headers=headers, timeout=8)
+    print(response)
+    time.sleep(0.5)
 
 print(os.listdir("../OUC/static/exam_json/"))
 cur = int(time.time())
