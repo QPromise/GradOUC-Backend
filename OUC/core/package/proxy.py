@@ -17,7 +17,8 @@ logger = log.logger
 
 class ProxyIP(object):
     _instance_lock = threading.Lock()
-    api_url = "https://kps.kdlapi.com/api/getkps/?orderid=911173601436870&num=1&pt=1&f_et=1&format=json&sep=1"
+    # https://kps.kdlapi.com/api/getkps/?orderid=911173601436870&num=1&pt=1&f_et=1&format=json&sep=1
+    api_url = "https://kps.kdlapi.com/api/getkps/?orderid=921672330375766&num=1&pt=1&f_et=1&format=json&sep=1"
     proxy_ip = None
     get_ip_time = None
     rest_time = None
@@ -49,20 +50,20 @@ class ProxyIP(object):
     def get_ip(cls):
         if cls.proxy_ip is None:
             cls.update_proxy_ip()
-        else:
-            cur_time = int(time.time())
-            if cur_time - cls.get_ip_time >= cls.rest_time:
-                cls.update_proxy_ip()
+        # else:
+        #     cur_time = int(time.time())
+        #     if cur_time - cls.get_ip_time >= cls.rest_time:
+        #         cls.update_proxy_ip()
         username = "cs_qin"
         password = "7wl4jvhz"
         proxies = {
             "http": "http://%s:%s@%s/" % (username, password, cls.proxy_ip),
             "https": "http://%s:%s@%s/" % (username, password, cls.proxy_ip)
         }
-        proxies = {
-            "http": "http://%s:%s@%s/" % ("csqin", "lichengjiahua423", "223.247.214.61:28803"),
-            "https": "http://%s:%s@%s/" % ("csqin", "lichengjiahua423", "223.247.214.61:28803")
-        }
+        # proxies = {
+        #     "http": "http://%s:%s@%s/" % ("csqin", "lichengjiahua423", "223.247.214.61:28803"),
+        #     "https": "http://%s:%s@%s/" % ("csqin", "lichengjiahua423", "223.247.214.61:28803")
+        # }
         return proxies
 
     # @classmethod
