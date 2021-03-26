@@ -39,14 +39,18 @@ class ProxyIP(object):
 
     @classmethod
     def update_proxy_ip(cls):
-        get_result = requests.get(cls.api_url).json()['data'][0]['IP']
-        # get_result = requests.get(cls.api_url1).text.replace("\n", "").replace("\r", "")
-        proxy_ip, rest_time = get_result, 59
-        get_ip_time = int(time.time())
-        cls.proxy_ip = proxy_ip
-        cls.rest_time = int(rest_time)
-        cls.get_ip_time = get_ip_time
-        logger.warning("使用了IP[%s]，获取时间%ss, 剩余时间%ss" % (proxy_ip, get_ip_time, rest_time))
+        try:
+            get_result = requests.get(cls.api_url).json()['data'][0]['IP']
+            logger.info("获取的ip为%s" % get_result)
+            # get_result = requests.get(cls.api_url1).text.replace("\n", "").replace("\r", "")
+            proxy_ip, rest_time = get_result, 59
+            get_ip_time = int(time.time())
+            cls.proxy_ip = proxy_ip
+            cls.rest_time = int(rest_time)
+            cls.get_ip_time = get_ip_time
+            logger.warning("使用了IP[%s]，获取时间%ss, 剩余时间%ss" % (proxy_ip, get_ip_time, rest_time))
+        except Exception as e:
+            logger.error("%s, %s" % (e, requests.get(cls.api_url).text))
 
     @classmethod
     def get_ip(cls):
