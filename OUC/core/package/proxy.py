@@ -50,7 +50,7 @@ class ProxyIP(object):
             cls.get_ip_time = get_ip_time
             logger.warning("使用了IP[%s]，获取时间%ss, 剩余时间%ss" % (proxy_ip, get_ip_time, rest_time))
         except Exception as e:
-            logger.error("%s, %s" % (e, requests.get(cls.api_url).text))
+            logger.error("%s, %s" % (e, requests.get(cls.api_url).json()))
 
     @classmethod
     def get_ip(cls):

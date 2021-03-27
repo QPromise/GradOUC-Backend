@@ -12,7 +12,8 @@ from django.shortcuts import render
 from django.http import HttpResponse as response
 
 from .core import login, schedule, today_course, course, score, library,\
-    profile, school_course, score_subscribe, exam, recently_use, score_rank
+    profile, school_course, score_subscribe, exam, recently_use, score_rank,\
+    reward_files
 from OUC.core import school_news
 from .models import Config, News, Swiper
 
@@ -281,6 +282,12 @@ def get_schoolNewsDetail(request):
     res = school_news.SchoolNews.get_news_detail(str(type), str(id))
     return response(res)
 
+
+# =================================获取奖学金文件模块================================== #
+def get_reward_files(request):
+    res = reward_files.main()
+    res = json.dumps(res)
+    return response(res)
 
 # =================================moniqingjia模块================================== #
 def shenpi_submit(request):
