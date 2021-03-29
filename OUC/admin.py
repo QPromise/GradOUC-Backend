@@ -46,7 +46,7 @@ class StudentAdmin(admin.ModelAdmin):
                     'research', 'supervisor', 'update_date', 'login_date', 'status', 'lock_date']
     search_fields = ['name', 'department', 'profession', 'supervisor', 'sno']
     # list_filter = ['department']
-    list_per_page = 15
+    list_per_page = 20
 
 
 class SubscribeStudentAdmin(admin.ModelAdmin):
@@ -61,7 +61,7 @@ class StudentRankAdmin(admin.ModelAdmin):
                     'profession', 'research', 'rank_research', 'exclude_courses', 'courses_name', 'courses_type',
                     'courses_info', 'travel_nums']
     search_fields = ['sno']
-    list_per_page = 15
+    list_per_page = 20
 
 
 class StudentInfoAdmin(admin.ModelAdmin, ExportExcelMixin):
@@ -71,7 +71,7 @@ class StudentInfoAdmin(admin.ModelAdmin, ExportExcelMixin):
                     'come_from', 'img_url']
     search_fields = ['sno', 'name', 'department', 'profession', 'research', 'file_unit', 'home_detail']
     list_filter = ['department']
-    list_per_page = 15
+    list_per_page = 20
     actions = ['export_as_excel']
 
 
