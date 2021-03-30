@@ -137,7 +137,7 @@ class SpiderInfo(object):
                                 research=student.research,
                                 img_url="https://imgshenpi.ouc.edu.cn/avatarNew/%s.jpg" % student.sno
                             )
-                            time.sleep(3)
+                            time.sleep(4)
                     else:
                         pass
                 except Exception as e:

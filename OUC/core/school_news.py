@@ -40,9 +40,9 @@ class SchoolNews(object):
 
     @classmethod
     def get_news(cls, news_type, page):
-        proxy_support = urllib.request.ProxyHandler(proxy.ProxyIP.get_ip())
-        opener = urllib.request.build_opener(proxy_support)
-        urllib.request.install_opener(opener)
+        # proxy_support = urllib.request.ProxyHandler(proxy.ProxyIP.get_ip())
+        # opener = urllib.request.build_opener(proxy_support)
+        # urllib.request.install_opener(opener)
         url = cls.news_url[news_type] % page
         rsp = urllib.request.urlopen(url)
         # 读取这个页面，并解码成utf-8格式，忽略错误,放入变量html中
@@ -87,9 +87,9 @@ class SchoolNews(object):
             # 第一层循环，把url都导出来
             # req = urllib.request.Request(newsDetail_url, headers=head)
             # 将服务器返回的页面放入rsp变量
-            proxy_support = urllib.request.ProxyHandler(proxy.ProxyIP.get_ip())
-            opener = urllib.request.build_opener(proxy_support)
-            urllib.request.install_opener(opener)
+            # proxy_support = urllib.request.ProxyHandler(proxy.ProxyIP.get_ip())
+            # opener = urllib.request.build_opener(proxy_support)
+            # urllib.request.install_opener(opener)
             rsp = urllib.request.urlopen(news_detail_url)
             # 读取这个页面，并解码成utf-8格式，忽略错误,放入变量html中
             html = rsp.read().decode('utf-8', 'ignore')
