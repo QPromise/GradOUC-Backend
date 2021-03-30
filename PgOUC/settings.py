@@ -22,9 +22,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'g@xq#ugkpxykxfeybxj*+wbl@-paic#q#vlmk@!iq!nolo8(jt'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'leoqin.fun']
+ALLOWED_HOSTS = ['127.0.0.1', '121.40.50.33 ', 'localhost', 'leoqin.fun']
 
 
 # Application definition

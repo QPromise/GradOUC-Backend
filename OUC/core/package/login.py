@@ -108,7 +108,7 @@ class Login(object):
             # 创建一个回话
             session = requests.Session()
             session.verify = False
-            session.proxies = proxy.ProxyIP.get_ip()
+            # session.proxies = proxy.ProxyIP.get_ip()
             # 获得登录页面
             response = session.get(login_url, headers=headers, timeout=8)
             # print(response)
