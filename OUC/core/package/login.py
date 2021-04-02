@@ -10,7 +10,7 @@ import base64
 import requests
 from bs4 import BeautifulSoup
 import django.utils.timezone as timezone
-import datetime
+import time
 
 from OUC import models
 from OUC import log
@@ -108,7 +108,6 @@ class Login(object):
             # 创建一个回话
             session = requests.Session()
             session.verify = False
-            session.keep_alive = False
             # session.proxies = proxy.ProxyIP.get_ip()
             # 获得登录页面
             response = session.get(login_url, headers=headers, timeout=8)
@@ -131,6 +130,7 @@ class Login(object):
             return {"message": "fault"}
         # 提交登录表单
         try:
+            time.sleep(1)
             post_form = session.post(url=login_url, headers=headers, timeout=8, data=values)
             home_page = session.get(url=home_url, headers=headers, timeout=8)
 

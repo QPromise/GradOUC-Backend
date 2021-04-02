@@ -9,7 +9,10 @@ from bs4 import  BeautifulSoup
 import requests
 from OUC.core.package import proxy
 from OUC.global_config import *
-
+from fake_useragent import UserAgent
+ua = UserAgent()
+print(ua.random)
+exit()
 session = requests.Session()
 session.verify = False
 session.proxies = proxy.ProxyIP.get_ip()
