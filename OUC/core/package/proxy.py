@@ -11,6 +11,8 @@ import time
 import threading
 
 from OUC import log
+from OUC import models
+
 
 logger = log.logger
 
@@ -37,35 +39,43 @@ class ProxyIP(object):
         return ProxyIP._instance
 
     @classmethod
-    def update_proxy_ip(cls):
+    def update_proxy_ip(cls, proxy_ip_info=None):
         try:
-            get_result = requests.get(cls.api_url).json()['data'][0]['IP']
-            logger.info("获取的ip为%s" % get_result)
-            # get_result = requests.get(cls.api_url1).text.replace("\n", "").replace("\r", "")
-            proxy_ip, rest_time = get_result, 298
+            proxy_ip = requests.get(cls.api_url).json()['data'][0]['IP']
+            logger.info("获取的ip为%s" % proxy_ip)
             get_ip_time = int(time.time())
-            cls.proxy_ip = proxy_ip
-            cls.rest_time = int(rest_time)
-            cls.get_ip_time = get_ip_time
-            logger.warning("使用了IP[%s]，获取时间%ss, 剩余时间%ss" % (proxy_ip, get_ip_time, rest_time))
+            if proxy_ip_info is None:
+                models.IPProxy.objects.create(proxy_ip=proxy_ip, get_ip_time=get_ip_time)
+                logger.warning("首次获取IP[%s]，更新时间%ss" % (proxy_ip, get_ip_time))
+            else:
+                proxy_ip_info.proxy_ip = proxy_ip
+                proxy_ip_info.get_ip_time = get_ip_time
+                proxy_ip_info.save()
+                logger.warning("更新了IP[%s]，更新时间%ss, 剩余时间%ss" % (proxy_ip, get_ip_time, proxy_ip_info.rest_time))
+            return proxy_ip
         except Exception as e:
-            logger.error("%s, %s" % (e, requests.get(cls.api_url).json()))
+            logger.error("%s, %s" % (e, proxy_ip))
 
     @classmethod
     def get_ip(cls):
-        if cls.proxy_ip is None:
-            cls.update_proxy_ip()
-        else:
-            cur_time = int(time.time())
-            if cur_time - cls.get_ip_time >= cls.rest_time:
-                cls.update_proxy_ip()
         username = "csqin666"
         password = "lichengjiahua423"
+        proxy_ip_infos = models.IPProxy.objects.all()
+        has_proxy_ip = len(proxy_ip_infos)
+        if not has_proxy_ip:
+            proxy_ip = cls.update_proxy_ip()
+        else:
+            proxy_ip_info = proxy_ip_infos[0]
+            proxy_ip = proxy_ip_info.proxy_ip
+            get_ip_time = proxy_ip_info.get_ip_time
+            rest_time = proxy_ip_info.rest_time
+            force_update = proxy_ip_info.force_update
+            if int(time.time()) - int(get_ip_time) >= int(rest_time) or force_update == 1:
+                proxy_ip = cls.update_proxy_ip(proxy_ip_info)
         proxies = {
-            "http": "http://%s:%s@%s/" % (username, password, cls.proxy_ip),
-            "https": "http://%s:%s@%s/" % (username, password, cls.proxy_ip)
+            "http": "http://%s:%s@%s/" % (username, password, proxy_ip),
+            "https": "http://%s:%s@%s/" % (username, password, proxy_ip)
         }
-        # print(proxies)
         return proxies
 
     # @classmethod

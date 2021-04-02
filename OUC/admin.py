@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Config, News, Swiper, Student, SubscribeStudent, StudentRank, StudentInfo
+from .models import Config, News, Swiper, Student, SubscribeStudent, StudentRank, StudentInfo, IPProxy
 from openpyxl import Workbook
 from django.http import HttpResponse
 
@@ -75,6 +75,10 @@ class StudentInfoAdmin(admin.ModelAdmin, ExportExcelMixin):
     actions = ['export_as_excel']
 
 
+class IPProxyAdmin(admin.ModelAdmin):
+    list_display = ['proxy_ip', 'get_ip_time', 'update_date', 'rest_time', 'force_update']
+
+
 admin.site.register(Config, ConfigAdmin)
 admin.site.register(News, NewsAdmin)
 admin.site.register(Swiper, SwiperAdmin)
@@ -82,3 +86,4 @@ admin.site.register(Student, StudentAdmin)
 admin.site.register(SubscribeStudent, SubscribeStudentAdmin)
 admin.site.register(StudentRank, StudentRankAdmin)
 admin.site.register(StudentInfo, StudentInfoAdmin)
+admin.site.register(IPProxy, IPProxyAdmin)

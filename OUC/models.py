@@ -122,3 +122,12 @@ class StudentInfo(models.Model):
     profession = models.CharField('专业', max_length=40, db_index=True, default="-")
     research = models.CharField('研究方向', max_length=40, db_index=True, default="-")
     img_url = models.CharField('个人照片', max_length=65, default="-")
+
+
+class IPProxy(models.Model):
+    proxy_ip = models.CharField('代理ip', max_length=50, default="-")
+    get_ip_time = models.CharField('获取时间', max_length=20, default="-")
+    update_date = models.DateTimeField('最新获取日期', auto_now=True)
+    rest_time = models.IntegerField('剩余时间', max_length=10, default=298)
+    force_update = models.IntegerField('是否强制更新(1为强制，0为没有)', default=0)
+
