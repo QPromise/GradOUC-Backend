@@ -19,7 +19,7 @@ logger = log.logger
 
 class ProxyIP(object):
     _instance_lock = threading.Lock()
-    api_url = "http://a.ipjldl.com/getapi?packid=2&unkey=&tid=&qty=1&time=3&port=1&format=json&ss=5&css=&ipport=1&pro=&city=&dt=1&usertype=17"
+    api_url = "http://a.ipjldl.com/getapi?packid=2&unkey=&tid=&qty=1&time=11&port=1&format=json&ss=5&css=&ipport=1&pro=&city=&dt=1&usertype=17"
     api_url1 = "http://csqin666.v4.dailiyun.com/query.txt?key=NP10D7BC2A&word=&count=1&rand=false&ltime=0&norepeat=true&detail=false"
     proxy_ip = None
     get_ip_time = None
