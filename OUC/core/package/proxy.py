@@ -17,8 +17,7 @@ logger = log.logger
 
 class ProxyIP(object):
     _instance_lock = threading.Lock()
-    # https://kps.kdlapi.com/api/getkps/?orderid=911173601436870&num=1&pt=1&f_et=1&format=json&sep=1
-    api_url = "http://a.ipjldl.com/getapi?packid=1&unkey=&tid=&qty=1&time=2&port=1&format=json&ss=5&css=&ipport=1&pro=&city=&dt=1&usertype=17"
+    api_url = "http://a.ipjldl.com/getapi?packid=2&unkey=&tid=&qty=1&time=3&port=1&format=json&ss=5&css=&ipport=1&pro=&city=&dt=1&usertype=17"
     api_url1 = "http://csqin666.v4.dailiyun.com/query.txt?key=NP10D7BC2A&word=&count=1&rand=false&ltime=0&norepeat=true&detail=false"
     proxy_ip = None
     get_ip_time = None
@@ -43,7 +42,7 @@ class ProxyIP(object):
             get_result = requests.get(cls.api_url).json()['data'][0]['IP']
             logger.info("获取的ip为%s" % get_result)
             # get_result = requests.get(cls.api_url1).text.replace("\n", "").replace("\r", "")
-            proxy_ip, rest_time = get_result, 59
+            proxy_ip, rest_time = get_result, 298
             get_ip_time = int(time.time())
             cls.proxy_ip = proxy_ip
             cls.rest_time = int(rest_time)

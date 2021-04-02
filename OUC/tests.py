@@ -12,12 +12,12 @@ from OUC.global_config import *
 from fake_useragent import UserAgent
 ua = UserAgent()
 print(ua.random)
-exit()
 session = requests.Session()
 session.verify = False
 session.proxies = proxy.ProxyIP.get_ip()
 # 获得登录页面
 while(1):
+    print(headers)
     response = session.get(login_url, headers=headers, timeout=8)
     print(response)
     time.sleep(0.5)
