@@ -14,6 +14,7 @@ from django.http import HttpResponse as response
 from .core import login, schedule, today_course, course, score, library,\
     profile, school_course, score_subscribe, exam, recently_use, score_rank,\
     reward_files
+from OUC.core.post_graduate import post_graduate
 from OUC.core import school_news
 from .models import Config, News, Swiper
 
@@ -289,6 +290,8 @@ def get_reward_files(request):
     res = json.dumps(res)
     return response(res)
 
+
+
 # =================================moniqingjia模块================================== #
 def shenpi_submit(request):
     person_id = request.GET.get("vip")
@@ -325,3 +328,11 @@ def shenpi_index(request):
                       {"avatar": avatar, "name": name, "door": doors[door_index]})
 
 
+"""
+考研模块
+"""
+# =================================获取奖学金文件模块================================== #
+def get_post_graduate_info(request):
+    res = post_graduate.main()
+    res = json.dumps(res)
+    return response(res)
