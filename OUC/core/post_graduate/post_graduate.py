@@ -31,6 +31,7 @@ def main():
                 split_line = cur_line.split("\t")
                 if split_line[0] != pre:
                     if i != 1:
+                        cur_department["cur_department_professions"] = sorted(cur_department["cur_department_professions"], key=lambda x: x['profession_type'], reverse=True)
                         infos.append(cur_department)
                     total += count
                     pre = split_line[0]
@@ -73,6 +74,8 @@ def main():
                                                  len(cur_profession["retest_books_version"]),
                                                  len(cur_profession["retest_books_imgs"])],
                                                  cur_profession["admission_ratio"])
+        cur_department["cur_department_professions"] = sorted(cur_department["cur_department_professions"],
+                                                              key=lambda x: x['profession_type'], reverse=True)
         infos.append(cur_department)
         total += count
         res["infos"] = infos
