@@ -31,7 +31,7 @@ def main():
                 split_line = cur_line.split("\t")
                 if split_line[0] != pre:
                     if i != 1:
-                        cur_department["cur_department_professions"] = sorted(cur_department["cur_department_professions"], key=lambda x: x['profession_type'], reverse=True)
+                        cur_department["cur_department_professions"] = sorted(cur_department["cur_department_professions"], key=lambda x: x['profession_type'])
                         infos.append(cur_department)
                     total += count
                     pre = split_line[0]
@@ -75,7 +75,7 @@ def main():
                                                  len(cur_profession["retest_books_imgs"])],
                                                  cur_profession["admission_ratio"])
         cur_department["cur_department_professions"] = sorted(cur_department["cur_department_professions"],
-                                                              key=lambda x: x['profession_type'], reverse=True)
+                                                              key=lambda x: x['profession_type'])
         infos.append(cur_department)
         total += count
         res["infos"] = infos
@@ -125,6 +125,7 @@ def judge_row_type_is_right(row_num, cs_list, fs_list, bl_list):
         if len(bl_list[i]) != 5:
             bl_info = "【%s列复试报录信息格式不正确，缺少信息】" % (12 + i)
     if cs_info or fs_info or bl_info:
-        logger.error("[%s行]%s%s%s" % (row_num, cs_info, fs_info, bl_info))
+        pass
+        #logger.error("[%s行]%s%s%s" % (row_num, cs_info, fs_info, bl_info))
 
 
