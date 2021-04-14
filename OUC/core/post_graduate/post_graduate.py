@@ -23,7 +23,7 @@ def main():
     try:
         with open('OUC/static/post_graduate/info.txt', 'r', encoding="utf-8") as f:
             lines = f.readlines()
-            years = lines[0].replace("\n", "").split("\t")[18:]
+            years = lines[0].replace("\n", "").split("\t")[24:]
             pre = ""
             count = 0
             for i in range(1, len(lines)):
@@ -43,7 +43,7 @@ def main():
                 cur_department["department"] = split_line[0]
                 cur_department["num"] = count
                 try:
-                    cur_profession["badge"] = "%s.png" % (department_array.index(split_line[0]) + 1)
+                    cur_profession["badge"] = "%s.png" % (department_array.index(cur_department["department"]) + 1)
                 except:
                     cur_profession["badge"] = "0.png"
                 cur_profession["department"] = split_line[0]  # 招生学院
@@ -58,21 +58,37 @@ def main():
                 cur_profession["first_test_profession_two"] = split_line[9]  # 业务课二
                 cur_profession["retest_profession_one"] = split_line[10]  # 复试业务课一
                 cur_profession["retest_profession_two"] = split_line[11]  # 复试业务课二
+
                 cur_profession["first_test_books"] = split_words(split_line[12])
-                cur_profession["first_test_books_version"] = split_words(split_line[13])
-                cur_profession["first_test_books_imgs"] = split_words(split_line[14])
-                cur_profession["retest_books"] = split_words(split_line[15])
-                cur_profession["retest_books_version"] = split_words(split_line[16])
-                cur_profession["retest_books_imgs"] = split_words(split_line[17])
-                cur_profession["admission_ratio"] = split_words(split_line[18:])
+                cur_profession["first_test_books_author"] = split_words(split_line[13])
+                cur_profession["first_test_books_version"] = split_words(split_line[14])
+                cur_profession["first_test_books_publish_hourses"] = split_words(split_line[15])
+                cur_profession["first_test_books_introduction"] = split_words(split_line[16])
+                cur_profession["first_test_books_imgs"] = add_book_img_dir_prefix(split_words(split_line[17]), cur_department["department"])
+
+                cur_profession["retest_books"] = split_words(split_line[18])
+                cur_profession["retest_books_author"] = split_words(split_line[19])
+                cur_profession["retest_books_version"] = split_words(split_line[20])
+                cur_profession["retest_books_publish_hourses"] = split_words(split_line[21])
+                cur_profession["retest_books_introduction"] = split_words(split_line[22])
+                cur_profession["retest_books_imgs"] = add_book_img_dir_prefix(split_words(split_line[23]), cur_department["department"])
+                cur_profession["admission_ratio"] = split_words(split_line[24:])
                 cur_profession["is_show"] = True
                 cur_department["cur_department_professions"].append(cur_profession)
                 judge_row_type_is_right(i + 1, [len(cur_profession["first_test_books"]),
+                                                len(cur_profession["first_test_books_author"]),
                                                 len(cur_profession["first_test_books_version"]),
-                                                len(cur_profession["first_test_books_imgs"])],
+                                                len(cur_profession["first_test_books_publish_hourses"]),
+                                                len(cur_profession["first_test_books_introduction"]),
+                                                len(cur_profession["first_test_books_imgs"]),
+                                                ],
                                                 [len(cur_profession["retest_books"]),
+                                                 len(cur_profession["retest_books_author"]),
                                                  len(cur_profession["retest_books_version"]),
-                                                 len(cur_profession["retest_books_imgs"])],
+                                                 len(cur_profession["retest_books_publish_hourses"]),
+                                                 len(cur_profession["retest_books_introduction"]),
+                                                 len(cur_profession["retest_books_imgs"])
+                                                 ],
                                                  cur_profession["admission_ratio"])
         cur_department["cur_department_professions"] = sorted(cur_department["cur_department_professions"],
                                                               key=lambda x: x['profession_type'])
@@ -96,36 +112,35 @@ def split_words(elements):
     if type(elements) is list:
         res = []
         for ele in elements:
-            res.append(ele.split("#"))
+            if ele != "-" and ele != "":
+                res.append(ele.split("#"))
         return res
     return []
 
 
+def add_book_img_dir_prefix(imgs, department):
+    if len(imgs) == 0:
+        return []
+    for i in range(len(imgs)):
+        if imgs[i] != "-":
+            imgs[i] = "%s/%s" % (department, imgs[i])
+    return imgs
+
+
 def judge_row_type_is_right(row_num, cs_list, fs_list, bl_list):
     cs_info, fs_info, bl_info = "", "", ""
-    for i in range(len(cs_list)):
-        if i == 0:
-            pre = cs_list[0]
-        else:
-            if cs_list[i] != pre:
-                cs_info = "【初试参考书格式不正确】"
-            else:
-                pre = cs_list[i]
+    cs_len = len(list(set(cs_list)))
+    if cs_len != 1 and 0 not in cs_list:
+        cs_info = "【初试参考书格式不正确 | %s】" % cs_list
 
-    for i in range(len(fs_list)):
-        if i == 0:
-            pre = fs_list[0]
-        else:
-            if fs_list[i] != pre:
-                fs_info = "【复试参考书格式不正确】"
-            else:
-                pre = fs_list[i]
+    fs_len = len(list(set(fs_list)))
+    if fs_len != 1 and 0 not in fs_list:
+        fs_info = "【复试参考书格式不正确 | %s】" % fs_list
 
     for i in range(len(bl_list)):
         if len(bl_list[i]) != 5:
-            bl_info = "【%s列复试报录信息格式不正确，缺少信息】" % (12 + i)
+            bl_info = "【%s列复试报录信息格式不正确，缺少信息】" % (24 + i)
     if cs_info or fs_info or bl_info:
-        pass
-        #logger.error("[%s行]%s%s%s" % (row_num, cs_info, fs_info, bl_info))
+        logger.error("[%s行]%s%s%s" % (row_num, cs_info, fs_info, bl_info))
 
 
