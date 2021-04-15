@@ -336,3 +336,9 @@ def get_post_graduate_info(request):
     res = post_graduate.main()
     res = json.dumps(res)
     return response(res)
+
+def get_retest_list_files(request):
+    retest_list_files = json.loads(request.GET.get('retestListFiles'))
+    res = post_graduate.read_retest_list(retest_list_files["val"])
+    res = json.dumps(res)
+    return response(res)
