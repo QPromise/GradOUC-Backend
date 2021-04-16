@@ -19,6 +19,12 @@ department_array = ['信息科学与工程学院', '海洋与大气学院', '化
                     '材料科学与工程学院', '马克思主义学院', '基础教学中心', '会计硕士教育中心',
                     '旅游管理硕士教育中心', '国际事务与公共管理学院', 'MBA教育中心', 'MPA教育中心']
 
+qq_qun = ['772864646', '778577978', '778577978', '778577978', '778577978',
+          '778577978', '778577978', '778577978', '778577978', '778577978',
+          '778577978', '778577978', '778577978', '778577978', '778577978', '778577978',
+          '778577978', '778577978', '778577978', '778577978',
+          '778577978', '778577978', '778577978', '778577978']
+
 
 def main():
     res = {"message": "success", "infos": [], "years": []}
@@ -48,8 +54,9 @@ def main():
                 cur_department["num"] = count
                 try:
                     cur_profession["badge"] = "%s.png" % (department_array.index(cur_department["department"]) + 1)
+                    cur_profession["qq_qun"] = qq_qun[department_array.index(cur_department["department"])]
                 except:
-                    cur_profession["badge"] = "0.png"
+                    cur_profession["qq_qun"] = "778577978"
                 cur_profession["department"] = split_line[0]  # 招生学院
                 cur_profession["first_level_discipline"] = split_line[1]  # 一级学科
                 cur_profession["second_level_discipline_code"] = split_line[2]  # 二级学科
@@ -229,15 +236,19 @@ def read_retest_list(retest_list_files):
                 th = columns
             mean, max_score, min_score = ["平均值"], ["最高分"], ["最低分"]
             for j in range(5):
-                mean.append(sheet[th[j]].mean().tolist())
+                mean.append(round(sheet[th[j]].mean().tolist(), 1))
                 max_score.append(sheet[th[j]].max().tolist())
                 min_score.append(sheet[th[j]].min().tolist())
             content = sheet.values.tolist()
             rows = []
             for j in range(len(content)):
                 row = dict()
+                # 如果有标记
                 if has_status:
-                    row["status"] = int(content[j][-1])
+                    if pd.isnull(content[j][-1]):
+                        row["status"] = 1
+                    else:
+                        row["status"] = int(content[j][-1])
                     row["val"] = content[j][:-1]
                 else:
                     row["status"] = 1
@@ -258,5 +269,37 @@ def read_retest_list(retest_list_files):
         return res
 
 
+def test_file(file_name):
+    sheet = pd.read_excel("../../static/post_graduate/retest_list_files" + file_name, "Sheet1")
+    cur_year = {"th": [], "rows": [], "analysis_th": [], "analysis_rows": []}
+    columns = sheet.columns.tolist()
+    has_status = False
+    if columns[-1] == "状态":
+        th = columns[:-1]
+        has_status = True
+    else:
+        th = columns
+    mean, max_score, min_score = ["平均值"], ["最高分"], ["最低分"]
+    for j in range(5):
+        mean.append(round(sheet[th[j]].mean().tolist(),1))
+        max_score.append(sheet[th[j]].max().tolist())
+        min_score.append(sheet[th[j]].min().tolist())
+    content = sheet.values.tolist()
+    rows = []
+    for j in range(len(content)):
+        row = dict()
+        # 如果有标记
+        if has_status:
+            if pd.isnull(content[j][-1]):
+                row["status"] = 1
+            else:
+                row["status"] = int(content[j][-1])
+            row["val"] = content[j][:-1]
+        else:
+            row["status"] = 1
+            row["val"] = content[j]
+        rows.append(row)
+
+
 if __name__ == '__main__':
-    read_retest_list("/管理学院/2020/2020-1.xls")
+    test_file("/管理学院/2021/2021-7.xls")
