@@ -15,6 +15,7 @@ from .core import login, schedule, today_course, course, score, library,\
     profile, school_course, score_subscribe, exam, recently_use, score_rank,\
     reward_files
 from OUC.core.post_graduate import post_graduate
+from OUC.core.dream_ouc import cs_info
 from OUC.core import school_news
 from .models import Config, News, Swiper
 
@@ -328,14 +329,26 @@ def shenpi_index(request):
                       {"avatar": avatar, "name": name, "door": doors[door_index]})
 
 
-"""
-考研模块
-"""
-# =================================获取奖学金文件模块================================== #
+# =================================追梦海大模块================================== #
+def get_cs_post_graduate_info(request):
+    res = cs_info.main()
+    res = json.dumps(res)
+    return response(res)
+
+
+def get_cs_retest_list_files(request):
+    retest_list_files = json.loads(request.GET.get('retestListFiles'))
+    res = cs_info.read_retest_list(retest_list_files["val"])
+    res = json.dumps(res)
+    return response(res)
+
+
+# =================================陪你圆梦考研模块================================== #
 def get_post_graduate_info(request):
     res = post_graduate.main()
     res = json.dumps(res)
     return response(res)
+
 
 def get_retest_list_files(request):
     retest_list_files = json.loads(request.GET.get('retestListFiles'))

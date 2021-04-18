@@ -33,7 +33,12 @@ urlpatterns = [
     url(r'^get_subscribe_status', views.get_subscribe_status, name='get_subscribe_status'),
     url(r'^shenpi_index/$', views.shenpi_index, name='shenpi_index'),
     url(r'^shenpi_submit/', views.shenpi_submit, name='shenpi_submit'),
-    # 考研模块
+
+    # 追梦海大模块
+    url(r'^get_cs_post_graduate_info/$', views.get_cs_post_graduate_info, name='get_cs_post_graduate_info'),
+    url(r'^get_cs_retest_list_files/$', views.get_cs_retest_list_files, name='get_cs_retest_list_files'),
+
+    # 陪你圆梦考研模块
     url(r'^get_post_graduate_info/$', views.get_post_graduate_info, name='get_post_graduate_info'),
     url(r'^get_retest_list_files/$', views.get_retest_list_files, name='get_retest_list_files')
 
