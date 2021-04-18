@@ -206,7 +206,8 @@ def judge_row_type_is_right(row_num, cs_list, fs_list, bl_list):
         if len(bl_list[i]) != 5:
             bl_info = "【%s列复试报录信息格式不正确，缺少信息】" % (24 + i)
     if cs_info or fs_info or bl_info:
-        logger.error("[%s行]%s%s%s" % (row_num, cs_info, fs_info, bl_info))
+        pass
+        # logger.error("[%s行]%s%s%s" % (row_num, cs_info, fs_info, bl_info))
 
 
 # 读取复试名单
