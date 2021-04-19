@@ -11,6 +11,7 @@ import json
 import xlsxwriter
 
 
+# 需要对照复试成绩结果对复试名单进行筛选，适用于复试名单上不分二级专业的情况
 def process_retest_list_by_sno():
     with open('./files/981', 'r') as f:
         sno = f.readlines()
@@ -59,6 +60,7 @@ def process_retest_list_by_sno():
             print(sno[i])
 
 
+# 输入专业，根据最原始复试文件提取复试人员的成绩等
 def process_retest_list_original():
     path = './files/2020fs.pdf'
     pdf = pdfplumber.open(path)
@@ -101,6 +103,11 @@ def process_retest_list_original():
         work_sheet.write(rank, 6, tmp_rows[i][5])
         rank += 1
     work_book.close()
+
+
+# 找出复试名单中被淘汰的同学
+def find_not_be_admitted():
+    pass
 
 
 if __name__ == '__main__':
