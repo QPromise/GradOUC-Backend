@@ -42,9 +42,9 @@ class ProxyIP(object):
     @classmethod
     def update_proxy_ip(cls, proxy_ip_info=None):
         try:
-            # proxy_ip = requests.get(cls.api_url).json()['data'][0]['IP']
-            res = requests.get(cls.shenlong_url).json()['data'][0]
-            proxy_ip = "%s:%s" % (res['ip'], res['port'])
+            proxy_ip = requests.get(cls.api_url).json()['data'][0]['IP']
+            # res = requests.get(cls.shenlong_url).json()['data'][0]
+            # proxy_ip = "%s:%s" % (res['ip'], res['port'])
             logger.info("获取的ip为%s" % proxy_ip)
             get_ip_time = int(time.time())
             if proxy_ip_info is None:
@@ -61,10 +61,10 @@ class ProxyIP(object):
 
     @classmethod
     def get_ip(cls):
-        # username = "csqin666"
-        # password = "lichengjiahua423"
-        username = "2021032800001502146"
-        password = "K2eXDjBmKd0P5NQI"
+        username = "csqin666"
+        password = "lichengjiahua423"
+        # username = "2021032800001502146"
+        # password = "K2eXDjBmKd0P5NQI"
         proxy_ip_infos = models.IPProxy.objects.all()
         has_proxy_ip = len(proxy_ip_infos)
         if not has_proxy_ip:
