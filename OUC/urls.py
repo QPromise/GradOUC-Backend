@@ -40,6 +40,7 @@ urlpatterns = [
 
     # 陪你圆梦考研模块
     url(r'^get_post_graduate_info/$', views.get_post_graduate_info, name='get_post_graduate_info'),
-    url(r'^get_retest_list_files/$', views.get_retest_list_files, name='get_retest_list_files')
+    url(r'^get_retest_list_files/$', views.get_retest_list_files, name='get_retest_list_files'),
+    url(r'^get_admission_list_files/$', views.get_admission_list_files, name='get_admission_list_files')
 
 ]

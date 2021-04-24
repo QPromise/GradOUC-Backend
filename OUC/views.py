@@ -355,3 +355,10 @@ def get_retest_list_files(request):
     res = post_graduate.read_retest_list(retest_list_files["val"])
     res = json.dumps(res)
     return response(res)
+
+
+def get_admission_list_files(request):
+    admission_list_files = json.loads(request.GET.get('admissionListFiles'))
+    res = post_graduate.read_admission_list(admission_list_files["val"])
+    res = json.dumps(res)
+    return response(res)

@@ -33,7 +33,7 @@ def main():
     try:
         with open('OUC/static/post_graduate/info.txt', 'r', encoding="utf-8") as f:
             lines = f.readlines()
-            years = lines[0].replace("\n", "").split("\t")[26:]
+            years = lines[0].replace("\n", "").split("\t")[30:]
             pre = ""
             count = 0
             for i in range(1, len(lines)):
@@ -58,36 +58,45 @@ def main():
                 except:
                     cur_profession["qq_qun"] = ""
                 cur_profession["department"] = split_line[0]  # 招生学院
-                cur_profession["first_level_discipline"] = split_line[1]  # 一级学科
-                cur_profession["second_level_discipline_code"] = split_line[2]  # 二级学科
-                cur_profession["second_level_discipline"] = split_line[3]  # 二级学科
-                cur_profession["profession_type"] = split_line[4]  # 专硕or学硕
-                cur_profession["tuition"] = split_line[5]  # 一年学费
-                cur_profession["study_period"] = split_line[6]  # 专业学制
-                cur_profession["first_test_political"] = split_line[7]  # 政治
-                cur_profession["first_test_english"] = split_line[8]  # 英语
-                cur_profession["first_test_profession_one"] = split_line[9]  # 业务课一
-                cur_profession["first_test_profession_two"] = split_line[10]  # 业务课二
-                cur_profession["retest_profession_one"] = split_line[11]  # 复试业务课一
-                cur_profession["retest_profession_two"] = split_line[12]  # 复试业务课二
+                cur_profession["campus"] = split_line[1]  # 所在校区
 
-                cur_profession["first_test_books"] = split_words(split_line[13])
-                cur_profession["first_test_books_author"] = split_words(split_line[14])
-                cur_profession["first_test_books_version"] = split_words(split_line[15])
-                cur_profession["first_test_books_publish_hourses"] = split_words(split_line[16])
-                cur_profession["first_test_books_introduction"] = split_words(split_line[17])
-                cur_profession["first_test_books_imgs"] = add_book_img_dir_prefix(split_words(split_line[18]), cur_department["department"])
+                cur_profession["first_level_discipline"] = split_line[2]  # 一级学科
+                cur_profession["second_level_discipline_code"] = split_line[3]  # 二级学科
+                cur_profession["second_level_discipline"] = split_line[4]  # 二级学科
+                cur_profession["profession_type"] = split_line[5]  # 专硕or学硕
+                cur_profession["tuition"] = split_line[6]  # 一年学费
+                cur_profession["rank_mode"] = split_line[7]  # 排名方式
 
-                cur_profession["retest_books"] = split_words(split_line[19])
-                cur_profession["retest_books_author"] = split_words(split_line[20])
-                cur_profession["retest_books_version"] = split_words(split_line[21])
-                cur_profession["retest_books_publish_hourses"] = split_words(split_line[22])
-                cur_profession["retest_books_introduction"] = split_words(split_line[23])
-                cur_profession["retest_books_imgs"] = add_book_img_dir_prefix(split_words(split_line[24]), cur_department["department"])
+                cur_profession["study_period"] = split_line[8]  # 专业学制
+                cur_profession["profession_introduction"] = split_line[9]  # 专业介绍
 
-                cur_profession["retest_list_files"] = get_retest_file_list(split_words(split_line[25]), cur_department["department"])
+                cur_profession["first_test_political"] = split_line[10]  # 政治
+                cur_profession["first_test_english"] = split_line[11]  # 英语
+                cur_profession["first_test_profession_one"] = split_line[12]  # 业务课一
+                cur_profession["first_test_profession_two"] = split_line[13]  # 业务课二
+                cur_profession["retest_profession_one"] = split_line[14]  # 复试业务课一
+                cur_profession["retest_profession_two"] = split_line[15]  # 复试业务课二
 
-                cur_profession["admission_ratio"] = split_words(split_line[26:])
+                cur_profession["first_test_books"] = split_words(split_line[16])
+                cur_profession["first_test_books_author"] = split_words(split_line[17])
+                cur_profession["first_test_books_version"] = split_words(split_line[18])
+                cur_profession["first_test_books_publish_hourses"] = split_words(split_line[19])
+                cur_profession["first_test_books_introduction"] = split_words(split_line[20])
+                cur_profession["first_test_books_imgs"] = add_book_img_dir_prefix(split_words(split_line[21]), cur_department["department"])
+
+                cur_profession["retest_books"] = split_words(split_line[22])
+                cur_profession["retest_books_author"] = split_words(split_line[23])
+                cur_profession["retest_books_version"] = split_words(split_line[24])
+                cur_profession["retest_books_publish_hourses"] = split_words(split_line[25])
+                cur_profession["retest_books_introduction"] = split_words(split_line[26])
+                cur_profession["retest_books_imgs"] = add_book_img_dir_prefix(split_words(split_line[27]), cur_department["department"])
+
+                cur_profession["admission_list_files"] = get_file_list(split_words(split_line[28]),  # 拟录取名单
+                                                                              cur_department["department"])
+                cur_profession["retest_list_files"] = get_file_list(split_words(split_line[29]),  # 复试名单
+                                                                    cur_department["department"])
+
+                cur_profession["admission_ratio"] = split_words(split_line[30:])
                 cur_profession["is_show"] = True
                 cur_department["cur_department_professions"].append(cur_profession)
                 judge_row_type_is_right(i + 1, [len(cur_profession["first_test_books"]),
@@ -153,9 +162,9 @@ def add_book_img_dir_prefix(imgs, department):
     return imgs
 
 
-def get_retest_file_list(files, department):
+def get_file_list(files, department):
     """
-    获取复试名单列表
+    获取名单列表
     :param files:
     :param department:
     :return:
@@ -262,6 +271,62 @@ def read_retest_list(retest_list_files):
             cur_year["length"] = len(rows)
             res["each_year_retest_file"][retest_list_files[i]["btnname"]] = cur_year
         if res["each_year_retest_file"] == {}:
+            res["message"] = "empty"
+        return res
+    except Exception as e:
+        res["message"] = "fault"
+        logger.error("%s" % e)
+        return res
+
+
+def read_admission_list(admission_list_files):
+    """
+    根据文件名称加载当前的复试名单
+    """
+    res = {"message": "success", "each_year_admission_file": {}}
+    # sheet = pd.read_excel("OUC/static/post_graduate/admission_list_files" + file_name, "Sheet1")
+    try:
+        for i in range(len(admission_list_files)):
+            if admission_list_files[i]["val"] == "-":
+                continue
+            try:
+                sheet = pd.read_excel("OUC/static/post_graduate/admission_list_files" + admission_list_files[i]["val"], "Sheet1")
+            except Exception as e:
+                logger.error("%s %s不存在" % (e, admission_list_files[i]["val"]))
+                continue
+            cur_year = {"th": [], "rows": []}
+            columns = sheet.columns.tolist()
+            # 初试成绩排序
+            first_test_score = sheet[columns[0]].tolist()
+            sorted_first_test_score = sorted(first_test_score, reverse=True)
+            # 总成绩
+            score = sheet[columns[2]].tolist()
+            # 成绩波动
+            rank_change = []
+            for j in range(len(score)):
+                change = sorted_first_test_score.index(first_test_score[j]) - j
+                if change > 0:
+                    change = "+" + str(change)
+                rank_change.append(change)
+            content = sheet.values.tolist()
+            rows = []
+            admission_num = 0
+            for j in range(len(content)):
+                row = dict()
+                # 如果没有标记
+                if pd.isnull(content[j][-1]):
+                    row["status"] = 1
+                else:
+                    row["status"] = int(content[j][-1])
+                if row["status"] == 1:
+                    admission_num += 1
+                row["val"] = content[j][:-1] + [rank_change[j]]
+                rows.append(row)
+            cur_year["rows"] = rows
+            cur_year["th"] = columns[:-1] + ['名次变动']
+            cur_year["length"] = admission_num
+            res["each_year_admission_file"][admission_list_files[i]["btnname"]] = cur_year
+        if res["each_year_admission_file"] == {}:
             res["message"] = "empty"
         return res
     except Exception as e:

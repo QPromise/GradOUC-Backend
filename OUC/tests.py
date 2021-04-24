@@ -10,6 +10,8 @@ import requests
 from OUC.core.package import proxy
 from OUC.global_config import *
 from fake_useragent import UserAgent
+a = [1, 2, 3, 5]
+print(a + [6])
 ua = UserAgent()
 print(ua.random)
 session = requests.Session()
