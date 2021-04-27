@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Config, News, Swiper, Student, SubscribeStudent, StudentRank, StudentInfo, IPProxy
+from .models import Config, News, Swiper, Student, SubscribeStudent, StudentRank, StudentInfo, IPProxy, \
+    DreamOUCProfession, DreamOUCNews
 from openpyxl import Workbook
 from django.http import HttpResponse
 
@@ -79,6 +80,18 @@ class IPProxyAdmin(admin.ModelAdmin):
     list_display = ['proxy_ip', 'get_ip_time', 'update_date', 'rest_time', 'force_update']
 
 
+class DreamOUCProfessionAdmin(admin.ModelAdmin):
+    list_display = ['department_name', 'profession_name', 'profession_hot_val', 'profession_material_title',
+                    'profession_material_url', 'open_course_title', 'open_course_url', 'taobao_key',
+                    'update_intro', 'profession_material_description']
+    list_filter = ['department_name']
+
+
+class DreamOUCNewsAdmin(admin.ModelAdmin):
+    list_display = ['id', 'news_title', 'news_url', 'news_tag', 'news_is_top', 'news_top_val',
+                    'published_time', 'modified_time', 'news_attention', 'news_hot_val']
+
+
 admin.site.register(Config, ConfigAdmin)
 admin.site.register(News, NewsAdmin)
 admin.site.register(Swiper, SwiperAdmin)
@@ -87,3 +100,5 @@ admin.site.register(SubscribeStudent, SubscribeStudentAdmin)
 admin.site.register(StudentRank, StudentRankAdmin)
 admin.site.register(StudentInfo, StudentInfoAdmin)
 admin.site.register(IPProxy, IPProxyAdmin)
+admin.site.register(DreamOUCProfession, DreamOUCProfessionAdmin)
+admin.site.register(DreamOUCNews, DreamOUCNewsAdmin)

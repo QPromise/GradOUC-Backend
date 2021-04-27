@@ -33,7 +33,7 @@ def main():
     try:
         with open('OUC/static/dream_ouc/cs_info.txt', 'r', encoding="utf-8") as f:
             lines = f.readlines()
-            years = lines[0].replace("\n", "").split("\t")[27:]
+            years = lines[0].replace("\n", "").split("\t")[30:]
             pre = ""
             count = 0
             for i in range(1, len(lines)):
@@ -58,37 +58,47 @@ def main():
                 except:
                     cur_profession["qq_qun"] = "778577978"
                 cur_profession["department"] = split_line[0]  # 招生学院
-                cur_profession["first_level_discipline"] = split_line[1]  # 一级学科
-                cur_profession["second_level_discipline_code"] = split_line[2]  # 二级学科
-                cur_profession["second_level_discipline"] = split_line[3]  # 二级学科
-                cur_profession["profession_type"] = split_line[4]  # 专硕or学硕
-                cur_profession["tuition"] = split_line[5]  # 一年学费
-                cur_profession["study_period"] = split_line[6]  # 专业学制
-                cur_profession["profession_introduction"] = split_line[7]  # 专业说明
-                cur_profession["first_test_political"] = split_line[8]  # 政治
-                cur_profession["first_test_english"] = split_line[9]  # 英语
-                cur_profession["first_test_profession_one"] = split_line[10]  # 业务课一
-                cur_profession["first_test_profession_two"] = split_line[11]  # 业务课二
-                cur_profession["retest_profession_one"] = split_line[12]  # 复试业务课一
-                cur_profession["retest_profession_two"] = split_line[13]  # 复试业务课二
+                cur_profession["campus"] = split_line[1]  # 所在校区
 
-                cur_profession["first_test_books"] = split_words(split_line[14])
-                cur_profession["first_test_books_author"] = split_words(split_line[15])
-                cur_profession["first_test_books_version"] = split_words(split_line[16])
-                cur_profession["first_test_books_publish_hourses"] = split_words(split_line[17])
-                cur_profession["first_test_books_introduction"] = split_words(split_line[18])
-                cur_profession["first_test_books_imgs"] = add_book_img_dir_prefix(split_words(split_line[19]), cur_department["department"])
+                cur_profession["first_level_discipline"] = split_line[2]  # 一级学科
+                cur_profession["second_level_discipline_code"] = split_line[3]  # 二级学科
+                cur_profession["second_level_discipline"] = split_line[4]  # 二级学科
+                cur_profession["profession_type"] = split_line[5]  # 专硕or学硕
+                cur_profession["tuition"] = split_line[6]  # 一年学费
+                # cur_profession["rank_mode"] = split_line[7]  # 排名方式
 
-                cur_profession["retest_books"] = split_words(split_line[20])
-                cur_profession["retest_books_author"] = split_words(split_line[21])
-                cur_profession["retest_books_version"] = split_words(split_line[22])
-                cur_profession["retest_books_publish_hourses"] = split_words(split_line[23])
-                cur_profession["retest_books_introduction"] = split_words(split_line[24])
-                cur_profession["retest_books_imgs"] = add_book_img_dir_prefix(split_words(split_line[25]), cur_department["department"])
+                cur_profession["study_period"] = split_line[8]  # 专业学制
+                cur_profession["profession_introduction"] = split_line[9]  # 专业介绍
 
-                cur_profession["retest_list_files"] = get_retest_file_list(split_words(split_line[26]), cur_department["department"])
+                cur_profession["first_test_political"] = split_line[10]  # 政治
+                cur_profession["first_test_english"] = split_line[11]  # 英语
+                cur_profession["first_test_profession_one"] = split_line[12]  # 业务课一
+                cur_profession["first_test_profession_two"] = split_line[13]  # 业务课二
+                cur_profession["retest_profession_one"] = split_line[14]  # 复试业务课一
+                cur_profession["retest_profession_two"] = split_line[15]  # 复试业务课二
 
-                cur_profession["admission_ratio"] = split_words(split_line[27:])
+                cur_profession["first_test_books"] = split_words(split_line[16])
+                cur_profession["first_test_books_author"] = split_words(split_line[17])
+                cur_profession["first_test_books_version"] = split_words(split_line[18])
+                cur_profession["first_test_books_publish_hourses"] = split_words(split_line[19])
+                cur_profession["first_test_books_introduction"] = split_words(split_line[20])
+                cur_profession["first_test_books_imgs"] = add_book_img_dir_prefix(split_words(split_line[21]),
+                                                                                  cur_department["department"])
+
+                cur_profession["retest_books"] = split_words(split_line[22])
+                cur_profession["retest_books_author"] = split_words(split_line[23])
+                cur_profession["retest_books_version"] = split_words(split_line[24])
+                cur_profession["retest_books_publish_hourses"] = split_words(split_line[25])
+                cur_profession["retest_books_introduction"] = split_words(split_line[26])
+                cur_profession["retest_books_imgs"] = add_book_img_dir_prefix(split_words(split_line[27]),
+                                                                              cur_department["department"])
+
+                # cur_profession["admission_list_files"] = get_file_list(split_words(split_line[28]),  # 拟录取名单
+                #                                                        cur_department["department"])
+                cur_profession["retest_list_files"] = get_file_list(split_words(split_line[29]),  # 复试名单
+                                                                    cur_department["department"])
+
+                cur_profession["admission_ratio"] = split_words(split_line[30:])
                 cur_profession["is_show"] = True
                 cur_department["cur_department_professions"].append(cur_profession)
                 judge_row_type_is_right(i + 1, [len(cur_profession["first_test_books"]),
@@ -154,7 +164,7 @@ def add_book_img_dir_prefix(imgs, department):
     return imgs
 
 
-def get_retest_file_list(files, department):
+def get_file_list(files, department):
     """
     获取复试名单列表
     :param files:

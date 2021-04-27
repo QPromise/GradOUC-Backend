@@ -15,7 +15,7 @@ from .core import login, schedule, today_course, course, score, library,\
     profile, school_course, score_subscribe, exam, recently_use, score_rank,\
     reward_files
 from OUC.core.post_graduate import post_graduate
-from OUC.core.dream_ouc import cs_info
+from OUC.core.dream_ouc import cs_info, profession_material, profession_news
 from OUC.core import school_news
 from .models import Config, News, Swiper
 
@@ -341,6 +341,37 @@ def get_cs_retest_list_files(request):
     res = cs_info.read_retest_list(retest_list_files["val"])
     res = json.dumps(res)
     return response(res)
+
+
+def get_cur_profession_material(request):
+    """
+    获取专业课资料情况
+    :param request:
+    :return:
+    """
+    profession_name = request.GET.get('profession_name')
+    res = profession_material.get_cur_profession_material(profession_name)
+    res = json.dumps(res)
+    return response(res)
+
+
+def get_profession_news(request):
+    res = profession_news.get_news()
+    res = json.dumps(res)
+    return response(res)
+
+
+def increase_news_attention(request):
+    """
+    增加当前文章的阅读量
+    :param request:
+    :return:
+    """
+    news_id = request.GET.get('news_id')
+    res = profession_news.increase_news_attention(news_id)
+    res = json.dumps(res)
+    return response(res)
+
 
 
 # =================================陪你圆梦考研模块================================== #

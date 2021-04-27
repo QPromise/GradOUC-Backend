@@ -131,3 +131,31 @@ class IPProxy(models.Model):
     rest_time = models.IntegerField('剩余时间', max_length=10, default=298)
     force_update = models.IntegerField('是否强制更新(1为强制，0为没有)', default=0)
 
+
+class DreamOUCProfession(models.Model):
+    department_name = models.CharField('学院名称', max_length=30, default="信息科学与工程学院")
+    profession_name = models.CharField('专业名称', max_length=30, default="-")
+    profession_hot_val = models.IntegerField('专业热度', max_length=10, default=390)
+    profession_material_title = models.CharField('资料及经验名称(10个字左右)', max_length=20, default="资料内容介绍及备考经验")
+    profession_material_url = models.CharField('资料及经验地址(微信文章跳转)', max_length=100, default="-")
+    open_course_title = models.CharField('公开课名称', max_length=20, default="免费高分学长/学姐经验分享公开课")
+    open_course_url = models.CharField('公开课地址', max_length=100, default="-")
+    taobao_key = models.CharField('淘口令', max_length=100, default="-")
+    update_intro = models.CharField('上新说明(不超过4个字)', max_length=10, default="-")
+    profession_material_description = models.TextField('其它说明', default="-")
+
+
+class DreamOUCNews(models.Model):
+    id = models.AutoField(primary_key=True)
+    news_title = models.CharField('标题', max_length=50, default="-")
+    news_url = models.CharField('内容地址', max_length=100, default="-")
+    news_tag = models.CharField('标签(#分割开，总共不超过12个字)', max_length=30, default="-")
+    news_is_top = models.SmallIntegerField('是否置顶（1为置顶，0为没有）', default=0)
+    news_top_val = models.SmallIntegerField('置顶优先级，数字越大越靠前', default=0)
+    published_time = models.DateTimeField('发布时间')
+    modified_time = models.DateTimeField('修改时间', auto_now=True)
+    news_attention = models.IntegerField('查看次数', max_length=10, default=10)
+    news_hot_val = models.IntegerField('热度值', max_length=10, default=0)
+
+    class Meta(object):
+        ordering = ('-published_time',)

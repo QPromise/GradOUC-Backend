@@ -8,7 +8,7 @@ Date: 2021/4/8 14:56
 
 import pandas as pd
 import json
-
+import collections
 
 from OUC import log
 
@@ -223,6 +223,8 @@ def judge_row_type_is_right(row_num, cs_list, fs_list, bl_list):
 def read_retest_list(retest_list_files):
     """
     根据文件名称加载当前的复试名单
+    政治理论	外国语	业务课一	业务课二	总分	排名	状态
+    政治理论	外国语	业务课一	业务课二	总分	专业    排名	状态
     """
     res = {"message": "success", "each_year_retest_file": {}}
     # sheet = pd.read_excel("OUC/static/post_graduate/retest_list_files" + file_name, "Sheet1")
@@ -251,19 +253,46 @@ def read_retest_list(retest_list_files):
                 min_score.append(sheet[th[j]].min().tolist())
             content = sheet.values.tolist()
             rows = []
-            for j in range(len(content)):
-                row = dict()
-                # 如果有标记
-                if has_status:
-                    if pd.isnull(content[j][-1]):
-                        row["status"] = 1
+            discipline_description = []
+            if columns[5] != "专业":
+                for j in range(len(content)):
+                    row = dict()
+                    # 如果有标记
+                    if has_status:
+                        if pd.isnull(content[j][-1]):
+                            row["status"] = 1
+                        else:
+                            row["status"] = int(content[j][-1])
+                        row["val"] = content[j][:-1]
                     else:
-                        row["status"] = int(content[j][-1])
-                    row["val"] = content[j][:-1]
-                else:
-                    row["status"] = 1
-                    row["val"] = content[j]
-                rows.append(row)
+                        row["status"] = 1
+                        row["val"] = content[j]
+                    rows.append(row)
+            else:
+                second_level_discipline_list = sheet[columns[5]].tolist()
+                second_level_discipline_dict = collections.OrderedDict()  # list(set(sheet[columns[5]].tolist()))
+                flag = 1
+                for ele in second_level_discipline_list:
+                    if second_level_discipline_dict.get(ele) is None:
+                        second_level_discipline_dict[ele] = flag
+                        flag += 1
+                    else:
+                        pass
+                discipline_description = ["%s - %s" % (v, k) for k, v in second_level_discipline_dict.items()]
+                for j in range(len(content)):
+                    row = dict()
+                    # 如果有标记
+                    if has_status:
+                        if pd.isnull(content[j][-1]):
+                            row["status"] = 1
+                        else:
+                            row["status"] = int(content[j][-1])
+                        row["val"] = content[j][:5] + [second_level_discipline_dict[second_level_discipline_list[j]]] + content[j][6:-1]
+                    else:
+                        row["status"] = 1
+                        row["val"] = content[j][:5] + [second_level_discipline_dict[second_level_discipline_list[j]]] + content[j][6:]
+                    rows.append(row)
+            cur_year["discipline_description"] = discipline_description
             cur_year["rows"] = rows
             cur_year["th"] = th
             cur_year["analysis_th"] = ["指标"] + th[:5]
