@@ -153,7 +153,7 @@ class DreamOUCNews(models.Model):
     news_is_top = models.SmallIntegerField('是否置顶（1为置顶，0为没有）', default=0)
     news_top_val = models.SmallIntegerField('置顶优先级，数字越大越靠前', default=0)
     published_time = models.DateTimeField('发布时间')
-    modified_time = models.DateTimeField('修改时间', auto_now=True)
+    modified_time = models.DateTimeField('修改时间', auto_now=False)
     news_attention = models.IntegerField('查看次数', max_length=10, default=10)
     news_hot_val = models.IntegerField('热度值', max_length=10, default=0)
 
