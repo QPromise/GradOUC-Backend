@@ -37,6 +37,7 @@ urlpatterns = [
     # 追梦海大模块
     url(r'^get_cs_post_graduate_info/$', views.get_cs_post_graduate_info, name='get_cs_post_graduate_info'),
     url(r'^get_cs_retest_list_files/$', views.get_cs_retest_list_files, name='get_cs_retest_list_files'),
+    url(r'^get_cs_admission_list_files/$', views.get_cs_admission_list_files, name='get_cs_admission_list_files'),
     url(r'^get_cur_profession_material/$', views.get_cur_profession_material, name='get_cur_profession_material'),
     url(r'^get_profession_news/$', views.get_profession_news, name='get_profession_news'),
     url(r'^increase_news_attention/$', views.increase_news_attention, name='increase_news_attention'),

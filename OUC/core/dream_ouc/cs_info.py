@@ -93,8 +93,8 @@ def main():
                 cur_profession["retest_books_imgs"] = add_book_img_dir_prefix(split_words(split_line[27]),
                                                                               cur_department["department"])
 
-                # cur_profession["admission_list_files"] = get_file_list(split_words(split_line[28]),  # 拟录取名单
-                #                                                        cur_department["department"])
+                cur_profession["admission_list_files"] = get_file_list(split_words(split_line[28]),  # 拟录取名单
+                                                                       cur_department["department"])
                 cur_profession["retest_list_files"] = get_file_list(split_words(split_line[29]),  # 复试名单
                                                                     cur_department["department"])
 
@@ -221,7 +221,7 @@ def judge_row_type_is_right(row_num, cs_list, fs_list, bl_list):
         # logger.error("[%s行]%s%s%s" % (row_num, cs_info, fs_info, bl_info))
 
 
-# 读取复试名单
+# 读取复试结果
 def read_retest_list(retest_list_files):
     """
     根据文件名称加载当前的复试名单
@@ -273,6 +273,94 @@ def read_retest_list(retest_list_files):
             cur_year["length"] = len(rows)
             res["each_year_retest_file"][retest_list_files[i]["btnname"]] = cur_year
         if res["each_year_retest_file"] == {}:
+            res["message"] = "empty"
+        return res
+    except Exception as e:
+        res["message"] = "fault"
+        logger.error("%s" % e)
+        return res
+
+
+# 读取拟录取结果
+def read_admission_list(admission_list_files):
+    """
+    根据文件名称加载当前的复试名单
+    """
+    res = {"message": "success", "each_year_admission_file": {}}
+    # sheet = pd.read_excel("OUC/static/post_graduate/admission_list_files" + file_name, "Sheet1")
+    try:
+        for i in range(len(admission_list_files)):
+            if admission_list_files[i]["val"] == "-":
+                continue
+            try:
+                sheet = pd.read_excel("OUC/static/dream_ouc/admission_list_files" + admission_list_files[i]["val"], "Sheet1")
+            except Exception as e:
+                logger.error("%s %s不存在" % (e, admission_list_files[i]["val"]))
+                continue
+            cur_year = {"th": [], "rows": []}
+            columns = sheet.columns.tolist()
+            # 初试成绩排序
+            first_test_score = sheet[columns[0]].tolist()
+            sorted_first_test_score = sorted(first_test_score, reverse=True)
+            # 总成绩
+            score = sheet[columns[2]].tolist()
+            # 成绩波动
+            rank_change = []
+            for j in range(len(score)):
+                change = sorted_first_test_score.index(first_test_score[j]) - j
+                # if change > 0:
+                #     change = "+" + str(change)
+                rank_change.append(change)
+            content = sheet.values.tolist()
+            rows = []
+            out_scores = []
+            in_scores = []
+            highest_move_forward = 0
+            highest_move_back = 0
+            admission_num = 0
+            for j in range(len(content)):
+                row = dict()
+                # 如果没有标记
+                if pd.isnull(content[j][-1]):
+                    row["status"] = 1
+                else:
+                    row["status"] = int(content[j][-1])
+                # 计算录取人数以及录取和淘汰分数
+                if row["status"] == 1:
+                    admission_num += 1
+                    in_scores.append(content[j][0])
+                else:
+                    out_scores.append(content[j][0])
+                # 计算前进以及落后名次的最大最小值
+                if rank_change[j] > 0:
+                    if highest_move_forward < rank_change[j]:
+                        highest_move_forward = rank_change[j]
+                else:
+                    if highest_move_back > rank_change[j]:
+                        highest_move_back = rank_change[j]
+                row["val"] = content[j][:-1] + [j + 1, rank_change[j]]
+                rows.append(row)
+            cur_year["rows"] = rows
+            cur_year["th"] = columns[:-1] + ['排名', '名次变动']
+            cur_year["length"] = admission_num
+
+            cur_year["highest_move_back"] = abs(highest_move_back)
+            cur_year["highest_move_forward"] = highest_move_forward
+            if len(in_scores) != 0:
+                cur_year["highest_admission_score"] = max(in_scores)
+                cur_year["lowest_admission_score"] = min(in_scores)
+            else:
+                cur_year["highest_admission_score"] = '-'
+                cur_year["lowest_admission_score"] = '-'
+            if len(out_scores) != 0:
+                cur_year["highest_out_score"] = max(out_scores)
+                cur_year["lowest_out_score"] = min(out_scores)
+            else:
+                cur_year["highest_out_score"] = '-'
+                cur_year["lowest_out_score"] = '-'
+
+            res["each_year_admission_file"][admission_list_files[i]["btnname"]] = cur_year
+        if res["each_year_admission_file"] == {}:
             res["message"] = "empty"
         return res
     except Exception as e:

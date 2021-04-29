@@ -343,6 +343,13 @@ def get_cs_retest_list_files(request):
     return response(res)
 
 
+def get_cs_admission_list_files(request):
+    admission_list_files = json.loads(request.GET.get('admissionListFiles'))
+    res = cs_info.read_admission_list(admission_list_files["val"])
+    res = json.dumps(res)
+    return response(res)
+
+
 def get_cur_profession_material(request):
     """
     获取专业课资料情况
