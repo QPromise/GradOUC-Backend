@@ -133,7 +133,7 @@ def start_travel_subscribe_student():
 
 
 start_travel_subscribe_student()
-update_info_and_science_college_name()
+# update_info_and_science_college_name()
 
 urlpatterns = [
     path('admin/', admin.site.urls),
