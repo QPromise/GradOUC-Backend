@@ -19,6 +19,7 @@ from django.conf.urls import url, include
 
 import sys, socket
 import datetime
+import time
 from apscheduler.schedulers.background import BackgroundScheduler
 
 from OUC.core import score_subscribe, score_rank, get_info
@@ -78,6 +79,27 @@ def update_all_subscribe_student():
         logger.warning("缺少是否订阅的数据列，数据库当前还没migrate%s" % e)
 
 
+def update_info_and_science_college_name():
+    rank_students = models.StudentRank.objects.all()
+    students = models.Student.objects.all()
+    info_students = models.StudentInfo.objects.all()
+    travel_begin = time.time()
+    for rank_student in rank_students:
+        if rank_student.department == "信息科学与工程学院":
+            rank_student.department="信息科学与工程学部"
+            rank_student.save()
+    for student in students:
+        if student.department == "信息科学与工程学院":
+            student.department = "信息科学与工程学部"
+            student.save()
+    for student in info_students:
+        if student.department == "信息科学与工程学院":
+            student.department = "信息科学与工程学部"
+            student.save()
+    travel_end = time.time()
+    logger.info("更新信息科学与工程学院为学部[%s个]共耗时%s" % (len(rank_students) + len(students) + len(info_students), travel_end - travel_begin))
+
+
 def start_travel_subscribe_student():
     try:
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -111,6 +133,7 @@ def start_travel_subscribe_student():
 
 
 start_travel_subscribe_student()
+update_info_and_science_college_name()
 
 urlpatterns = [
     path('admin/', admin.site.urls),
