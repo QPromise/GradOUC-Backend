@@ -28,7 +28,7 @@ class MyEncoder(json.JSONEncoder):
 
 
 def index(request):
-    return render(request, "profile.html")
+    return render(request, "index.html")
     # return response('欢迎使用微信小程序【研在OUC】')
 
 
