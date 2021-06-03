@@ -7,10 +7,9 @@ import bs4
 import os
 from bs4 import  BeautifulSoup
 import requests
-from OUC.core.package import proxy
-from OUC.global_config import *
-from fake_useragent import UserAgent
+
 a = [1, 2, 3, 5]
+print((80-70) // 10 + 1)
 print(a + [6])
 ua = UserAgent()
 print(ua.random)

@@ -7,6 +7,7 @@ Date: 2021/4/8 14:56
 """
 
 import pandas as pd
+
 import json
 
 
@@ -41,7 +42,9 @@ def main():
                 split_line = cur_line.split("\t")
                 if split_line[0] != pre:
                     if i != 1:
-                        cur_department["cur_department_professions"] = sorted(cur_department["cur_department_professions"], key=lambda x: x['profession_type'])
+                        cur_department["cur_department_professions"] = sorted(
+
+                            cur_department["cur_department_professions"], key=lambda x: x['profession_type'])
                         infos.append(cur_department)
                     total += count
                     pre = split_line[0]
@@ -221,6 +224,29 @@ def judge_row_type_is_right(row_num, cs_list, fs_list, bl_list):
         # logger.error("[%s行]%s%s%s" % (row_num, cs_info, fs_info, bl_info))
 
 
+# 计算成绩分布
+def count_score_distribute(scores, score_type=2):
+    """
+    :param score_type: 1表示公共课 默认2表示专业课
+    :param scores: 分数列表
+    :return:
+    """
+    if score_type == 1:
+        pass
+    elif score_type == 2:
+        res = {}
+        score_distribute = [0] * 9
+        for score in scores:
+            if int(score) < 70:
+                score_distribute[0] += 1
+            else:
+                score_distribute[(int(score) - 70) // 10 + 1] += 1
+        max_student_num = max(score_distribute)
+        res["max_student_num"] = max_student_num
+        res["score_distribute"] = score_distribute
+        return res
+
+
 # 读取复试结果
 def read_retest_list(retest_list_files):
     """
@@ -251,6 +277,8 @@ def read_retest_list(retest_list_files):
                 mean.append(round(sheet[th[j]].mean().tolist(), 1))
                 max_score.append(sheet[th[j]].max().tolist())
                 min_score.append(sheet[th[j]].min().tolist())
+            # 专业课二成绩分布
+            professional_two_score_distribute = count_score_distribute(sheet[th[3]].tolist())
             content = sheet.values.tolist()
             rows = []
             for j in range(len(content)):
@@ -268,6 +296,7 @@ def read_retest_list(retest_list_files):
                 rows.append(row)
             cur_year["rows"] = rows
             cur_year["th"] = th
+            cur_year["professional_two_score_distribute"] = professional_two_score_distribute
             cur_year["analysis_th"] = ["指标"] + th[:5]
             cur_year["analysis_rows"] = [mean, max_score, min_score]
             cur_year["length"] = len(rows)
