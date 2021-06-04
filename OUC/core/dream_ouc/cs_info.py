@@ -232,15 +232,28 @@ def count_score_distribute(scores, score_type=2):
     :return:
     """
     if score_type == 1:
-        pass
+        res = {}
+        score_distribute = [0] * 7
+        for score in scores:
+            if int(score) == 100:
+                score_distribute[-1] += 1
+            else:
+                score_distribute[(int(score) - 30) // 10] += 1
+        max_student_num = max(score_distribute)
+        res["max_student_num"] = max_student_num
+        res["score_distribute"] = score_distribute
+        return res
     elif score_type == 2:
         res = {}
         score_distribute = [0] * 9
         for score in scores:
-            if int(score) < 70:
-                score_distribute[0] += 1
+            if int(score) == 150:
+                score_distribute[-1] += 1
             else:
-                score_distribute[(int(score) - 70) // 10 + 1] += 1
+                if int(score) < 70:
+                    score_distribute[0] += 1
+                else:
+                    score_distribute[(int(score) - 70) // 10 + 1] += 1
         max_student_num = max(score_distribute)
         res["max_student_num"] = max_student_num
         res["score_distribute"] = score_distribute
@@ -277,8 +290,11 @@ def read_retest_list(retest_list_files):
                 mean.append(round(sheet[th[j]].mean().tolist(), 1))
                 max_score.append(sheet[th[j]].max().tolist())
                 min_score.append(sheet[th[j]].min().tolist())
-            # 专业课二成绩分布
+            # 各科成绩分布
             professional_two_score_distribute = count_score_distribute(sheet[th[3]].tolist())
+            professional_one_score_distribute = count_score_distribute(sheet[th[2]].tolist())
+            english_score_distribute = count_score_distribute(sheet[th[1]].tolist(), 1)
+            political_score_distribute = count_score_distribute(sheet[th[0]].tolist(), 1)
             content = sheet.values.tolist()
             rows = []
             for j in range(len(content)):
@@ -297,6 +313,9 @@ def read_retest_list(retest_list_files):
             cur_year["rows"] = rows
             cur_year["th"] = th
             cur_year["professional_two_score_distribute"] = professional_two_score_distribute
+            cur_year["professional_one_score_distribute"] = professional_one_score_distribute
+            cur_year["english_score_distribute"] = english_score_distribute
+            cur_year["political_score_distribute"] = political_score_distribute
             cur_year["analysis_th"] = ["指标"] + th[:5]
             cur_year["analysis_rows"] = [mean, max_score, min_score]
             cur_year["length"] = len(rows)
