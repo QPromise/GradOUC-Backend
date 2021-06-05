@@ -252,6 +252,7 @@ def read_retest_list(retest_list_files):
                 max_score.append(sheet[th[j]].max().tolist())
                 min_score.append(sheet[th[j]].min().tolist())
             content = sheet.values.tolist()
+            print(content)
             rows = []
             discipline_description = []
             if columns[5] != "专业":
