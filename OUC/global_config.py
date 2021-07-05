@@ -6,7 +6,7 @@ Author: qinchangshuai(cs_qin@qq.com)
 Date: 2021/1/27 13:09 
 """
 from fake_useragent import UserAgent
-ua = UserAgent()
+# ua = UserAgent()
 
 # =================================全局参数================================== #
 
@@ -18,9 +18,9 @@ ua = UserAgent()
 #     "Connection": "close",
 #     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36"
 # }
-user_agent = ua.random
+# user_agent = ua.random
 headers = {
-        "User-Agent": user_agent,
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36",
         "Connection": "close",
         "Accept-Encoding": "Gzip",  # 使用gzip压缩传输数据让访问更快
 }
