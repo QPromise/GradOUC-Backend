@@ -127,6 +127,7 @@ class Login(object):
             }
         except Exception as e:
             session.close()
+            print(e)
             logger.error("[sno]: %s [passwd]: %s [Exception]: %s" % (sno, passwd, e))
             return {"message": "fault"}
         # 提交登录表单

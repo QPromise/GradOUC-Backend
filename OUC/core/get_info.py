@@ -87,7 +87,7 @@ class SpiderInfo(object):
                 base_info_dict["tel"] = student_info[6]
                 res["info"] = base_info_dict
                 session.close()
-                print(base_info_dict)
+                # print(base_info_dict)
                 return res
             except Exception as e:
                 session.close()

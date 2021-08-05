@@ -86,7 +86,7 @@ def update_info_and_science_college_name():
     travel_begin = time.time()
     for rank_student in rank_students:
         if rank_student.department == "信息科学与工程学院":
-            rank_student.department="信息科学与工程学部"
+            rank_student.department = "信息科学与工程学部"
             rank_student.save()
     for student in students:
         if student.department == "信息科学与工程学院":
@@ -107,18 +107,18 @@ def start_travel_subscribe_student():
         try:
             scheduler = BackgroundScheduler()
             # 监控任务
-            scheduler.add_job(get_access_token, trigger='cron', coalesce=True,
-                              minute='*/55', id='get_access_token')
-            scheduler.add_job(travel_subscribe_student, trigger='cron', coalesce=True,
-                              minute='*/60', id='travel_subscribe_student')
+            # scheduler.add_job(get_access_token, trigger='cron', coalesce=True,
+            #                   minute='*/55', id='get_access_token')
+            # scheduler.add_job(travel_subscribe_student, trigger='cron', coalesce=True,
+            #                   minute='*/60', id='travel_subscribe_student')
             # scheduler.add_job(update_all_subscribe_student, trigger='cron', coalesce=True,
             #                   hour='*/5', id='update_all_subscribe_student')
             # scheduler.add_job(ip_keep_alive, trigger='cron', coalesce=True,
             #                   second='*/1', id='ip_keep_alive')
             # scheduler.add_job(score_rank_travel, trigger='cron', coalesce=True,
             #                   hour='14', minute='50', id='score_rank_travel')
-            scheduler.add_job(score_rank_travel, trigger='cron', coalesce=True,
-                              hour='23', id='score_rank_travel')
+            # scheduler.add_job(score_rank_travel, trigger='cron', coalesce=True,
+            #                   hour='23', id='score_rank_travel')
             scheduler.add_job(student_info_travel, trigger='cron', coalesce=True,
                               hour='20', minute='30', id='student_info_travel')
             # 调度器开始

@@ -19,7 +19,7 @@ logger = log.logger
 
 class ProxyIP(object):
     _instance_lock = threading.Lock()
-    api_url = "http://a.ipjldl.com/getapi?packid=2&unkey=&tid=&qty=1&time=11&port=1&format=json&ss=5&css=&ipport=1&pro=&city=&dt=1&usertype=17"
+    api_url = "http://ip.51daili.com/getapi?packid=2&unkey=&tid=&qty=1&time=11&port=1&format=json&ss=5&css=&ipport=1&pro=&city=&dt=1&usertype=17"
     api_url1 = "http://csqin666.v4.dailiyun.com/query.txt?key=NP10D7BC2A&word=&count=1&rand=false&ltime=0&norepeat=true&detail=false"
     shenlong_url = "https://tunnel-api.apeyun.com/d?id=2021032800001502146&secret=K2eXDjBmKd0P5NQI&limit=1&format=json&auth_mode=hand&min=3"
     proxy_ip = None
@@ -42,9 +42,9 @@ class ProxyIP(object):
     @classmethod
     def update_proxy_ip(cls, proxy_ip_info=None):
         try:
-            # proxy_ip = requests.get(cls.api_url).json()['data'][0]['IP']
-            res = requests.get(cls.shenlong_url).json()['data'][0]
-            proxy_ip = "%s:%s" % (res['ip'], res['port'])
+            proxy_ip = requests.get(cls.api_url).json()['data'][0]['IP']
+            # res = requests.get(cls.shenlong_url).json()['data'][0]
+            # proxy_ip = "%s:%s" % (res['ip'], res['port'])
             logger.info("获取的ip为%s" % proxy_ip)
             get_ip_time = int(time.time())
             if proxy_ip_info is None:
@@ -61,10 +61,10 @@ class ProxyIP(object):
 
     @classmethod
     def get_ip(cls):
-        # username = "csqin666"
-        # password = "lichengjiahua423"
-        username = "2021032800001502146"
-        password = "K2eXDjBmKd0P5NQI"
+        username = "csqin666"
+        password = "lichengjiahua423"
+        # username = "2021032800001502146"
+        # password = "K2eXDjBmKd0P5NQI"
         proxy_ip_infos = models.IPProxy.objects.all()
         has_proxy_ip = len(proxy_ip_infos)
         if not has_proxy_ip:
