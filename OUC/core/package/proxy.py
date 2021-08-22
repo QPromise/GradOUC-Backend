@@ -19,6 +19,7 @@ logger = log.logger
 
 class ProxyIP(object):
     _instance_lock = threading.Lock()
+    wanbian_api_url = "http://ip.ipjldl.com/index.php/api/entry?method=proxyServer.tiqu_api_url&packid=0&fa=0&dt=0&groupid=0&fetch_key=&qty=1&time=103&port=1&format=json&ss=5&css=&dt=0&pro=%E5%B1%B1%E4%B8%9C%E7%9C%81&city=&usertype=6"
     api_url = "http://ip.51daili.com/getapi?packid=2&unkey=&tid=&qty=1&time=11&port=1&format=json&ss=5&css=&ipport=1&pro=&city=&dt=1&usertype=17"
     api_url1 = "http://csqin666.v4.dailiyun.com/query.txt?key=NP10D7BC2A&word=&count=1&rand=false&ltime=0&norepeat=true&detail=false"
     shenlong_url = "https://tunnel-api.apeyun.com/d?id=2021032800001502146&secret=K2eXDjBmKd0P5NQI&limit=1&format=json&auth_mode=hand&min=3"
@@ -42,7 +43,12 @@ class ProxyIP(object):
     @classmethod
     def update_proxy_ip(cls, proxy_ip_info=None):
         try:
-            proxy_ip = requests.get(cls.api_url).json()['data'][0]['IP']
+            # 51代理
+            # proxy_ip = requests.get(cls.api_url).json()['data'][0]['IP']
+            # 万变ip
+            res = requests.get(cls.wanbian_api_url).json()['data'][0]
+            proxy_ip = "%s:%s" % (res['IP'], res['Port'])
+            # 猿人云
             # res = requests.get(cls.shenlong_url).json()['data'][0]
             # proxy_ip = "%s:%s" % (res['ip'], res['port'])
             logger.info("获取的ip为%s" % proxy_ip)
@@ -61,8 +67,13 @@ class ProxyIP(object):
 
     @classmethod
     def get_ip(cls):
-        username = "csqin666"
+        # 51代理
+        # username = "csqin666"
+        # password = "lichengjiahua423"
+        # 万变ip
+        username = "csqin"
         password = "lichengjiahua423"
+        # 猿人云
         # username = "2021032800001502146"
         # password = "K2eXDjBmKd0P5NQI"
         proxy_ip_infos = models.IPProxy.objects.all()

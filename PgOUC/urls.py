@@ -59,17 +59,17 @@ def get_access_token():
         logger.warning("缺少是否订阅的数据列，数据库当前还没migrate%s" % e)
 
 
-def travel_subscribe_student():
+def travel_subscribe_students():
     try:
         if models.Config.objects.all()[0].is_open_subscribe in [1, 2]:
             cur_hour = datetime.datetime.now().strftime('%H:%M')
             if cur_hour <= '02:50' or cur_hour >= '06:00':
-                score_subscribe.SubscribeScore.travel_subscribe_student()
+                score_subscribe.SubscribeScore.travel_subscribe_students()
     except Exception as e:
         logger.warning("缺少是否订阅的数据列，数据库当前还没migrate%s" % e)
 
 
-def update_all_subscribe_student():
+def update_all_subscribe_students():
     try:
         if models.Config.objects.all()[0].is_open_subscribe in [1, 2]:
             # cur_hour = datetime.datetime.now().strftime('%H:%M')
@@ -77,6 +77,11 @@ def update_all_subscribe_student():
             score_subscribe.SubscribeScore.update_all_subscribe_student()
     except Exception as e:
         logger.warning("缺少是否订阅的数据列，数据库当前还没migrate%s" % e)
+
+
+# 删除所有订阅学生
+def del_all_subscribe_students():
+    score_subscribe.SubscribeScore.del_all_subscribe_students()
 
 
 def update_info_and_science_college_name():
@@ -100,7 +105,7 @@ def update_info_and_science_college_name():
     logger.info("更新信息科学与工程学院为学部[%s个]共耗时%s" % (len(rank_students) + len(students) + len(info_students), travel_end - travel_begin))
 
 
-def start_travel_subscribe_student():
+def start_travel_subscribe_students():
     try:
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.bind(("127.0.0.1", 47200))
@@ -109,10 +114,10 @@ def start_travel_subscribe_student():
             # 监控任务
             # scheduler.add_job(get_access_token, trigger='cron', coalesce=True,
             #                   minute='*/55', id='get_access_token')
-            # scheduler.add_job(travel_subscribe_student, trigger='cron', coalesce=True,
-            #                   minute='*/60', id='travel_subscribe_student')
-            # scheduler.add_job(update_all_subscribe_student, trigger='cron', coalesce=True,
-            #                   hour='*/5', id='update_all_subscribe_student')
+            # scheduler.add_job(travel_subscribe_students, trigger='cron', coalesce=True,
+            #                   minute='*/60', id='travel_subscribe_students')
+            # scheduler.add_job(update_all_subscribe_students, trigger='cron', coalesce=True,
+            #                   hour='*/5', id='update_all_subscribe_students')
             # scheduler.add_job(ip_keep_alive, trigger='cron', coalesce=True,
             #                   second='*/1', id='ip_keep_alive')
             # scheduler.add_job(score_rank_travel, trigger='cron', coalesce=True,
@@ -132,8 +137,9 @@ def start_travel_subscribe_student():
         logger.error("[调度器执行了两遍]%s scheduler has already started!" % e)
 
 
-start_travel_subscribe_student()
+start_travel_subscribe_students()
 # update_info_and_science_college_name()
+del_all_subscribe_students()
 
 urlpatterns = [
     path('admin/', admin.site.urls),

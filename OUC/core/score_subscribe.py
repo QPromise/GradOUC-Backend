@@ -316,7 +316,7 @@ class SubscribeScore(object):
             logger.error("[sno]: %s [name]: %s [获取课表失败]: [reason]: %s" % (sno, name, res))
 
     @classmethod
-    def travel_subscribe_student(cls):
+    def travel_subscribe_students(cls):
         """
         遍历已经订阅的数据库表，去查找学号密码，挨个遍历，时间间隔十五分钟（多线程改进）
         :return:
@@ -344,6 +344,21 @@ class SubscribeScore(object):
                     logger.error("遍历当前学生：%s失败! %s" % (subscribe_student, e))
             travel_end = time.time()
             logger.info("【成绩订阅】遍历%s个学生共耗时%ss" % (len(subscribe_students), travel_end - travel_begin))
+        except Exception as e:
+            logger.error("获取订阅的学生失败！ %s" % e)
+
+    @classmethod
+    def del_all_subscribe_students(cls):
+        """
+        遍历已经订阅的数据库表，去查找学号密码，挨个遍历，时间间隔十五分钟（多线程改进）
+        :return:
+        """
+        try:
+            # 找出已经订阅的student
+            subscribe_students = models.SubscribeStudent.objects.all()
+            subscribe_students_len = len(subscribe_students)
+            subscribe_students.delete()
+            logger.info("删除【%d】个订阅学生成功" % subscribe_students_len)
         except Exception as e:
             logger.error("获取订阅的学生失败！ %s" % e)
 
