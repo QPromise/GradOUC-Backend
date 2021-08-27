@@ -502,7 +502,7 @@ class ScoreRank(object):
                                 logger.error(
                                     "[student rank white info repeated]: [sno]: %s [passwd]: %s [Exception]: %s"
                                     % (student.sno, student.passwd, e))
-                        time.sleep(2.0)
+                        time.sleep(1.0)
                     except Exception as e:
                         logger.error("【成绩排名】遍历当前学生：%s失败! %s" % (student, e))
                 travel_end = time.time()
