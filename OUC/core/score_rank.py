@@ -409,6 +409,7 @@ class ScoreRank(object):
         try:
             config = models.Config.objects.all()[0]
             # 找出已经订阅的student
+            update_success_num = 0
             for sno_start in range(int(config.score_rank_travel_nj_min), int(config.score_rank_travel_nj_max) + 1):
                 # 找出符合学号年级的所有学生
                 students = models.Student.objects.filter(sno__startswith=str(sno_start))
@@ -449,6 +450,10 @@ class ScoreRank(object):
                                                                   courses_name=cls.__list_to_str(courses_name),
                                                                   courses_type=cls.__list_to_str(courses_type)
                                                                   )
+                                update_success_num += 1
+                                logger.info(
+                                    "[%s成功添加至成绩排名]: [sno]: %s [passwd]: %s "
+                                    % (student.sno, student.sno, student.passwd))
                             except Exception as e:
                                 logger.error(
                                     "[student rank white info repeated]: [sno]: %s [passwd]: %s [Exception]: %s"
@@ -470,7 +475,7 @@ class ScoreRank(object):
                                 courses_type = list(courses_type)
                             else:
                                 logger.error(
-                                    "[student avg_score update fail]: [sno]: %s [passwd]: %s"
+                                    "[get score fail]: [sno]: %s [passwd]: %s"
                                     % (student.sno, student.passwd))
                                 continue
                             try:
@@ -498,17 +503,22 @@ class ScoreRank(object):
                                                        courses_type=cls.__list_to_str(courses_type),
                                                        travel_nums=cur_student[0].travel_nums + 1,
                                                        avg_score_update_date=timezone.now())
+                                update_success_num += 1
+                                logger.info("[%s参与成绩排名成绩更新成功]: [sno]: %s [passwd]: %s "
+                                            % (student.sno, student.sno, student.passwd))
                             except Exception as e:
                                 logger.error(
                                     "[student rank white info repeated]: [sno]: %s [passwd]: %s [Exception]: %s"
                                     % (student.sno, student.passwd, e))
-                        time.sleep(1.0)
+                        time.sleep(2.0)
                     except Exception as e:
                         logger.error("【成绩排名】遍历当前学生：%s失败! %s" % (student, e))
                 travel_end = time.time()
-                logger.info("【成绩排名】遍历%s个学生共耗时%ss" % (len(students), travel_end - travel_begin))
+                logger.info("【成绩排名】遍历%s个学生共耗时%ss,%s个学生更新成绩成功，失败%s个学生"
+                            % (len(students), travel_end - travel_begin,
+                               update_success_num, len(students) - update_success_num))
         except Exception as e:
-            logger.error("【成绩排名】获取学生失败！ %s" % e)
+            logger.error("【成绩排名】遍历获取学生失败！ %s" % e)
 
     @classmethod
     def base64decode(cls, passwd):
