@@ -53,7 +53,13 @@ def main(sno, passwd, openid):
                         if process.find("重修") != -1:
                             score = float(process.split()[1][1:])
                         else:
-                            score = float(process.split()[2])
+                            process_split = process.split()
+                            get_score = re.findall(r"\d+\.?\d*", process_split[2])
+                            if len(get_score) == 0:
+                                get_score = re.findall(r"\d+\.?\d*", process_split[1])
+                                score = float(get_score[0])
+                            else:
+                                score = float(process_split[2])
 
                         # 如果成绩大于70或者是低于70已经获得学分才计算Mean
                         if score >= 70 or process.find("已获得学分") != -1:
@@ -108,6 +114,6 @@ def main(sno, passwd, openid):
 
 if __name__ == '__main__':
     start = time.time()
-    print(main("21200711145", "", "null"))
+    print(main("21200831043", "WF13579111", "null"))
     end = time.time()
     print(end - start)
