@@ -31,7 +31,7 @@ class ConfigAdmin(admin.ModelAdmin):
     list_display = ['begin_day', 'end_day', 'xn', 'xq', 'is_open_subscribe',
                     'is_open_score_rank_travel', 'get_score_rank_nj_max',
                     'get_score_rank_nj_min', 'score_rank_travel_nj_min',
-                    'score_rank_travel_nj_max']
+                    'score_rank_travel_nj_max', 'is_open_score_rank_update']
 
 
 class NewsAdmin(admin.ModelAdmin):

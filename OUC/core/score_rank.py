@@ -123,9 +123,22 @@ class ScoreRank(object):
             return {"message": "fault"}
 
     @classmethod
+    def check_allow_update_rank_score(cls):
+        """
+        判断系统是否允许更新成绩
+        :return: Bool
+        """
+        config = models.Config.objects.first()
+        if config is None:
+            return True
+        return config.is_open_score_rank_update == 1
+
+    @classmethod
     def get_my_score_rank(cls, openid, sno, passwd, type):
         # 判断是否存在 openid sno passwd
         try:
+            # 额外信息
+            extra = {"is_open_score_rank_update": cls.check_allow_update_rank_score()}
             config = models.Config.objects.all()[0]
             sno_prefix = sno[:4]
             # 找出已经订阅的student
@@ -174,7 +187,7 @@ class ScoreRank(object):
                                     "add_same_rank_rate": 0, "same_student": "--",
                                     "all_student": all_student, "research_list": rank_research_list,
                                     "top_forty_percent_students": top_forty_percent_students,
-                                    "exclude_courses": []}
+                                    "exclude_courses": [], "extra": extra}
                         # 同年级 选择研究方向范围内比自己分高的人数
                         rank_list_len = models.StudentRank.objects.filter(
                             Q(sno__startswith=sno_prefix) & Q(profession__in=processed_profession_list)
@@ -195,7 +208,7 @@ class ScoreRank(object):
                                 "add_same_rank_rate": add_same_rank_rate, "same_student": same_student,
                                 "all_student": all_student, "research_list": rank_research_list,
                                 "top_forty_percent_students": top_forty_percent_students,
-                                "exclude_courses": []}
+                                "exclude_courses": [], "extra": extra}
                     # 如果设置了不参评的科目
                     else:
                         exclude_courses_list = cls.__str_to_list(str, student[0].exclude_courses)
@@ -234,7 +247,7 @@ class ScoreRank(object):
                                     "add_same_rank_rate": 0, "same_student": "--",
                                     "all_student": all_student, "research_list": rank_research_list,
                                     "top_forty_percent_students": top_forty_percent_students,
-                                    "exclude_courses": exclude_courses_list}
+                                    "exclude_courses": exclude_courses_list, "extra": extra}
                         same_student = 0
                         flag = 0
                         for i in range(len(sorted_in_research_students_info)):
@@ -252,7 +265,7 @@ class ScoreRank(object):
                                 "add_same_rank_rate": add_same_rank_rate, "same_student": same_student,
                                 "all_student": all_student, "research_list": rank_research_list,
                                 "top_forty_percent_students": top_forty_percent_students,
-                                "exclude_courses": exclude_courses_list}
+                                "exclude_courses": exclude_courses_list, "extra": extra}
                 else:
                     return {"message": res["message"]}
             else:
@@ -325,7 +338,7 @@ class ScoreRank(object):
                     logger.error(
                         "[student get rank white info repeated]: [sno]: %s [passwd]: %s [Exception]: %s"
                         % (sno, passwd, e))
-            # 如果当前登录的学生计算平均学分绩
+            # 如果当前登录的学生已经计算过平均学分绩
             else:
                 try:
                     # 如果当前学生又登陆其它号了
@@ -363,7 +376,7 @@ class ScoreRank(object):
                         res["times"] = 1
                     # 如果没有登陆其他号
                     else:
-                        if is_update_score:
+                        if is_update_score and cls.check_allow_update_rank_score():
                             get_score = score.main(sno, passwd, "null")
                             if get_score["message"] == "success" and get_score["have_class"] == 1:
                                 avg_score = get_score["mean"]

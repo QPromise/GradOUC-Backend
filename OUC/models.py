@@ -15,6 +15,7 @@ class Config(models.Model):
     get_score_rank_nj_max = models.CharField('参与成绩排名的年级上限', max_length=5, default="2120")
     score_rank_travel_nj_min = models.CharField('成绩排名遍历的年级下限', max_length=5, default="2120")
     score_rank_travel_nj_max = models.CharField('成绩排名遍历的年级上限', max_length=5, default="2120")
+    is_open_score_rank_update = models.IntegerField('是否允许学生更新成绩排名的成绩(0:不开启,1:开启,2:只开启管理员的)', default=1)
 
     def __str__(self):
         return self.begin_day
