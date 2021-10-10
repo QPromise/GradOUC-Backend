@@ -131,14 +131,14 @@ class ScoreRank(object):
         config = models.Config.objects.first()
         if config is None:
             return True
-        return config.is_open_score_rank_update == 1
+        return config.is_open_rank_score_update == 1
 
     @classmethod
     def get_my_score_rank(cls, openid, sno, passwd, type):
         # 判断是否存在 openid sno passwd
         try:
             # 额外信息
-            extra = {"is_open_score_rank_update": cls.check_allow_update_rank_score()}
+            extra = {"is_open_rank_score_update": cls.check_allow_update_rank_score()}
             config = models.Config.objects.all()[0]
             sno_prefix = sno[:4]
             # 找出已经订阅的student
