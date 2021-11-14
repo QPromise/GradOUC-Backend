@@ -118,9 +118,9 @@ def main():
                                                               key=lambda x: x['profession_type'])
         infos.append(cur_department)
         total += count
-        res["infos"] = infos
+        # res["infos"] = infos
         res["years"] = years
-        res["total"] = total
+        # res["total"] = total
         return res
     except Exception as e:
         logger.error("获取信息异常: %s" % e)
