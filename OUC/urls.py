@@ -42,9 +42,9 @@ urlpatterns = [
     url(r'^get_profession_news/$', views.get_profession_news, name='get_profession_news'),
     url(r'^increase_news_attention/$', views.increase_news_attention, name='increase_news_attention'),
 
-    # 陪你圆梦考研模块
-    url(r'^get_post_graduate_info/$', views.get_post_graduate_info, name='get_post_graduate_info'),
-    url(r'^get_retest_list_files/$', views.get_retest_list_files, name='get_retest_list_files'),
-    url(r'^get_admission_list_files/$', views.get_admission_list_files, name='get_admission_list_files')
+    # # 陪你圆梦考研模块
+    # url(r'^get_post_graduate_info/$', views.get_post_graduate_info, name='get_post_graduate_info'),
+    # url(r'^get_retest_list_files/$', views.get_retest_list_files, name='get_retest_list_files'),
+    # url(r'^get_admission_list_files/$', views.get_admission_list_files, name='get_admission_list_files')
 
 ]
