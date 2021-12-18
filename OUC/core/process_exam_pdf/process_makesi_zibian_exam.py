@@ -9,7 +9,7 @@ Date: 2021/1/16 9:04
 import pdfplumber
 import json
 
-path = '../../static/exam_pdf/makesi_zibian.pdf'
+path = '../../static/exam_pdf/附件1-1：2022年1月13日上午马克思主义与社会科学方法论和自然辩证法考场安排.pdf'
 pdf = pdfplumber.open(path)
 tables = []
 exams = {"makesi": {}, "zibian": {}}
@@ -47,12 +47,9 @@ for page in pdf.pages:
 
 print(len(tables))
 json_obj = json.dumps(exams, indent=4)  # indent参数是换行和缩进
-json_file = open('makesi_zibian.json', 'w')
+json_file = open('2022_spring_makesi_zibian.json', 'w')
 json_file.write(json_obj)
 json_file.close()  # 最终写入的json文件格式:
-# with open('zhongte.json', 'r') as f:
-#     dic = json.load(fp=f)
-#     print(dic)
 
 
 

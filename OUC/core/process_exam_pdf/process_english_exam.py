@@ -9,15 +9,12 @@ Date: 2021/1/16 9:04
 import pdfplumber
 import json
 
-path = '../../static/exam_pdf/english.pdf'
+path = '../../static/exam_pdf/附件1-3：2022年1月14日上午外国语考试考场安排.pdf'
 pdf = pdfplumber.open(path)
 tables = []
 exams = {"english_up": {}, "english_down": {}, "professional_english": {},
          "english_down_jpan": {}, "english_down_e": {}, "professional_english_jpan": {},
          "professional_english_e": {}}
-# df = pd.DataFrame(columns=['学号', '所属学院(中心）', '专业', '课程编号', '课程名称', '校区', '考场号', '座号', '教学楼', '教室', '考试时间'])
-# df = df.append(pd.DataFrame(table[0][1:], columns=table[0][0]), ignore_index=True)
-# , "makesi": {}, "zibian": {}, "english_up": {}, "english_down": {}, "professional_english": {}
 course_name = set()
 for page in pdf.pages:
     print(page)
@@ -54,9 +51,6 @@ json_obj = json.dumps(exams, indent=4)  # indent参数是换行和缩进
 json_file = open('english.json', 'w')
 json_file.write(json_obj)
 json_file.close()  # 最终写入的json文件格式:
-# with open('zhongte.json', 'r') as f:
-#     dic = json.load(fp=f)
-#     print(dic)
 
 
 
