@@ -53,7 +53,7 @@ def get_access_token():
     try:
         if models.Config.objects.all()[0].is_open_subscribe in [1, 2]:
             cur_hour = datetime.datetime.now().strftime('%H:%M')
-            if cur_hour <= '02:50' or cur_hour >= '06:00':
+            if cur_hour <= '00:50' or cur_hour >= '06:00':
                 score_subscribe.AccessToken.update_access_token()
     except Exception as e:
         logger.warning("缺少是否订阅的数据列，数据库当前还没migrate%s" % e)
@@ -63,7 +63,7 @@ def travel_subscribe_students():
     try:
         if models.Config.objects.all()[0].is_open_subscribe in [1, 2]:
             cur_hour = datetime.datetime.now().strftime('%H:%M')
-            if cur_hour <= '02:50' or cur_hour >= '06:00':
+            if cur_hour <= '00:50' or cur_hour >= '06:00':
                 score_subscribe.SubscribeScore.travel_subscribe_students()
     except Exception as e:
         logger.warning("缺少是否订阅的数据列，数据库当前还没migrate%s" % e)
@@ -112,10 +112,10 @@ def start_schedule():
         try:
             scheduler = BackgroundScheduler()
             # 监控任务
-            # scheduler.add_job(get_access_token, trigger='cron', coalesce=True,
-            #                   minute='*/55', id='get_access_token')
-            # scheduler.add_job(travel_subscribe_students, trigger='cron', coalesce=True,
-            #                   minute='*/60', id='travel_subscribe_students')
+            scheduler.add_job(get_access_token, trigger='cron', coalesce=True,
+                              minute='*/45', id='get_access_token')
+            scheduler.add_job(travel_subscribe_students, trigger='cron', coalesce=True,
+                              minute='*/40', id='travel_subscribe_students')
             # scheduler.add_job(update_all_subscribe_students, trigger='cron', coalesce=True,
             #                   hour='*/5', id='update_all_subscribe_students')
             # scheduler.add_job(ip_keep_alive, trigger='cron', coalesce=True,

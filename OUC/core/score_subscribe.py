@@ -318,7 +318,7 @@ class SubscribeScore(object):
     @classmethod
     def travel_subscribe_students(cls):
         """
-        遍历已经订阅的数据库表，去查找学号密码，挨个遍历，时间间隔十五分钟（多线程改进）
+        遍历已经订阅的数据库表，去查找学号密码，如果成绩有变动则通知，时间间隔十五分钟（多线程改进）
         :return:
         """
         try:
@@ -339,7 +339,7 @@ class SubscribeScore(object):
                                       cur_student.name, db_scores, subscribe_student)
                     subscribe_student.travel_nums = subscribe_student.travel_nums + 1
                     subscribe_student.save()
-                    time.sleep(1)
+                    time.sleep(2)
                 except Exception as e:
                     logger.error("遍历当前学生：%s失败! %s" % (subscribe_student, e))
             travel_end = time.time()
@@ -383,7 +383,7 @@ class SubscribeScore(object):
     @classmethod
     def update_all_subscribe_student(cls):
         """
-        遍历已经订阅的数据库表，去查找学号密码，挨个遍历，时间间隔半天
+        遍历已经订阅的数据库表，去查找学号密码，挨个遍历，更新当前的成绩，时间间隔半天
         :return:
         """
         try:
