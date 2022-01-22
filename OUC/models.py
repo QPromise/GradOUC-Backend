@@ -52,6 +52,8 @@ class Student(models.Model):
     profession = models.CharField('专业', max_length=40, default="-")
     research = models.CharField('研究方向', max_length=40, default="-")
     supervisor = models.CharField('导师', max_length=20, default="-")
+    class_duties = models.SmallIntegerField('职务(0学生 1班长 2支书 3 学习委员  10其它)', default=0)
+    extra = models.TextField('其它信息', default="-")
     update_date = models.DateTimeField('最新登录日期', auto_now=True)
     login_date = models.DateTimeField('注册日期', auto_now_add=True)
     status = models.IntegerField('用户状态(0:正常,1:问题,2:禁用)', default=0)
@@ -68,8 +70,8 @@ class StudentRank(models.Model):
     avg_score = models.CharField('平均学分绩', max_length=10, default="-")
     avg_score_update_date = models.DateTimeField('学分绩更新日期', auto_now=True)
     department = models.CharField('学院', max_length=20, db_index=True, default="-")
-    profession = models.CharField('专业', max_length=40, db_index=True, default="-")
-    research = models.CharField('研究方向', max_length=40, db_index=True, default="-")
+    profession = models.CharField('专业', max_length=40, default="-")
+    research = models.CharField('研究方向', max_length=40, default="-")
     can_join_rank = models.IntegerField('是否可以参与排名(0:不及格或重修,1:正常)', default=1)
     rank_research = models.CharField('参与排名的研究方向', max_length=1024, default="-")
     exclude_courses = models.CharField('不参与排名的课程名称及类型', max_length=256, default="-")
@@ -78,9 +80,8 @@ class StudentRank(models.Model):
     courses_info = models.TextField('课程信息', default="-")
     travel_nums = models.IntegerField('遍历次数', default=0)
 
-    # def save(self, *args, **kwargs):
-    #     self.avg_score = float(self.avg_score)
-    #     super(StudentRank, self).save(*args, **kwargs)
+    class Meta(object):
+        index_together = ["profession", "research", "can_join_rank"]
 
 
 class SubscribeStudent(models.Model):
@@ -96,6 +97,9 @@ class SubscribeStudent(models.Model):
     new_send_message = models.CharField('最新发送的成绩', max_length=256, default="-")
     legal_subscribe_date = models.CharField('每次订阅的时间戳（有效期七天以内）', max_length=1024, default="-")
     subscribe_date = models.DateTimeField('订阅日期', auto_now_add=True)
+
+    class Meta(object):
+        indexes = [models.Index(fields=['status'], name="idx_status")]
 
 
 class StudentInfo(models.Model):

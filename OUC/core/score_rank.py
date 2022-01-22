@@ -31,7 +31,7 @@ class ScoreRank(object):
                 unique_research = student[0].research
                 unique_profession = student[0].profession
                 query_research_list = models.StudentRank.objects.filter(
-                    Q(sno__startswith=sno_prefix) & Q(department=student[0].department)).values('research',
+                    Q(department=student[0].department) & Q(sno__startswith=sno_prefix)).values('research',
                                                                                                 'profession').distinct()
                 all_research_list = [{"name": (cur_student["profession"] + "(" + cur_student["research"] + ")"),
                                       "value": cur_student["profession"] + "&&" + cur_student["research"]} for
@@ -153,10 +153,9 @@ class ScoreRank(object):
                     rank_research_list = cls.__str_to_list(str, student[0].rank_research)
                     # 专业和研究方向
                     processed_profession_list, processed_research_list = cls.__split_profession_and_research(rank_research_list)
-                    all_student = models.StudentRank.objects.filter(
-                        Q(sno__startswith=sno_prefix)
-                        & Q(profession__in=processed_profession_list)
-                        & Q(research__in=processed_research_list)).values('sno').distinct().count()
+                    all_student = models.StudentRank.objects.filter(Q(profession__in=processed_profession_list)
+                                                                    & Q(research__in=processed_research_list)
+                                                                    & Q(sno__startswith=sno_prefix)).values('sno').distinct().count()
                     # 如果没有不参与排名的课程
                     if student[0].exclude_courses == "-":
                         exclude_courses_list = []
@@ -166,21 +165,29 @@ class ScoreRank(object):
                         not_in_exclude_course_avg_score = cls.__count_not_in_exclude_courses_avg_score(
                             exclude_courses_list, eval(student[0].courses_info))
                     # 获取成绩排名列表，按刷新时间降序
-                    db_students_rank_info_list = models.StudentRank.objects.filter(Q(sno__startswith=sno_prefix)
-                                                                                   & Q(profession__in=processed_profession_list)
+                    db_students_rank_info_list = models.StudentRank.objects.filter(Q(profession__in=processed_profession_list)
                                                                                    & Q(research__in=processed_research_list)
-                                                                                   & Q(can_join_rank=1)).order_by('-avg_score_update_date').all()
+                                                                                   & Q(can_join_rank=1)
+                                                                                   &Q(sno__startswith=sno_prefix)).order_by('-avg_score_update_date').all()
+                    # get class duties
+                    cur_student_login_info_list = models.Student.objects.filter(sno=sno)
+                    has_class_duties = False
+                    for cur_student_login_info in cur_student_login_info_list:
+                        if cur_student_login_info.class_duties != 0:
+                            has_class_duties = True
+                    # 拼装排名
                     students_rank_info_list = []
                     sno_set = set()
-                    # 拼装排名
                     for i in range(len(db_students_rank_info_list)):
                         cur_sno = db_students_rank_info_list[i].sno
                         if cur_sno not in sno_set:
                             sno_set.add(cur_sno)
                             # 计算平均学分绩
                             cur_avg_score = cls.__count_not_in_exclude_courses_avg_score(exclude_courses_list, eval(db_students_rank_info_list[i].courses_info))
-                            stu = models.Student.objects.filter(sno=cur_sno)
-                            full_name = stu[0].name if len(stu) >= 1 and cur_sno == sno else "** | 最新更新:%s" % db_students_rank_info_list[i].avg_score_update_date.strftime("%Y-%m-%d %H:%M")
+                            cur_student_login_info_list = models.Student.objects.filter(sno=cur_sno)
+                            full_name = cur_student_login_info_list[0].name if len(cur_student_login_info_list) >= 1 and (has_class_duties or cur_sno == sno) else "**"
+                            if cur_sno != sno:
+                                full_name = full_name + " | 最新更新:%s" % db_students_rank_info_list[i].avg_score_update_date.strftime("%Y-%m-%d %H:%M")
                             students_rank_info_list.append({
                                 "sno": cur_sno,
                                 "full_name": full_name,
