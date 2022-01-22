@@ -43,8 +43,8 @@ def score_rank_travel():
     try:
         if models.Config.objects.all()[0].is_open_score_rank_travel in [1, 2]:
             cur_hour = datetime.datetime.now().strftime('%H:%M')
-            #if cur_hour >= '22:15' or cur_hour <= '06:00':
-            score_rank.ScoreRank.interval_update_score()
+            if cur_hour >= '22:45' or cur_hour <= '06:00':
+                score_rank.ScoreRank.interval_update_score()
     except Exception as e:
         logger.warning("缺少是否订阅的数据列，数据库当前还没migrate%s" % e)
 
@@ -123,7 +123,7 @@ def start_schedule():
             # scheduler.add_job(score_rank_travel, trigger='cron', coalesce=True,
             #                   hour='14', minute='50', id='score_rank_travel')
             scheduler.add_job(score_rank_travel, trigger='cron', coalesce=True,
-                              hour='16', minute='45', id='score_rank_travel')
+                              hour='22', minute='50', id='score_rank_travel')
             scheduler.add_job(student_info_travel, trigger='cron', coalesce=True,
                               hour='20', minute='30', id='student_info_travel')
             # 调度器开始
