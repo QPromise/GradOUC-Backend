@@ -214,7 +214,7 @@ def set_join_rank_research(request):
 
 def get_common_courses(request):
     openid, sno = request.GET.get('openid'), request.GET.get('sno')
-    res = score_rank.ScoreRank.get_commom_courses(openid, sno)
+    res = score_rank.ScoreRank.get_common_courses(openid, sno)
     res = json.dumps(res)
     return response(res)
 

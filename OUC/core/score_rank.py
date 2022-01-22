@@ -18,7 +18,6 @@ logger = log.logger
 
 
 class ScoreRank(object):
-
     @classmethod
     def get_department_all_research(cls, openid, sno):
         try:
@@ -72,7 +71,7 @@ class ScoreRank(object):
             return {"message": "fault"}
 
     @classmethod
-    def get_commom_courses(cls, openid, sno):
+    def get_common_courses(cls, openid, sno):
         try:
             config = models.Config.objects.all()[0]
             sno_prefix = sno[:4]
@@ -146,126 +145,76 @@ class ScoreRank(object):
                 need_update = False if type == "0" else True
                 res = cls.score_update(sno, passwd, openid, need_update)
                 if res["message"] == "success":
+                    # 查询当前访问的学生排名信息
                     student = models.StudentRank.objects.filter(openid=openid)
+                    # 获取平均学分绩
                     avg_score = student[0].avg_score
+                    # 研究方向
                     rank_research_list = cls.__str_to_list(str, student[0].rank_research)
-                    processed_profession_list, processed_research_list = cls.__split_profession_and_research(
-                        rank_research_list)
+                    # 专业和研究方向
+                    processed_profession_list, processed_research_list = cls.__split_profession_and_research(rank_research_list)
                     all_student = models.StudentRank.objects.filter(
                         Q(sno__startswith=sno_prefix)
                         & Q(profession__in=processed_profession_list)
                         & Q(research__in=processed_research_list)).values('sno').distinct().count()
-                    # 如果没设置不参评的科目
+                    # 如果没有不参与排名的课程
                     if student[0].exclude_courses == "-":
-                        # 同年级 同选择研究方向的人数
-                        top_forty_student_list = models.StudentRank.objects.filter(
-                            Q(sno__startswith=sno_prefix)
-                            & Q(profession__in=processed_profession_list)
-                            & Q(research__in=processed_research_list)
-                            & Q(can_join_rank=1)).order_by('-avg_score').values('sno',
-                                                                                'avg_score',
-                                                                                'profession',
-                                                                                'research').distinct().all()
-                        top_forty_percent_students = []
-                        for i in range(len(top_forty_student_list)):
-                            stu = models.Student.objects.filter(sno=top_forty_student_list[i]["sno"])
-                            stu_name = stu[0].name if len(stu) >= 1 else "**"
-                            stu_sno = top_forty_student_list[i]["sno"]
-                            if stu_sno == sno:
-                                full_name = stu_name
-                            else:
-                                full_name = "**"
-                            top_forty_percent_students.append(
-                                {"sno": stu_sno, "full_name": full_name, "avg_score": top_forty_student_list[i]["avg_score"],
-                                 "profession_research": top_forty_student_list[i]["profession"] + "(" + top_forty_student_list[i][
-                                     "research"] + ")"})
-                        # 不及格或者重修不参与排名
-                        if str(student[0].can_join_rank) == "0":
-                            return {"message": "success", "avg_score": avg_score,
-                                    "not_in_exclude_course_avg_score": "--",
-                                    "rank": "--", "rank_rate": 0, "add_same_rank": "--",
-                                    "add_same_rank_rate": 0, "same_student": "--",
-                                    "all_student": all_student, "research_list": rank_research_list,
-                                    "top_forty_percent_students": top_forty_percent_students,
-                                    "exclude_courses": [], "extra": extra}
-                        # 同年级 选择研究方向范围内比自己分高的人数
-                        rank_list_len = models.StudentRank.objects.filter(
-                            Q(sno__startswith=sno_prefix) & Q(profession__in=processed_profession_list)
-                            & Q(research__in=processed_research_list) & Q(avg_score__gt=student[0].avg_score)
-                            & Q(can_join_rank=1)).exclude(openid=openid).exclude(sno=sno).values('sno').distinct().count()
-                        # 相同分数的人数
-                        same_student_list_len = models.StudentRank.objects.filter(
-                            Q(sno__startswith=sno_prefix) & Q(profession__in=processed_profession_list)
-                            & Q(research__in=processed_research_list) & Q(avg_score=student[0].avg_score)
-                            & Q(can_join_rank=1)).exclude(openid=openid).exclude(sno=sno).values('sno').distinct().count()
-                        same_student = same_student_list_len
-                        rank = rank_list_len + 1
-                        rank_rate = round(rank / all_student, 4)
-                        add_same_rank = rank + same_student
-                        add_same_rank_rate = round(add_same_rank / all_student, 4)
-                        return {"message": "success", "avg_score": avg_score, "not_in_exclude_course_avg_score": avg_score,
-                                "rank": rank, "rank_rate": rank_rate, "add_same_rank": add_same_rank,
-                                "add_same_rank_rate": add_same_rank_rate, "same_student": same_student,
-                                "all_student": all_student, "research_list": rank_research_list,
-                                "top_forty_percent_students": top_forty_percent_students,
-                                "exclude_courses": [], "extra": extra}
-                    # 如果设置了不参评的科目
+                        exclude_courses_list = []
+                        not_in_exclude_course_avg_score = avg_score
                     else:
                         exclude_courses_list = cls.__str_to_list(str, student[0].exclude_courses)
-                        not_in_exclude_course_avg_score = cls.__count_not_in_exclude_courses_avg_score(exclude_courses_list, eval(student[0].courses_info))
-                        in_research_students = models.StudentRank.objects.filter(Q(sno__startswith=sno_prefix)
-                                                                                 & Q(profession__in=processed_profession_list)
-                                                                                 & Q(research__in=processed_research_list)
-                                                                                 & Q(can_join_rank=1)).all()
-                        in_research_students_info = []
-                        sno_set = set()
-                        for i in range(len(in_research_students)):
-                            cur_sno = in_research_students[i].sno
-                            if cur_sno not in sno_set:
-                                sno_set.add(cur_sno)
-                                # 计算平均学分绩
-                                cur_avg_score = cls.__count_not_in_exclude_courses_avg_score(exclude_courses_list, eval(in_research_students[i].courses_info))
-                                stu = models.Student.objects.filter(sno=cur_sno)
-                                stu_name = stu[0].name if len(stu) >= 1 else "**"
-                                if cur_sno == sno:
-                                    full_name = stu_name
-                                else:
-                                    full_name = "**"
-                                in_research_students_info.append({
-                                    "sno": cur_sno,
-                                    "full_name": full_name,
-                                    "avg_score": cur_avg_score,
-                                    "profession_research": in_research_students[i].profession + "(" + in_research_students[i].research + ")"
-                                })
-                        sorted_in_research_students_info = sorted(in_research_students_info, key=lambda in_research_students_info: in_research_students_info['avg_score'], reverse=True)
-                        top_forty_percent_students = sorted_in_research_students_info
-                        # 不及格或者重修不参与排名
-                        if str(student[0].can_join_rank) == "0":
-                            return {"message": "success", "avg_score": avg_score,
-                                    "not_in_exclude_course_avg_score": "--",
-                                    "rank": "--", "rank_rate": 0, "add_same_rank": "--",
-                                    "add_same_rank_rate": 0, "same_student": "--",
-                                    "all_student": all_student, "research_list": rank_research_list,
-                                    "top_forty_percent_students": top_forty_percent_students,
-                                    "exclude_courses": exclude_courses_list, "extra": extra}
-                        same_student = 0
-                        flag = 0
-                        for i in range(len(sorted_in_research_students_info)):
-                            if (sorted_in_research_students_info[i]["sno"] == sno or sorted_in_research_students_info[i]["avg_score"] == not_in_exclude_course_avg_score) and not flag:
-                                rank = i + 1
-                                flag = 1
-                            if sorted_in_research_students_info[i]["avg_score"] == not_in_exclude_course_avg_score and sorted_in_research_students_info[i]["sno"] != sno:
-                                same_student += 1
-                        rank_rate = round(rank / all_student, 4)
-                        add_same_rank = rank + same_student
-                        add_same_rank_rate = round(add_same_rank / all_student, 4)
+                        not_in_exclude_course_avg_score = cls.__count_not_in_exclude_courses_avg_score(
+                            exclude_courses_list, eval(student[0].courses_info))
+                    # 获取成绩排名列表，按刷新时间降序
+                    db_students_rank_info_list = models.StudentRank.objects.filter(Q(sno__startswith=sno_prefix)
+                                                                                   & Q(profession__in=processed_profession_list)
+                                                                                   & Q(research__in=processed_research_list)
+                                                                                   & Q(can_join_rank=1)).order_by('-avg_score_update_date').all()
+                    students_rank_info_list = []
+                    sno_set = set()
+                    # 拼装排名
+                    for i in range(len(db_students_rank_info_list)):
+                        cur_sno = db_students_rank_info_list[i].sno
+                        if cur_sno not in sno_set:
+                            sno_set.add(cur_sno)
+                            # 计算平均学分绩
+                            cur_avg_score = cls.__count_not_in_exclude_courses_avg_score(exclude_courses_list, eval(db_students_rank_info_list[i].courses_info))
+                            stu = models.Student.objects.filter(sno=cur_sno)
+                            full_name = stu[0].name if len(stu) >= 1 and cur_sno == sno else "**"
+                            students_rank_info_list.append({
+                                "sno": cur_sno,
+                                "full_name": full_name,
+                                "avg_score": cur_avg_score,
+                                "profession_research": db_students_rank_info_list[i].profession + "(" + db_students_rank_info_list[i].research + ")"
+                            })
+                    # 成绩排序
+                    sorted_students_rank_info_list = sorted(students_rank_info_list, key=lambda students_rank_info_list:students_rank_info_list['avg_score'], reverse=True)
+                    # 不及格或者重修不参与排名
+                    if str(student[0].can_join_rank) == "0":
                         return {"message": "success", "avg_score": avg_score,
-                                "not_in_exclude_course_avg_score": not_in_exclude_course_avg_score,
-                                "rank": rank, "rank_rate": rank_rate, "add_same_rank": add_same_rank,
-                                "add_same_rank_rate": add_same_rank_rate, "same_student": same_student,
+                                "not_in_exclude_course_avg_score": "--",
+                                "rank": "--", "rank_rate": 0, "add_same_rank": "--",
+                                "add_same_rank_rate": 0, "same_student": "--",
                                 "all_student": all_student, "research_list": rank_research_list,
-                                "top_forty_percent_students": top_forty_percent_students,
+                                "top_forty_percent_students": sorted_students_rank_info_list,
                                 "exclude_courses": exclude_courses_list, "extra": extra}
+                    same_student, flag, rank = 0, False, 0
+                    for i in range(len(sorted_students_rank_info_list)):
+                        if (sorted_students_rank_info_list[i]["sno"] == sno or sorted_students_rank_info_list[i]["avg_score"] == not_in_exclude_course_avg_score) and not flag:
+                            rank = i + 1
+                            flag = True
+                        if sorted_students_rank_info_list[i]["avg_score"] == not_in_exclude_course_avg_score and sorted_students_rank_info_list[i]["sno"] != sno:
+                            same_student += 1
+                    rank_rate = round(rank / all_student, 4)
+                    add_same_rank = rank + same_student
+                    add_same_rank_rate = round(add_same_rank / all_student, 4)
+                    return {"message": "success", "avg_score": avg_score,
+                            "not_in_exclude_course_avg_score": not_in_exclude_course_avg_score,
+                            "rank": rank, "rank_rate": rank_rate, "add_same_rank": add_same_rank,
+                            "add_same_rank_rate": add_same_rank_rate, "same_student": same_student,
+                            "all_student": all_student, "research_list": rank_research_list,
+                            "top_forty_percent_students": sorted_students_rank_info_list,
+                            "exclude_courses": exclude_courses_list, "extra": extra}
                 else:
                     return {"message": res["message"]}
             else:
@@ -275,6 +224,61 @@ class ScoreRank(object):
                 "[get my rank fail]: [sno]: %s [passwd]: %s [Exception]: %s"
                 % (sno, passwd, e))
             return {"message": "fault"}
+
+    @classmethod
+    def pack_students_rank_info_list(cls):
+        # 同年级 同选择研究方向的人数
+        db_students_rank_info_list = models.StudentRank.objects.filter(
+            Q(sno__startswith=sno_prefix)
+            & Q(profession__in=processed_profession_list)
+            & Q(research__in=processed_research_list)
+            & Q(can_join_rank=1)).order_by('-avg_score_update_date').all()
+        sno_set = set()
+        students_rank_info_list, sorted_students_rank_info_list = [], []
+        for i in range(len(db_students_rank_info_list)):
+            if db_students_rank_info_list[i].sno not in sno_set:
+                sno_set.add(db_students_rank_info_list[i].sno)
+                stu = models.Student.objects.filter(sno=db_students_rank_info_list[i].sno)
+                full_name = stu[0].name if len(stu) >= 1 else ""
+                students_rank_info_list.append({"sno": db_students_rank_info_list[i].sno,
+                                                "full_name": full_name,
+                                                "avg_score": db_students_rank_info_list[i].avg_score,
+                                                "profession_research": db_students_rank_info_list[i].profession + "(" +
+                                                                       db_students_rank_info_list[i].research + ")"})
+                sorted_students_rank_info_list = sorted(students_rank_info_list,
+                                                        key=lambda students_rank_info_list: students_rank_info_list[
+                                                            "avg_score"], reverse=True)
+        print(sorted_students_rank_info_list)
+        # 不及格或者重修不参与排名
+        if str(student[0].can_join_rank) == "0":
+            return {"message": "success", "avg_score": avg_score,
+                    "not_in_exclude_course_avg_score": "--",
+                    "rank": "--", "rank_rate": 0, "add_same_rank": "--",
+                    "add_same_rank_rate": 0, "same_student": "--",
+                    "all_student": all_student, "research_list": rank_research_list,
+                    "top_forty_percent_students": sorted_students_rank_info_list,
+                    "exclude_courses": [], "extra": extra}
+        # 同年级 选择研究方向范围内比自己分高的人数
+        same_student = 0
+        flag = 0
+        rank = 0
+        for i in range(len(sorted_students_rank_info_list)):
+            if (sorted_students_rank_info_list[i]["sno"] == sno or sorted_students_rank_info_list[i][
+                "avg_score"] == sorted_students_rank_info_list) and not flag:
+                rank = i + 1
+                flag = 1
+            if sorted_students_rank_info_list[i]["avg_score"] == avg_score and sorted_students_rank_info_list[i][
+                "sno"] != sno:
+                same_student += 1
+        rank_rate = round(rank / all_student, 4)
+        add_same_rank = rank + same_student
+        add_same_rank_rate = round(add_same_rank / all_student, 4)
+        return {"message": "success", "avg_score": avg_score, "not_in_exclude_course_avg_score": avg_score,
+                "rank": rank, "rank_rate": rank_rate, "add_same_rank": add_same_rank,
+                "add_same_rank_rate": add_same_rank_rate, "same_student": same_student,
+                "all_student": all_student, "research_list": rank_research_list,
+                "top_forty_percent_students": sorted_students_rank_info_list,
+                "exclude_courses": [], "extra": extra}
 
     @classmethod
     def __count_not_in_exclude_courses_avg_score(cls, exclude_courses, courses):
