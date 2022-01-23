@@ -76,7 +76,6 @@ class Login(object):
                         student.update(update_date=timezone.now())
                 # 之前获取到了，只更新登录时间，这个是情况最多的。
                 else:
-                    # print("here-----", openid)
                     student.update(update_date=timezone.now())
             # 用户换了账号密码
             else:
@@ -100,11 +99,6 @@ class Login(object):
     def login(cls, sno, passwd, openid):
         """登录研究生系统主页"""
         try:
-            # cur_hour = datetime.datetime.now().strftime('%H:%M')
-            # if cur_hour <= '01:30' or cur_hour >= '06:00':
-            #     session.proxies = proxy.ProxyIP.get_ip()
-            # else:
-            #     proxy.ProxyIP.checkout_ip()
             # 创建一个回话
             session = requests.Session()
             session.verify = False
@@ -112,7 +106,6 @@ class Login(object):
             session.proxies = proxy.ProxyIP.get_ip()
             # 获得登录页面
             response = session.get(login_url, headers=headers, timeout=8)
-            # print(response)
             login_soup = BeautifulSoup(response.text, 'lxml')
             # 获取隐藏字段
             lt = login_soup.form.find("input", {"name": "lt"})["value"]
@@ -126,24 +119,22 @@ class Login(object):
             }
         except Exception as e:
             session.close()
-            print(e)
-            logger.error("[sno]: %s [passwd]: %s [Exception]: %s" % (sno, passwd, e))
+            cls.pack_err(sno, e)
             return {"message": "fault"}
         # 提交登录表单
         try:
             # time.sleep(1)
             post_form = session.post(url=login_url, headers=headers, timeout=8, data=values)
             home_page = session.get(url=home_url, headers=headers, timeout=8)
-
         except Exception as e:
             session.close()
-            logger.error("[sno]: %s [passwd]: %s [Exception]: %s" % (sno, passwd, e))
+            cls.pack_err(sno, e)
             return {"message": "timeout"}
         try:
             home_soup = BeautifulSoup(home_page.text, 'lxml')
             if home_soup.findAll(name="div", attrs={"class": "panel_password"}):
                 session.close()
-                logger.info("[sno]: %s [passwd]: %s [Exception]: %s" % (sno, passwd, "登录失败！"))
+                logger.info("[sno]: %s [Exception]: %s" % (sno, "登录失败！"))
                 return {"message": "incorrect"}
             else:
                 if openid is not None and openid != "null":
@@ -153,5 +144,19 @@ class Login(object):
                 return {"message": "success", "session": session}
         except Exception as e:
             session.close()
-            logger.error("[sno]: %s [passwd]: %s [Exception]: %s" % (sno, passwd, e))
+            logger.error("[sno]: %s [Exception]: %s" % (sno, e))
             return {"message": "fault"}
+
+    @classmethod
+    def pack_err(cls, sno, e):
+        if str(e).find("Max retries exceeded") != -1:
+            proxy.ProxyIP.fail_times += 1
+            print(id(proxy.ProxyIP.fail_times))
+            logger.error("[Max retries exceeded] proxy fail times: %s [sno]: %s [Exception]: %s" %
+                         (proxy.ProxyIP.fail_times, sno, e))
+        elif str(e).find("Read timed out") != -1:
+            proxy.ProxyIP.timeout_times += 1
+            logger.error("[Read timed out] proxy timeout times: %s [sno]: %s [Exception]: %s" %
+                         (proxy.ProxyIP.timeout_times, sno, e))
+        else:
+            logger.error("[Other] [sno]: %s [Exception]: %s" % (sno, e))

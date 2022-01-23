@@ -29,6 +29,7 @@ class ProxyIP(object):
     rest_time = None
     count = 0
     fail_times = 0
+    timeout_times = 0
 
     def __init__(self):
         pass
@@ -44,21 +45,9 @@ class ProxyIP(object):
     @classmethod
     def update_proxy_ip(cls, proxy_ip_info=None):
         try:
-            # 51代理
-            # proxy_ip = requests.get(cls.api_url).json()['data'][0]['IP']
             # 神龙ip
-            if int(time.time()) > 1639896937:
-                # Todo del when time > 1639896937
-                res = requests.get(cls.shenlong_url).json()['data'][0]
-            else:
-                res = requests.get(cls.tmp_shenlong_url).json()['data'][0]
+            res = requests.get(cls.shenlong_url).json()['data'][0]
             proxy_ip = "%s:%s" % (res['ip'], res['port'])
-            # 万变ip
-            # res = requests.get(cls.wanbian_api_url).json()['data'][0]
-            # proxy_ip = "%s:%s" % (res['IP'], res['Port'])
-            # 猿人云
-            # res = requests.get(cls.shenlong_url).json()['data'][0]
-            # proxy_ip = "%s:%s" % (res['ip'], res['port'])
             logger.info("获取的ip为%s" % proxy_ip)
             get_ip_time = int(time.time())
             if proxy_ip_info is None:
@@ -75,18 +64,9 @@ class ProxyIP(object):
 
     @classmethod
     def get_ip(cls):
-        # 51代理
-        # username = "csqin666"
-        # password = "lichengjiahua423"
         # 神龙ip
         username = "csqin"
         password = "lichengjiahua423"
-        # 万变ip
-        # username = "csqin"
-        # password = "lichengjiahua423"
-        # 猿人云
-        # username = "2021032800001502146"
-        # password = "K2eXDjBmKd0P5NQI"
         proxy_ip_infos = models.IPProxy.objects.all()
         has_proxy_ip = len(proxy_ip_infos)
         if not has_proxy_ip:
@@ -97,15 +77,35 @@ class ProxyIP(object):
             get_ip_time = proxy_ip_info.get_ip_time
             rest_time = proxy_ip_info.rest_time
             force_update = proxy_ip_info.force_update
-            if int(time.time()) - int(get_ip_time) >= int(rest_time) or force_update == 1:
+            if int(time.time()) - int(get_ip_time) >= int(rest_time) or force_update == 1 or cls.fail_times > 10 or cls.timeout_times > 20:
                 proxy_ip = cls.update_proxy_ip(proxy_ip_info)
 
-        # proxies = {
-        #     "http": "http://%s:%s@%s/" % (username, password, proxy_ip),
-        #     "https": "http://%s:%s@%s/" % (username, password, proxy_ip)
-        # }
         proxies = {
             "http": "http://%s/" % proxy_ip,
             "https": "http://%s/" % proxy_ip
         }
         return proxies
+
+    # 万变ip
+    # res = requests.get(cls.wanbian_api_url).json()['data'][0]
+    # proxy_ip = "%s:%s" % (res['IP'], res['Port'])
+    # 猿人云
+    # res = requests.get(cls.shenlong_url).json()['data'][0]
+    # proxy_ip = "%s:%s" % (res['ip'], res['port'])
+    # 51代理
+    # proxy_ip = requests.get(cls.api_url).json()['data'][0]['IP']
+
+    # 万变ip
+    # username = "csqin"
+    # password = "lichengjiahua423"
+    # 猿人云
+    # username = "2021032800001502146"
+    # password = "K2eXDjBmKd0P5NQI"
+    # 51代理
+    # username = "csqin666"
+    # password = "lichengjiahua423"
+
+    # proxies = {
+    #     "http": "http://%s:%s@%s/" % (username, password, proxy_ip),
+    #     "https": "http://%s:%s@%s/" % (username, password, proxy_ip)
+    # }

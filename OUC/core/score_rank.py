@@ -386,7 +386,7 @@ class ScoreRank(object):
                     succ_cnt, total, succeed_update_sno_dict = cls.m_update_students_rank(students, succeed_update_sno_dict)
                     travel_end = time.time()
                     logger.info("[%s成绩排名]第%s次遍历%s个学生共耗时%ss,%s个学生更新成绩成功"
-                                % (sno_start, i+1, len(students), travel_end - travel_begin, succ_cnt))
+                                % (sno_start, i, len(students), travel_end - travel_begin, succ_cnt))
         except Exception as e:
             logger.error("[成绩排名]遍历获取学生失败！ %s" % e)
 

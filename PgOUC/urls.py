@@ -123,7 +123,7 @@ def start_schedule():
             # scheduler.add_job(score_rank_travel, trigger='cron', coalesce=True,
             #                   hour='14', minute='50', id='score_rank_travel')
             scheduler.add_job(score_rank_travel, trigger='cron', coalesce=True,
-                              hour='13', minute='15', id='score_rank_travel')
+                              hour='18', minute='00', id='score_rank_travel')
             scheduler.add_job(student_info_travel, trigger='cron', coalesce=True,
                               hour='20', minute='30', id='student_info_travel')
             # 调度器开始
