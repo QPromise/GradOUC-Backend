@@ -34,7 +34,6 @@ def main(sno, passwd, openid):
             # 计划内的课程
             planned_table = pd.read_html(course_page.text)[0]
             planned_table = pd.DataFrame(planned_table)
-            print(planned_table)
             planned_table = planned_table.fillna("")
             planned_courses = []
             scores = []
@@ -51,7 +50,6 @@ def main(sno, passwd, openid):
                     # 成绩出了
                     if re.search(r"(\d+)", process):
                         # 判断是否重修，有成绩的话是可以参与排名的
-                        print(process)
                         if process.find("重修") != -1:
                             process_split = process.split()
                             if len(process_split) == 3:

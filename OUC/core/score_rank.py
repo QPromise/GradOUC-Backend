@@ -373,120 +373,130 @@ class ScoreRank(object):
         return res
 
     @classmethod
-    def interval_update_score(cls):
+    def execute_update_students_rank(cls):
         try:
             config = models.Config.objects.all()[0]
-            # 找出已经订阅的student
-            update_success_num = 0
-            for sno_start in range(int(config.score_rank_travel_nj_min), int(config.score_rank_travel_nj_max) + 1):
+            for sno_start in range(int(config.score_rank_travel_nj_max), int(config.score_rank_travel_nj_min) - 1, -1):
                 # 找出符合学号年级的所有学生
                 students = models.Student.objects.filter(sno__startswith=str(sno_start))
                 # 遍历列表开始时间
-                travel_begin = time.time()
-                for student in students:
-                    try:
-                        # 判断是否存在当前成绩排名的列表当中
-                        cur_student = models.StudentRank.objects.filter(openid=student.openid)
-                        # 如果当前登录的学生没有计算平均学分绩
-                        if len(cur_student) == 0:
-                            get_score = score.main(student.sno, cls.base64decode(student.passwd), "null")
-                            if get_score["message"] == "success" and get_score["have_class"] == 1:
-                                avg_score = get_score["mean"]
-                                courses = get_score["courses"]
-                                can_join_rank = get_score["can_join_rank"]
-                                courses_name = []
-                                courses_type = set()
-                                # 添加可以计算平均学分绩的课程
-                                for i in range(len(courses)):
-                                    if courses[i]["selected"]:
-                                        courses_name.append(courses[i]["name"])
-                                    courses_type.add(courses[i]["type"])
-                                courses_type = list(courses_type)
-                            else:
-                                logger.error(
-                                    "[student avg_score update fail]: [sno]: %s [passwd]: %s"
-                                    % (student.sno, student.passwd))
-                                continue
-                            try:
-                                models.StudentRank.objects.create(openid=student.openid, sno=student.sno,
-                                                                  avg_score=avg_score, department=student.department,
-                                                                  profession=student.profession,
-                                                                  research=student.research,
-                                                                  rank_research=student.profession + "&&" + student.research,
-                                                                  courses_info=courses,
-                                                                  can_join_rank=can_join_rank,
-                                                                  courses_name=cls.__list_to_str(courses_name),
-                                                                  courses_type=cls.__list_to_str(courses_type)
-                                                                  )
-                                update_success_num += 1
-                                logger.info(
-                                    "[%s成功添加至成绩排名]: [sno]: %s [passwd]: %s "
-                                    % (student.sno, student.sno, student.passwd))
-                            except Exception as e:
-                                logger.error(
-                                    "[student rank white info repeated]: [sno]: %s [passwd]: %s [Exception]: %s"
-                                    % (student.sno, student.passwd, e))
-                        # 如果当前登录的学生已经计算平均学分绩
-                        else:
-                            get_score = score.main(student.sno, cls.base64decode(student.passwd), "null")
-                            if get_score["message"] == "success" and get_score["have_class"] == 1:
-                                avg_score = get_score["mean"]
-                                courses = get_score["courses"]
-                                can_join_rank = get_score["can_join_rank"]
-                                courses_name = []
-                                courses_type = set()
-                                # 添加可以计算平均学分绩的课程
-                                for i in range(len(courses)):
-                                    if courses[i]["selected"]:
-                                        courses_name.append(courses[i]["name"])
-                                    courses_type.add(courses[i]["type"])
-                                courses_type = list(courses_type)
-                            else:
-                                logger.error(
-                                    "[get score fail]: [sno]: %s [passwd]: %s"
-                                    % (student.sno, student.passwd))
-                                continue
-                            try:
-                                # 如果登陆其它号了
-                                if student.sno != cur_student[0].sno:
-                                    cur_student.update(sno=student.sno, avg_score=avg_score,
-                                                       department=student.department,
-                                                       profession=student.profession,
-                                                       research=student.research,
-                                                       rank_research=student.profession + "&&" + student.research,
-                                                       travel_nums=0,
-                                                       exclude_courses="-",
-                                                       can_join_rank=can_join_rank,
-                                                       avg_score_update_date=timezone.now(),
-                                                       courses_info=courses,
-                                                       courses_name=cls.__list_to_str(courses_name),
-                                                       courses_type=cls.__list_to_str(courses_type)
-                                                       )
-                                # 如果没有登陆其他号
-                                else:
-                                    cur_student.update(avg_score=avg_score,
-                                                       courses_info=courses,
-                                                       can_join_rank=can_join_rank,
-                                                       courses_name=cls.__list_to_str(courses_name),
-                                                       courses_type=cls.__list_to_str(courses_type),
-                                                       travel_nums=cur_student[0].travel_nums + 1,
-                                                       avg_score_update_date=timezone.now())
-                                update_success_num += 1
-                                logger.info("[%s参与成绩排名成绩更新成功]: [sno]: %s [passwd]: %s "
-                                            % (student.sno, student.sno, student.passwd))
-                            except Exception as e:
-                                logger.error(
-                                    "[student rank white info repeated]: [sno]: %s [passwd]: %s [Exception]: %s"
-                                    % (student.sno, student.passwd, e))
-                        time.sleep(2.0)
-                    except Exception as e:
-                        logger.error("【成绩排名】遍历当前学生：%s失败! %s" % (student, e))
-                travel_end = time.time()
-                logger.info("【成绩排名】遍历%s个学生共耗时%ss,%s个学生更新成绩成功，失败%s个学生"
-                            % (len(students), travel_end - travel_begin,
-                               update_success_num, len(students) - update_success_num))
+                succeed_update_sno_dict = dict()
+                for i in range(1, 3):
+                    travel_begin = time.time()
+                    succ_cnt, total, succeed_update_sno_dict = cls.m_update_students_rank(students, succeed_update_sno_dict)
+                    travel_end = time.time()
+                    logger.info("[%s成绩排名]第%s次遍历%s个学生共耗时%ss,%s个学生更新成绩成功"
+                                % (sno_start, i+1, len(students), travel_end - travel_begin, succ_cnt))
         except Exception as e:
-            logger.error("【成绩排名】遍历获取学生失败！ %s" % e)
+            logger.error("[成绩排名]遍历获取学生失败！ %s" % e)
+
+    @classmethod
+    def m_update_students_rank(cls, students, succeed_update_sno_dict):
+        succ_cnt, total = 0, len(students)
+        for student in students:
+            # has update before jump
+            if student.sno in succeed_update_sno_dict:
+                continue
+            try:
+                # 判断是否存在当前成绩排名的列表当中
+                cur_student = models.StudentRank.objects.filter(openid=student.openid)
+                # 如果当前登录的学生没有计算平均学分绩
+                if len(cur_student) == 0:
+                    get_score = score.main(student.sno, cls.base64decode(student.passwd), "null")
+                    if get_score["message"] == "success" and get_score["have_class"] == 1:
+                        avg_score = get_score["mean"]
+                        courses = get_score["courses"]
+                        can_join_rank = get_score["can_join_rank"]
+                        courses_name = []
+                        courses_type = set()
+                        # 添加可以计算平均学分绩的课程
+                        for i in range(len(courses)):
+                            if courses[i]["selected"]:
+                                courses_name.append(courses[i]["name"])
+                            courses_type.add(courses[i]["type"])
+                        courses_type = list(courses_type)
+                    else:
+                        logger.error(
+                            "[student avg_score update fail]: [sno]: %s [passwd]: %s"
+                            % (student.sno, student.passwd))
+                        continue
+                    try:
+                        models.StudentRank.objects.create(openid=student.openid, sno=student.sno,
+                                                          avg_score=avg_score, department=student.department,
+                                                          profession=student.profession,
+                                                          research=student.research,
+                                                          rank_research=student.profession + "&&" + student.research,
+                                                          courses_info=courses,
+                                                          can_join_rank=can_join_rank,
+                                                          courses_name=cls.__list_to_str(courses_name),
+                                                          courses_type=cls.__list_to_str(courses_type)
+                                                          )
+                        succ_cnt += 1
+                        succeed_update_sno_dict[student.sno] = 1
+                        logger.info(
+                            "[成功添加排名]: [sno]: %s [passwd]: %s "
+                            % (student.sno, student.passwd))
+                    except Exception as e:
+                        logger.error(
+                            "[student rank white info repeated]: [sno]: %s [passwd]: %s [Exception]: %s"
+                            % (student.sno, student.passwd, e))
+                # 如果当前登录的学生已经计算平均学分绩
+                else:
+                    get_score = score.main(student.sno, cls.base64decode(student.passwd), "null")
+                    if get_score["message"] == "success" and get_score["have_class"] == 1:
+                        avg_score = get_score["mean"]
+                        courses = get_score["courses"]
+                        can_join_rank = get_score["can_join_rank"]
+                        courses_name = []
+                        courses_type = set()
+                        # 添加可以计算平均学分绩的课程
+                        for i in range(len(courses)):
+                            if courses[i]["selected"]:
+                                courses_name.append(courses[i]["name"])
+                            courses_type.add(courses[i]["type"])
+                        courses_type = list(courses_type)
+                    else:
+                        logger.error(
+                            "[get score fail]: [sno]: %s [passwd]: %s"
+                            % (student.sno, student.passwd))
+                        continue
+                    try:
+                        # 如果登陆其它号了
+                        if student.sno != cur_student[0].sno:
+                            cur_student.update(sno=student.sno, avg_score=avg_score,
+                                               department=student.department,
+                                               profession=student.profession,
+                                               research=student.research,
+                                               rank_research=student.profession + "&&" + student.research,
+                                               travel_nums=0,
+                                               exclude_courses="-",
+                                               can_join_rank=can_join_rank,
+                                               avg_score_update_date=timezone.now(),
+                                               courses_info=courses,
+                                               courses_name=cls.__list_to_str(courses_name),
+                                               courses_type=cls.__list_to_str(courses_type)
+                                               )
+                        # 如果没有登陆其他号
+                        else:
+                            cur_student.update(avg_score=avg_score,
+                                               courses_info=courses,
+                                               can_join_rank=can_join_rank,
+                                               courses_name=cls.__list_to_str(courses_name),
+                                               courses_type=cls.__list_to_str(courses_type),
+                                               travel_nums=cur_student[0].travel_nums + 1,
+                                               avg_score_update_date=timezone.now())
+                        succ_cnt += 1
+                        succeed_update_sno_dict[student.sno] = 1
+                        logger.info("[更新成功]: [sno]: %s [passwd]: %s "
+                                    % (student.sno, student.passwd))
+                    except Exception as e:
+                        logger.error(
+                            "[student rank white info repeated]: [sno]: %s [passwd]: %s [Exception]: %s"
+                            % (student.sno, student.passwd, e))
+                time.sleep(1.0)
+            except Exception as e:
+                logger.error("[成绩排名]遍历当前学生：%s失败! %s" % (student, e))
+        return succ_cnt, total, succeed_update_sno_dict
 
     @classmethod
     def base64decode(cls, passwd):
