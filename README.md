@@ -92,7 +92,7 @@
 
 ### 数据迁移：
 
-* #### 导出 JSON 格式的数据：python manage.py dumpdata > db.json；生成新的数据库表：python manage.py migrate；导入 JSON 数据：python manage.py loaddata db.json。
+* #### 导出 JSON 格式的数据：python manage.py dumpdata --natural-foreign    --exclude=auth.permission --exclude=contenttypes    --indent=4 > db.json；生成新的数据库表：python manage.py migrate；导入 JSON 数据：python manage.py loaddata db.json。
 
 ### 更换数据源
 

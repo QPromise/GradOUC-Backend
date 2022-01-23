@@ -1,0 +1,4 @@
+ERROR: 2021-09-09 23:44:41: score.py:100 * 1992 [sno]: 21200831043 [passwd]: WF13579111 [Exception]: could not convert string to float: '选课'
+ERROR: 2021-09-09 23:49:05: score.py:102 * 14384 [sno]: 21200831043 [passwd]: WF13579111 [Exception]: could not convert string to float: '选课'
+ERROR: 2021-09-09 23:50:17: score.py:102 * 7308 [sno]: 21200831043 [passwd]: WF13579111 [Exception]: list index out of range
+ERROR: 2021-09-09 23:50:56: score.py:102 * 10296 [sno]: 21200831043 [passwd]: WF13579111 [Exception]: list index out of range

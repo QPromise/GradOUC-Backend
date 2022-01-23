@@ -1,4 +1,9 @@
-ERROR: 2021-09-09 23:44:41: score.py:100 * 1992 [sno]: 21200831043 [passwd]: WF13579111 [Exception]: could not convert string to float: '选课'
-ERROR: 2021-09-09 23:49:05: score.py:102 * 14384 [sno]: 21200831043 [passwd]: WF13579111 [Exception]: could not convert string to float: '选课'
-ERROR: 2021-09-09 23:50:17: score.py:102 * 7308 [sno]: 21200831043 [passwd]: WF13579111 [Exception]: list index out of range
-ERROR: 2021-09-09 23:50:56: score.py:102 * 10296 [sno]: 21200831043 [passwd]: WF13579111 [Exception]: list index out of range
+ERROR: 2022-01-23 10:52:30: score.py:106 * 12948 [sno]: 21210213302 [passwd]: yhl123456 [Exception]: could not convert string to float: 
+ERROR: 2022-01-23 10:53:10: score.py:106 * 21064 [sno]: 21210213302 [passwd]: yhl123456 [Exception]: could not convert string to float: 
+ERROR: 2022-01-23 10:55:08: score.py:106 * 6020 [sno]: 21210213302 [passwd]: yhl123456 [Exception]: could not convert string to float: 
+ERROR: 2022-01-23 10:55:25: score.py:106 * 22364 [sno]: 21210213302 [passwd]: yhl123456 [Exception]: could not convert string to float: 
+ERROR: 2022-01-23 10:56:11: score.py:107 * 22476 [sno]: 21210213302 [passwd]: yhl123456 [Exception]: could not convert string to float: 
+ERROR: 2022-01-23 10:58:58: score.py:108 * 19304 [sno]: 21210213302 [passwd]: yhl123456 [Exception]: could not convert string to float: 
+ERROR: 2022-01-23 11:00:35: score.py:109 * 5072 [sno]: 21210213302 [passwd]: yhl123456 [Exception]: could not convert string to float: 
+ERROR: 2022-01-23 11:01:40: score.py:110 * 17752 [sno]: 21210213302 [passwd]: yhl123456 [Exception]: could not convert string to float: 
+ERROR: 2022-01-23 11:04:51: score.py:111 * 22888 [sno]: 21210213302 [passwd]: yhl123456 [Exception]: '>=' not supported between instances of 'str' and 'int'
