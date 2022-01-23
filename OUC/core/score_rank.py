@@ -170,11 +170,10 @@ class ScoreRank(object):
                                                                                    & Q(can_join_rank=1)
                                                                                    &Q(sno__startswith=sno_prefix)).order_by('-avg_score_update_date').all()
                     # get class duties
-                    cur_student_login_info_list = models.Student.objects.filter(sno=sno)
+                    cur_student_login_info = models.Student.objects.filter(sno=sno, openid=openid).first()
                     has_class_duties = False
-                    for cur_student_login_info in cur_student_login_info_list:
-                        if cur_student_login_info.class_duties != 0:
-                            has_class_duties = True
+                    if cur_student_login_info is not None and cur_student_login_info.class_duties != 0:
+                        has_class_duties = True
                     # 拼装排名
                     students_rank_info_list = []
                     sno_set = set()
