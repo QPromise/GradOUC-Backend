@@ -44,6 +44,8 @@ class ProxyIP(object):
 
     @classmethod
     def update_proxy_ip(cls, proxy_ip_info=None):
+        cls.fail_times = 0
+        cls.timeout_times = 0
         try:
             # 神龙ip
             res = requests.get(cls.shenlong_url).json()['data'][0]
