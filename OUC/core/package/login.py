@@ -151,7 +151,6 @@ class Login(object):
     def pack_err(cls, sno, e):
         if str(e).find("Max retries exceeded") != -1:
             proxy.ProxyIP.fail_times += 1
-            print(id(proxy.ProxyIP.fail_times))
             logger.error("[Max retries exceeded] proxy fail times: %s [sno]: %s [Exception]: %s" %
                          (proxy.ProxyIP.fail_times, sno, e))
         elif str(e).find("Read timed out") != -1:
