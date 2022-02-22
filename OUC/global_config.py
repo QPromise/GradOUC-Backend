@@ -30,21 +30,21 @@ headers = {
 login_url = "http://id.ouc.edu.cn:8071/sso/login?service=http%3A%2F%2Fpgs.ouc.edu.cn%2Fallogene%2Fpage%2Fhome.htm"
 new_login_url = "http://pgs.ouc.edu.cn/sso/login?service=http%3A%2F%2Fpgs.ouc.edu.cn%2Fallogene%2Fpage%2Fhome.htm"
 # 登录后主页
-home_url = "http://pgs.ouc.edu.cn/allogene/page/home.htm"
+home_url = "https://pgs.ouc.edu.cn/allogene/page/home.htm"
 # profile
-profile_url = "http://pgs.ouc.edu.cn/py/page/student/ckgrxxjh.htm"
+profile_url = "https://pgs.ouc.edu.cn/py/page/student/ckgrxxjh.htm"
 
 # =================================我的课程================================== #
 # 课程地址
-course_url = "http://pgs.ouc.edu.cn/py/page/student/grkcgl.htm"
+course_url = "https://pgs.ouc.edu.cn/py/page/student/grkcgl.htm"
 
 # =================================我的课表================================== #
 # 课表地址
-schedule_url = "http://pgs.ouc.edu.cn/py/page/student/grkcb.htm"
+schedule_url = "https://pgs.ouc.edu.cn/py/page/student/grkcb.htm"
 
 # =================================学校开课================================== #
 # 课程地址
-school_course_url = "http://pgs.ouc.edu.cn/py/page/student/lnsjCxdc.htm"
+school_course_url = "https://pgs.ouc.edu.cn/py/page/student/lnsjCxdc.htm"
 
 # =================================校园资讯================================== #
 houqin_url = "http://hqbzc.ouc.edu.cn/1670/list%s.htm"

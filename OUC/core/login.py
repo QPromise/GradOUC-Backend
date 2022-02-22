@@ -48,4 +48,4 @@ def main(sno, passwd, openid):
 
 
 if __name__ == '__main__':
-    main("21180231272", "", "")
+    main("", "", "11111")
