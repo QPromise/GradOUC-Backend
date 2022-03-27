@@ -9,7 +9,8 @@ import time
 import base64
 import django.utils.timezone as timezone
 from django.db.models import Q
-from datetime import datetime, timezone, timedelta
+from datetime import timezone as tzone
+from datetime import datetime, timedelta
 
 from OUC import models
 from OUC.core import score
@@ -187,7 +188,7 @@ class ScoreRank(object):
                             cur_student_login_info_list = models.Student.objects.filter(sno=cur_sno)
                             full_name = cur_student_login_info_list[0].name if len(cur_student_login_info_list) >= 1 and (has_class_duties or cur_sno == sno) else "**"
                             if cur_sno != sno:
-                                full_name = full_name + " | 最新更新:%s" % db_students_rank_info_list[i].avg_score_update_date.replace(tzinfo=timezone.utc).astimezone(timezone(timedelta(hours=8))).strftime("%Y-%m-%d %H:%M")
+                                full_name = full_name + " | 最新更新:%s" % db_students_rank_info_list[i].avg_score_update_date.replace(tzinfo=timezone.utc).astimezone(tzone(timedelta(hours=8))).strftime("%Y-%m-%d %H:%M")
                             students_rank_info_list.append({
                                 "sno": cur_sno,
                                 "full_name": full_name,
