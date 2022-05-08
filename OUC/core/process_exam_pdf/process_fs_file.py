@@ -105,8 +105,8 @@ def process_retest_list_original(write_file_name, profession_code_list):
 
 if __name__ == '__main__':
     # tes_camelot()
-    process_retest_list_by_sno("./files/fs/input/12", "./files/fs/output/2022-12.xls")
-    # process_retest_list_original("2022-7", ["083500"])
+    process_retest_list_by_sno("./files/fs/input/14", "./files/fs/output/2022-14.xls")
+    # process_retest_list_original("2022-13", ["083500"])
 
 
 

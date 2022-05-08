@@ -60,9 +60,7 @@ def get_admission_sno_list(admission_file_path, department_name):
     return admission_sno_list
 
 
-if __name__ == '__main__':
-    # 获取被拟录取的sno list
-    # sno_list = get_admission_sno_list('./files/niluqu/input/2022/22信息科学与工程学部拟录取名单.pdf', '信息科学与工程学部')
+def get_retest_result_by_iter_dir():
     with open('./files/niluqu/input/admission_sno_list.txt', 'r') as f:
         sno_list = f.readlines()
     for i in range(len(sno_list)):
@@ -74,4 +72,17 @@ if __name__ == '__main__':
         num = target_file_list[i][0:2] if target_file_list[i][1] >= "0" and target_file_list[i][1] <= "9" else target_file_list[i][0]
         get_retest_status_from_admission('./files/niluqu/input/2022/' + target_file_list[i],
                                         './files/niluqu/output/2022/2022-' + num + '.xls',
+                                         sno_list)
+
+
+if __name__ == '__main__':
+    # 获取被拟录取的sno list
+    # sno_list = get_admission_sno_list('./files/niluqu/input/2022/22信息科学与工程学部拟录取名单.pdf', '信息科学与工程学部')
+    with open('./files/niluqu/input/admission_sno_list.txt', 'r') as f:
+        sno_list = f.readlines()
+    for i in range(len(sno_list)):
+        sno_list[i] = sno_list[i].strip()
+    print(len(sno_list), sno_list)
+    get_retest_status_from_admission('./files/niluqu/input/2022/14海洋技术.xlsx',
+                                        './files/niluqu/output/2022/2022-14.xls',
                                          sno_list)
